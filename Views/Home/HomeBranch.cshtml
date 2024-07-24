@@ -1,0 +1,41 @@
+﻿@using Data.Models
+@{
+    Layout = null;
+}
+@model List<HangsxModel>
+<div class="home-branch" style="" id="home-branch">
+    <div class="title-group">
+        <h2 class="title">Đối tác</h2>
+    </div>
+    <ul id="home-branch-ul" class="owl-carousel clickable">
+        @foreach (var doitac in Model)
+        {
+            <li>
+                <a class="aBrand" title="@doitac.Ten" href="~/thuong-hieu/@doitac.LinkUrl">
+                    <img alt="@doitac.Ten" src="@doitac.ImageUrl" />
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function () {
+        var containerB = "#home-branch-ul";
+        $(containerB).owlCarousel({
+            items: 5,
+            loop: false,
+            nav: true,
+            navText: ["<i class='fa fa-caret-left'></i>", "<i class='fa fa-caret-right'></i>"],
+            dots: false,
+            responsive: {
+                0: { items: 1 },
+                414: { items: 2 },
+                768: { items: 4 },
+                992: { items: 6 }
+            },
+            autoplay: true,
+            autoplayHoverPause: true
+        });
+    });
+</script>

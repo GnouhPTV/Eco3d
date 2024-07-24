@@ -1,0 +1,221 @@
+﻿@using Data.Models;
+@using Data.ViewModel
+@using X.PagedList;
+@{
+    var Tintuctag = ViewData["Tintuctag"] as List<NewsModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = ViewBag.SearchTerm + " .tag";
+    var support = ViewData["support"] as List<SupportViewModel>;
+} 
+<div id="web_content">
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul>
+                            <li>
+                                <a href="/" title="Trang chủ">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    @ViewBag.SearchTerm
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="w-100">
+                <div id="web_mainbody" class="col-md-9" style="padding: 0 15px 0 0;">
+                    <div class="title-group w-100">
+                    <h1 class="title">@ViewBag.SearchTerm</h1>
+                    <span class="product-count">(Tìm thấy @ViewBag.Count Kết quả)</span>
+                    
+                    </div>
+                    <div class="category-products products-grid">
+                        <ul class="clearfix">
+                    @foreach (var sp in Model)
+                        {
+                            <li class="timer-item col-sm-3 col-xs-6">
+
+                                <partial name="ProductBoxPartialView" model="sp" />
+
+                            </li>
+                        }
+                        
+                        </ul>
+                    <div class="pagination-block">
+                        @{
+                            var linkUrl = Context.Request.RouteValues["linkUrl"]?.ToString();
+                            if (!string.IsNullOrEmpty(linkUrl))
+                            {
+                                linkUrl = Uri.UnescapeDataString(linkUrl);
+                            }
+                            int startPage = Model.PageNumber - 5;
+                            int endPage = Model.PageNumber + 4;
+                            if (startPage <= 0)
+                            {
+                                endPage -= (startPage - 1);
+                                startPage = 1;
+                            }
+                            if (endPage > Model.PageCount)
+                            {
+                                endPage = Model.PageCount;
+                                if (endPage > 10)
+                                {
+                                    startPage = endPage - 9;
+                                }
+                            }
+                        }
+
+                        @if (Model.HasPreviousPage)
+                        {
+                            <a class="page-numbers page_enabled" href="@Url.Action("SearchTags", new { page = 1, linkUrl = linkUrl })">&lt;&lt;</a>
+                            <a class="page-numbers page_enabled" href="@Url.Action("SearchTags", new { page = Model.PageNumber - 1, linkUrl = linkUrl })">&lt;</a>
+                        }
+                        @if (startPage > 1)
+                        {
+                            if (startPage > 2)
+                            {
+                                <span class="page-numbers">...</span>
+                            }
+                        }
+                        @for (var i = startPage; i <= endPage; i++)
+                        {
+                            <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("SearchTags", new { page = i, linkUrl = linkUrl })">@i</a>
+                        }
+                        @if (endPage < Model.PageCount)
+                        {
+                            if (endPage < Model.PageCount - 1)
+                            {
+                                <span class="page-numbers">...</span>
+                            }
+                        }
+                        @if (Model.HasNextPage)
+                        {
+                            <a class="page-numbers page_enabled" href="@Url.Action("SearchTags", new { page = Model.PageNumber + 1, linkUrl = linkUrl })">&gt;</a>
+                        }
+                        @if (Model.PageNumber < Model.PageCount)
+                        {
+                            <a class="page-numbers page_enabled" href="@Url.Action("SearchTags", new { page = Model.PageCount, linkUrl = linkUrl })">&gt;&gt;</a>
+                        }
+
+
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-3 page_left">
+                    <div class="total-body">
+                        <div class="widget widget-popular-posts">
+                            <div>
+                                <h3 class="sb-title">
+                                    Bài viết liên quan
+                                </h3>
+                                <ul class="list-item">
+                                @foreach (var tt in Tintuctag)
+                                {
+                                    <li>
+                                        <div class="widget-thumb">
+                                            <a href="/tin-tuc/@tt.LinkHref" title="@tt.Name">
+                                                <img title="@tt.Name" alt="" src="@tt.ImageLink">
+                                            </a>
+                                        </div>
+                                        <div class="widget-content">
+                                            <h4 class="wg-title"><a href="/tin-tuc/@tt.LinkHref">@tt.Name</a></h4>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="enterprise-rightContent w-100" id="LeftSupport">
+                            <!-- SupportMenu-->
+                            <h3 class="sb-title">
+                                Liên hệ đặt hàng
+                            </h3>
+                            <div class="rc12 carousel" id="slideSupport">
+                                <div class="top-support">
+                                    <p>
+                                    Hotline : <b id="hotlineDisplay1">
+                                           
+                                        </b>
+                                    </p>
+                                    <p>
+                                        Đặt hàng
+                                        :
+                                    @Lib.XML.SystemXML("RegPhone")
+                                    </p>
+                                    <p>
+                                    Email : <a href="mailto:@Lib.XML.SystemXML("RegEmail")">
+                                        @Lib.XML.SystemXML("RegEmail")
+                                        </a>
+                                    </p>
+                                    <p>
+                                        Kho hàng
+                                        :
+                                    @Lib.XML.SystemXML("RegFax")
+                                    </p>
+                                </div>
+                            @foreach (var sp in support)
+                                    {
+                                        <li class="vip-row">
+                                            <div class="avatar">
+                                                <a>
+                                                <img class="img-hangsx" src="@sp.ImageUrl" alt="@sp.Ten">
+                                                </a>
+                                            </div>
+                                            <p class="name">
+                                            <span>@sp.Ten</span>
+                                            </p>
+                                            <p class="chucvu">
+                                                Sales Executive
+                                            </p>
+                                            <p class="phone">
+                                            <a href="tel:@sp.DienThoai">
+                                                    @sp.DienThoai
+                                                </a>
+                                            </p>
+                                            <p class="zalo-sp">
+                                            <a href="mailto:@sp.Email" title="@sp.Email;">
+                                                    <i class="lh lh_email"></i>
+                                                </a>&nbsp;&nbsp;
+                                            <a href="http://zalo.me/@sp.DienThoai" class="zalo" target="_blank">
+                                                    <i class="lh lh_zalo"></i>
+                                                </a>
+                                            </p>
+                                        </li>
+                                    }
+
+                            </div>
+                    </div>
+
+                    <div class="widget widget-social">
+                        <div>
+                            <h3 class="sb-title">Page Facebook</h3>
+
+                            <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")"  data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+                        </div>
+                    </div>
+
+                <div class="clear-fix" style="margin:10px 0">
+                    <a target="_blank" title="Đăng ký cộng tác viên">
+                        <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var hotlineSpan = document.getElementById("hotlineSpan");
+    var phoneNumber = hotlineSpan.textContent.trim();
+    document.getElementById('hotlineDisplay1').innerText = phoneNumber;
+</script>

@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+<div class="home-service" style="display: none" id="home-service">
+    <div class="title-group">
+        <h̉̉6 class="title">
+            DỊCH VỤ
+        </h̉̉6>
+    </div>
+    <div id="homeservice_ul" class="owl-carousel clickable" data-load="0">
+    </div>
+    <input type="hidden" id="loadService" value="0" />
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var topService = 10;
+    var idHomeService = $("#homeservice_ul");
+    $(window).scroll(function () {
+        var hT = idHomeIndustry.offset().top,
+            hH = idHomeIndustry.outerHeight(),
+            wH = $(window).height(),
+            wS = $(this).scrollTop();
+        if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+            if ($("#loadService").val() == "0") {
+                LoadHomeService();
+            }
+            $("#loadService").val("1");
+        }
+    });
+
+    function LoadHomeService() {
+        var container = "#homeservice_ul";
+        $.ajax({
+            type: 'Get',
+            data: { },
+            url: '/Home/LoadHomeService',
+            success: function (msg) {
+                $(container).append(msg);
+            },
+            beforeSend: function () {
+                $(container).attr("data-load", 1);
+            },
+            complete: function () {
+                $("#home-service").show();
+                RenderService();
+            }
+        });
+    }
+
+    function RenderService() {
+        var container = "#homeservice_ul";
+        $(container).owlCarousel({
+            items: 4,
+            loop: false,
+            nav: true,
+            navText: ["<i class='fa fa-caret-left'></i>", "<i class='fa fa-caret-right'></i>"],
+            dots: false,
+            responsive: {
+                0: { items: 1 },
+                414: { items: 2 },
+                768: { items: 4 }
+            },
+            autoplay: false,
+            autoplayHoverPause: true
+        });
+    }
+</script>

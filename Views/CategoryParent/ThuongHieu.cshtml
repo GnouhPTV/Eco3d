@@ -1,0 +1,71 @@
+﻿@using Data.ViewModel
+@using Data.Models
+@{
+    var TenHangSx = ViewData["TenHangSx"] as List<CategoryModel>;
+    var ListProduct = ViewData["ListProduct"] as List<ProductStoreModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["Title"] = ViewData["Namehangsx"];
+}
+<div id="web_content">
+
+    <h1 style="display:none">
+            @ViewBag.LinkUrl
+    </h1>
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="~" title="Trang chủ">
+                               Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">
+                                Thương hiệu
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">
+                                  @ViewBag.LinkUrl
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="web_mainbody" class="col-sp">
+        @foreach (var viewmodel in TenHangSx)
+            {
+            <div class="w-100">
+                <div class="title-group">
+                    <h2 class="title">@viewmodel.Name</h2>
+                    <a class="view-more" asp-action="NhomHang" asp-route-LinkUrl="@viewmodel.LinkUrl">
+                        <i class="fa fa-angle-double-right"></i>  Xem thêm
+                    </a>
+                </div>
+                <div class="category-products products-grid">
+                    <ul class="clearfix">
+                            @foreach (var product in ListProduct.Where(c => c.NhomHang == viewmodel.Ma).Take(8))
+                        {
+                            <li class="timer-item col-sm-3 col-xs-6">
+                                    <partial name="ProductBoxPartialView" model="product" />
+                            </li>
+                        }
+                    </ul>
+                </div> 
+               
+            </div>
+            }
+              @foreach (var mt in ListProduct.Take(1))
+              {
+                <div class="w-100">
+                    @Html.Raw(mt.Motahangsx)
+            </div> 
+              }
+        </div>
+    </div>
+</div>

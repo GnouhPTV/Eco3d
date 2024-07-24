@@ -1,0 +1,168 @@
+﻿@using Data.Models;
+@using X.PagedList;
+@model IPagedList<ProductStoreModel>
+@{
+    var Count = ViewData["Count"] as List<CountModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = "Tìm kiếm";
+}
+<div id="web_content">
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="/">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                Tìm kiếm
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="web_mainbody" class="col-sp">
+            <div class="title-group">
+                @foreach (var countModel in Count)
+                {
+                    <h2 class="title">Sản phẩm<span class="product-count">(Tìm thấy @countModel.Count kết quả cho từ khóa "@ViewBag.SearchTen" )</span></h2>
+                }
+            </div>
+            <div class="category-products products-grid row">
+                <ul class="clearfix">
+                    @foreach (var sp in Model)
+                    {
+                        <li class="timer-item col-sm-3 col-xs-6">
+                            <partial name="ProductBoxPartialView" model="sp" />
+                        </li>
+                    }
+                   @*  @foreach (var sp in Model)
+                    {
+                        <li class="timer-item col-lg-3 col-xs-6">
+
+                            <div class="item-inner">
+                                <div class="images-container" id="productImageWrapID_ @sp.Ma">
+
+                                    <a asp-action="DetailProduct" asp-controller="CategoryParent" asp-route-LinkUrl="@sp.LinkUrl" title="@sp.Ten">
+                                        <img id="@sp.Ma" alt="@sp.Ten" class=" sp" load-src="../Images/loading3.gif" onerror="this.onerror=null;this.src='/Images/no-img.jpg'" src="@sp.ImageViewUrl" data-src="@sp.ImageViewUrl">
+                                    </a>
+                                    <a class="imgdetailhangsx hangsx071" title="KT Fire Corporation">
+                                        <img src="@sp.ImageViewUrl" alt="KT Fire Corporation">
+                                    </a>
+                                    <div class="actions">
+                                        <div class="cart-content">
+                                            <a href="javascript:void(0);" onclick="_AddToCart(this);" class="button btn-cart" data="@sp.Ma" data-id="@sp.Ma" title="Mua hàng">
+                                                <input type="hidden" id="quantity_ @sp.Ma" value="1">
+                                                <i class="fa fa-shopping-cart"></i><span>
+                                                    Mua hàng
+                                                </span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="des-container">
+                                    <div class="item-info">
+                                        <div class="info-inner">
+                                            <h3 class="item-title">
+                                                <a asp-action="DetailProduct" asp-controller="CategoryParent" asp-route-LinkUrl="@sp.LinkUrl">
+                                                    @sp.Ten
+                                                </a>
+                                            </h3>
+                                            <div class="item-content">
+                                                <div class="rating-summary">
+                                                    <span class="label"><span>Rating:</span></span>
+                                                    <div class="rating-result" title="100%">
+                                                        <span style="width: 100%"><span>100%</span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="price-box" id="form_bg">
+                                                    <a href="javascript:void(0);" title="Gửi yêu cầu báo giá" data-id="@sp.Ma" data-opt="BG1" onclick="ShowYeuCauBaoGia(this)">
+                                                        <i class="fa fa-envelope-o"></i>&nbsp;Báo giá
+                                                    </a>
+
+
+                                                </div>
+                                                <div class="bottom-action hide">
+                                                    <button onclick="javascript:_AddToCart(this);return false;" title="Thêm vào giỏ hàng" class="btn-action btn-cart add2cart" data-id="KTFH1000">
+                                                        <span>
+                                                            Mua hàng
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                    } *@
+                </ul>
+                <div class="pagination-block">
+                    @{
+                        var pName = Context.Request.RouteValues["pName"]?.ToString();
+                        if (!string.IsNullOrEmpty(pName))
+                        {
+                            pName = Uri.UnescapeDataString(pName);
+                        }
+                        int startPage = Model.PageNumber - 5;
+                        int endPage = Model.PageNumber + 4;
+                        if (startPage <= 0)
+                        {
+                            endPage -= (startPage - 1);
+                            startPage = 1;
+                        }
+                        if (endPage > Model.PageCount)
+                        {
+                            endPage = Model.PageCount;
+                            if (endPage > 10)
+                            {
+                                startPage = endPage - 9;
+                            }
+                        }
+                    }
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("Search", new { page = 1, pName = pName })">&lt;&lt;</a>
+                        <a class="page-numbers page_enabled" href="@Url.Action("Search", new { page = Model.PageNumber - 1, pName = pName })">&lt;</a>
+                    }
+                    @if (startPage > 1)
+                    {
+                        if (startPage > 2)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @for (var i = startPage; i <= endPage; i++)
+                    {
+                        <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("Search", new { page = i, pName = pName })">@i</a>
+                    }
+                    @if (endPage < Model.PageCount)
+                    {
+                        if (endPage < Model.PageCount - 1)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("Search", new { page = Model.PageNumber + 1, pName = pName })">&gt;</a>
+                    }
+                    @if (Model.PageNumber < Model.PageCount)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("Search", new { page = Model.PageCount, pName = pName })">&gt;&gt;</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

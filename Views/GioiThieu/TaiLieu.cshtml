@@ -1,0 +1,134 @@
+﻿@using Data.Models;
+@using X.PagedList;
+@{
+    var TinTucList = ViewData["TinTucList"] as List<NewsModel>;
+    ViewData["Title"] = "Tài liệu Eco3d";
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+}
+<div class="container clearfix">
+
+        <div class="breadcrumbs w-100">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="/" title="Trang chủ">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a>Tài liệu</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <img src="@Lib.XML.SystemXML("PageTaiLieu_BG_vi")" alt="Document" onerror="this.src=&quot;/Images/no-img.jpg&quot;">
+
+    <div class="title-group w-100">
+            <h1 class="title">Tài liệu</h1>
+        </div>
+        <div class="w-100">
+            <div id="web_mainbody" class="main-content col-md-9" style="padding: 0">
+                <div class="box-inner">
+                    <div>
+
+                        <div class="des_certificate">
+                        <p>@Lib.XML.SystemXML("PageTaiLieu_vi") </p>
+                        </div>
+                        <ul class="w-100 products row list_certificate" id="listDocument" style="overflow: auto;">
+                        @foreach (var tailieu in Model)
+                        {
+                            <li class="product col-md-3 col-sm-6 col-xs-12">
+                                <p>
+                                    <a title="@tailieu.Name" href="@tailieu.UrlLink" target="_blank" download="@tailieu.UrlLink">
+                                        <img alt="@tailieu.Name" src="@tailieu.ImageUrl" onerror="this.src=&quot;/Images/no-img.jpg&quot;">
+                                    </a>
+                                </p>
+                                <h3 class="item-title">
+                                    <a title="@tailieu.Name" href="@tailieu.UrlLink" target="_blank" download="">@tailieu.Name</a>
+                                </h3>
+                            </li>
+                        }
+                        </ul>
+                    </div>
+                    <span class="loadding-data"></span>
+
+                </div>
+            </div>
+
+            <div class=" col-md-3 sidebar">
+                <div class="box-inner sticky">
+                    <div class="widget widget-news-search">
+                    <form id="news-searchbox" method="get" action="#">
+                        <input class="search_query form-control ui-autocomplete-input" type="text" id="searchTextNews" maxlength="90" placeholder="Tìm kiếm bài viết...." value="" autocomplete="off">
+                        <a id="btnSearchNews" onclick="return false;" class="btn2-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    </form>
+                    </div>
+                    <!-- Start categories-->
+                    <div class="widget widget-categories">
+                        <div>
+                            <h3 class="sb-title">Thể loại tin</h3>
+                            <ul class="list-item">
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-tuc-thi-truong" title="Tin tức thị trường">Tin tức thị trường</a></li>
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tu-van-giai-phap" title="Tư vấn giải pháp">Tư vấn giải pháp</a></li>
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-cong-ty" title="Tin tức công ty">Tin tức công ty</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Start Popular Post-->
+                    <div class="widget widget-popular-posts">
+                        <h3 class="sb-title">Bài viết mới</h3>
+                        <ul class="list-item">
+                        @foreach (var tintuc in TinTucList)
+                        {
+                            <li>
+                                <div class="widget-thumb">
+                                    <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" title="@tintuc.Name">
+                                        <img title="@tintuc.Name" alt="" src="@tintuc.ImageLink">
+                                    </a>
+                                </div>
+                                <div class="widget-content">
+                                    <h4 class="wg-title"><a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref">@tintuc.Name</a></h4>
+                                </div>
+                            </li>
+                        }
+                        </ul>
+                    </div>
+                    <!-- Start Social box-->
+                    <div class="widget widget-social">
+                        <h3 class="sb-title">Page Facebook</h3>
+
+                    <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")"  data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+
+                    <div class="clear-fix" style="margin:10px 0">
+                        <a target="_blank" title="Đăng ký cộng tác viên">
+                            <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+</div>
+
+<style type="text/css">
+    .tbl-doc {
+        width: 100%;
+    }
+
+        .tbl-doc tr:first-child {
+            background: #f8f8f8;
+        }
+
+        .tbl-doc tr td {
+            padding: 3px;
+        }
+
+    .notlink {
+        position: relative;
+        display: none;
+    }
+</style>

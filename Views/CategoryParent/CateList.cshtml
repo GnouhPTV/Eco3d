@@ -1,0 +1,61 @@
+﻿@using Data.Models
+@model List<ParentChildViewModel>
+@{
+    ViewData["Title"] = "Danh mục sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <div id="web_content" class="categoty-all">
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="/" title="Trang chủ">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                Toàn bộ Danh mục
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-md-12 all-category">
+                <div class="panel-group" id="accordion" style="width: 100%; margin: 0">
+                    <div class="panel panel-default item">
+                        @foreach (var viewModel in Model)
+                        {
+                            <div class="panel-heading" id="heading_157" style="background: #f5f5f5 url(@viewModel.Parent.IconUrl) no-repeat;">
+                                <a style="display: block" data-toggle="collapse" data-parent="#accordion" data-target="#collapse_157" aria-controls="collapse_157" class="title">
+                                    <span>@viewModel.Parent.Name</span>&nbsp;(<span style="color: #f00">@viewModel.Parent.CountHangHoa</span>)
+                                </a>
+                            </div>
+                            <div class="panel-collapse collapse show" id="collapse_@viewModel.Parent.ID" role="tabpanel" aria-labelledby="heading_@viewModel.Parent.ID" data-parent="#accordion">
+                                <div class="top-ct panel-body">
+                                    <div class="oe_menu_detail">
+                                        <ul class="menu_group menu_group1 col-md-6">
+                                            @foreach (var child in viewModel.Children1)
+                                            {
+                                                <div class="hide">@child.Ma</div>
+                                                <li data-parent="@child.IDParent">
+                                                    <a href="~/nhom-hang/@child.LinkUrl">
+                                                        <i class="fa fa-angle-right"></i> @child.Name &nbsp;(<span style="color:#f00">@child.CountHangHoa</span>)
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

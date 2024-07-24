@@ -1,0 +1,545 @@
+﻿/* form cap nhat san pham */
+#save_loading{display:none}
+/* Fix jquery message */
+.messager-body{}
+    .messager-body .fa{color:#66ccff;font-size:30px;display:inline-block;float: left;padding: 0px 5px 20px 5px;}
+    .messager-body .fa-info-circle{color:#66ccff}
+    .messager-body .fa-warning{color:#db4437}
+    
+#tbl-product-info td{padding:3px 0px;}
+.adminform .div_button
+{
+    padding:10px;
+    width:100%;max-width:1200px;
+    background: #ddd;
+    border-top:1px solid #cecece;
+     } 
+.adminform .div_button .btn-save{margin-top:0}
+
+#formProduct #list-blog-content
+{
+    height:calc(98vh - 200px); 
+    padding-bottom:20px;
+}
+.div_form_hide{position:relative;overflow:hidden}
+/* màu nền Tab */
+#formProduct{background: #f7f7f7;top:5px !important;position:fixed !important;overflow-z:auto;
+    background-color: rgb(247, 247, 247);
+    
+    height:98vh;    
+    padding:15px;border-radius:0;
+    width:98vw;max-width:1200px; 
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    
+    -webkit-box-shadow: 0 10px 25px rgba(0,0,0,.5);
+    -moz-box-shadow: 0 10px 25px rgba(0,0,0,.5);
+    box-shadow: 0 10px 25px rgba(0,0,0,.5);}
+    
+    
+#formProduct a.popup-close{top:10px;right:10px;z-index:999}
+#formProduct .panel,#formProduct .tabs li.tabs-selected a.tabs-inner {background-color:transparent !important;}
+#formProduct .panel-body{padding:5px}
+#formProduct .tabs li.tabs-selected a.tabs-inner {
+    background-color: #ffffff;
+    color: #777;
+    background: -webkit-linear-gradient(top,#ffffff 0,#ffffff 100%);
+    background: -moz-linear-gradient(top,#ffffff 0,#ffffff 100%);
+    background: -o-linear-gradient(top,#ffffff 0,#ffffff 100%);
+    background: linear-gradient(to bottom,#ffffff 0,#f7f7f7 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#ffffff,GradientType=0);
+}
+
+
+/* CSS for Checkbox */
+.checkwrap {
+    display: inline-block;
+    position: relative;
+    padding-left: 27px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkwrap input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #dcdcdc;
+    border:1px solid #abc4e2;
+}
+
+/* On mouse-over, add a grey background color */
+.checkwrap:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkwrap input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkwrap input:checked ~ .checkmark:after {
+    display: block;  
+}
+
+/* Style the checkmark/indicator */
+.checkwrap .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+#formDangKy h2
+{
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    line-height: 20px;
+    margin: 0 0 10px;
+    padding: 0 0 10px 0;
+}
+#formDangKy #tblDay{margin-top:10px;text-align: center;}
+/*--------------*/
+
+.btn-group .btn-add{height:30px;line-height:15px} 
+label[for="fileImgs"]{font-size:13px}
+
+/*--------------*/
+
+.btn-group .btn-add{height:30px;line-height:15px} 
+label[for="fileImgs"]{font-size:13px}
+#formProduct input,#formProduct textarea{font-size:13px}
+#formProduct input[type="text"]::placeholder{color:#ddd}  
+#formProduct input[type="text"]{text-align:left}
+#formProduct label.lf1{min-width:85px;}
+#formProduct label.lf2{min-width:130px;}
+#formProduct .input-r1{width:100px;text-align:right}
+#formProduct .input-r1{width:100px;}
+#formProduct .col-sm-5{padding:0px;}
+#formProduct .col-sm-7{padding:0px;}
+#formProduct .col-sm-12{padding:0px;}
+#formProduct .col-sm-5 .input-group{display:inline-block;width:calc(100% - 89px);} 
+#formProduct .col-sm-7 .input-group{width:calc(100% - 137px);display:inline-block} 
+#formProduct .input-img{width: 100%}
+#formProduct .tabs-panels{padding-top:10px}
+#formProduct .mce-panel{max-width:864px}
+
+#formProduct textarea.input {
+    width: 100%;
+    padding: 6px 3px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+/*component *--------*/
+#formProduct .input-group{}
+#formProduct .input-group ul input{font-size:16px;height:25px;width:156px;
+    padding: 3px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 0;
+    background: #f1f1f1;
+  }
+#formProduct .input-group .dropdown-menu{font-size:12px;}
+
+#formProduct .input-group .input-sm {
+    margin-top: 1px;
+    height: 27px;
+}
+.DuyetBC{position:absolute;top:10px;right:10px}
+    .DuyetBC span{}
+    .DuyetBC_1:before{content:"\f00c";padding-right:10px;color:Green;
+         font-family:FontAwesome         }
+    .DuyetBC_0:before{content:"\f00d";padding-right:10px;color:Red;
+         font-family:FontAwesome         } 
+.DuyetNghi{position:absolute;top:2px;right:10px}
+    .DuyetNghi span{display:none}
+    .DuyetNghi_1:before{content:"\f00c";padding-right:10px;color:Green;
+         font-family:FontAwesome         }
+    .DuyetNghi_0:before{content:"\f00d";padding-right:10px;color:Red;
+         font-family:FontAwesome         }  
+#ThongKeDK tr.item.thongke td{padding:10px;}
+#ThongKeDK tr.level2{background:#ddd;}
+#ThongKeDK tr.level1{background:#ffe0b2;}
+#ThongKeDK tr.level0{background:#f19c9c;}
+#ThongKeDK .btn-baocao-ct{position:absolute;top:2px;right:10px;font-size:13px;display:none}
+#ThongKeDK  tr:hover .btn-baocao-ct{display:block}
+#ThongKeDK  tr.item.detail{display:none;}
+#content_quyche{padding:20px 40px;border:1px solid #ddd;background:#fff3e0;color:#3e2723}
+#content_quyche ul,#content_quyche li{list-style-type: circle;}
+#content_quyche li > ul{padding-left:20px;list-style-type: square;}
+
+#content_quyche li > ul > li{list-style-type: square;}
+.list-order tr.dh3 > td:first-child {background:#f56954 !important;font-weight:bold;color:#fff}
+.btn-out-order{font-size:13px}
+@media screen and (max-width: 900px)
+{
+     #formProduct{width:100% !important}
+     #formProduct .popup a.popup-close {
+    display: block;
+    position: absolute;
+    background: url(../images/close-popup.png);
+    width: 33px;
+    height: 32px;
+    right: 0px;
+    top: 0px;
+    text-indent: -10000px;
+    z-index: 100;
+    }
+}
+@media screen and (max-width: 768px)
+{
+    .popup a.popup-close{top:5px;right:5px;z-index:9}
+    #formProduct{left:0px !important;width:100% !important}
+    #formProduct .col-sm-5{width:100%;padding-bottom:5px}
+    #formProduct .col-sm-7{width:100%;}
+    #formProduct .col-sm-7 .input-group{width:calc(100% - 89px);}
+    #formProduct .col-sm-5 > .btn-group{margin-bottom:6px;}
+    #formProduct .col-sm-5 > select{margin-bottom:6px;}
+    #formProduct .col-sm-5 > input{margin-bottom:6px;}
+    #formProduct .ui-tabs .ui-tabs-nav li a {padding:3px 10px}
+    #tabs_container{height:45px;width:100%;overflow-x:auto;overflow-y:hidden}
+    #formProduct .ui-tabs .ui-tabs-nav{position:relative;height:30px;width:600px;overflow-y:auto}
+    #formProduct .ui-tabs .ui-tabs-nav li{display:inline-block}
+}
+/*product */
+.div_view_page_product{position:relative}
+.div_mlk_list_page_product{position:relative;width:120px}
+    .div_mlk_list_page_product i{display:block;color:red}
+.view_page_product{position:absolute;z-index:2;top:1px;right:2px}
+
+#formProduct #imgNewInput input[type="text"]{}
+#formProduct ul#img-attack-arr{display:block;width:100%;height:228px;overflow-y:scroll;border:1px solid #ddd;padding:3px;margin-top:15px;}
+    #formProduct ul#img-attack-arr li{display:block;position:relative;height:76px;width:76px;float:left;}
+    #formProduct ul#img-attack-arr .img-detail-item{display:block;padding:3px;height:70px;width:70px;box-shadow: 2px 3px 2px #888888;margin-right:5px;margin-bottom:5px;}
+     #formProduct ul#img-attack-arr .img-del{display:block;height:25px;width:25px;position:absolute;top:0px;right:0px;
+                                                  color: #337ab7;text-decoration: none;}
+         #formProduct ul#img-attack-arr .img-del .fa-close{position:absolute;top:0;right:0}
+/* thongso */         
+#listThongSo ul
+{
+    width:100%;
+}
+#listThongSo ul li
+{
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 15px;
+    float:left;
+    width:100%;
+}
+#listThongSo ul li .item
+{
+    
+    float: left;
+}
+#listThongSo ul li .item label
+{
+    font-weight: normal;
+    font-size: 13px;
+}             
+
+
+.adminform  .input, .adminform select
+{
+    background-color: #FFFFFF;
+    border: 1px solid #95B8E7 !important;
+    border-radius: 3px;
+    color: #333333;
+    padding: 4px;
+    margin:0;
+}
+.adminform select{padding:5px;font-size:13px}
+.adminform  .input:hover{color:Red !important}
+.adminform label{font-weight:normal}
+.adminform a:hover,.adminform a:focus {
+    color: #ff5500;
+    text-decoration: none;
+    outline: 0;
+}
+#formProduct .img_container{width:70%}
+
+
+    
+#formProduct .listTaiLieu{position:relative;font-size:12px;padding:5px 0px 5px 0px;height:calc(100vh - 150px);
+                          overflow-y:auto;}
+                          
+#formProduct .listTaiLieu span[id_attached='0'],#formProduct .listTaiLieu span[mlk_attached='0']{display:none;}
+#formProduct .listTaiLieu span[id_attached='1'],#formProduct .listTaiLieu span[mlk_attached='1']{display:inline-block;float:right;font-weight:bold;color:red}
+                          
+#formProduct .listTaiLieu ul li {font-size:12px;display:block;padding-left:10px;position:relative;clear:both}
+#formProduct .listTaiLieu ul li p{font-weight:bold}
+#formProduct .listTaiLieu ul li label{font-weight:normal}
+#formProduct .tailieu_ul .vitri_top{background:#f7d39d;}
+#formProduct .tailieu_ul .tinhtrang_True{background:#e6e6e6;}
+
+
+#formProduct .listthongso{position:relative;font-size:12px;padding:5px;height:360px;overflow-y:auto;}
+#formProduct .listthongso ul {width:100%;} 
+#formProduct .listthongso ul li{font-size:12px}
+#formProduct .listthongso ul li .item{height:25px;display:inline-block;}
+#formProduct .listthongso ul li > p{font-weight:bold}
+#formProduct .listthongso ul li .item{}
+#formProduct .listthongso ul > li > .item::first-of-type {margin-left:0}
+#formProduct .listthongso ul li .item label{font-size:12px;line-height:16px;padding-bottom:3px;display:inline-block;font-weight:normal;}
+
+
+
+
+
+#formProduct .listthongsoCT{position:relative;font-size:12px;padding:5px 0px 5px 0px;
+                            height:calc(98vh - 220px);overflow-y:auto;}
+#formProduct .listthongsoCT ul li {font-size:12px;display:block;padding-left:10px;position:relative;clear:both}
+#formProduct .listthongsoCT ul li p{font-weight:bold}
+#formProduct .listthongsoCT ul li label{font-weight:normal}
+
+#formProduct .thongso_ul .vitri_top{background:#f7d39d;}
+#formProduct .lbl_vitri{position:absolute;right:27px;top:0px;display:block;padding:5px 10px;cursor:help}
+    #formProduct .panel-body .lbl_vitri{right:15px}
+   #formProduct #tbl-product-info label{font-weight:normal}  
+   #formProduct .listthongso a.AddGiaTri{color:#28a745}       
+   
+   
+   
+                                      
+
+#gaThongso{padding:10px 0;display:none;float:right}   
+#gaThongso input[type="text"]{text-align:left}
+        #gaThongsoGiatri{padding:10px 0;display:none;z-index:2;float:right}    
+        #gaThongsoGiatri input[type="text"]{border:1px solid #28a745 !important;
+                                    border-top-left-radius: 3px;text-align:left;
+                                    border-bottom-left-radius: 3px}
+        #gaThongsoGiatri input[type="text"]:focus{border:1px solid #28a745 !important;text-align:left;}
+        #gaThongsoGiatri button {background:#28a745;}  
+
+#show_gaThongsoCT{float:right; z-index:2;display:none}
+#show_gaThongsoN{float:right; z-index:2;display:none}
+#gaThongsoCT{padding:10px 0;display:none;float:right}   
+    #gaThongsoCT input[type="text"]{text-align:left}
+#gaEditThongsoCT{padding:10px 0;display:none;float:right}   
+    #gaEditThongsoCT input[type="text"]{text-align:left}
+    
+#gaThongsoGiatriCT{padding:10px 0;display:none;z-index:2;float:right}    
+        #gaThongsoGiatriCT input[type="text"]{border:1px solid #28a745 !important;text-align:left
+                                        border-top-left-radius: 3px;
+                                        border-bottom-left-radius: 3px}
+        #gaThongsoGiatriCT input[type="text"]:focus{border:1px solid #28a745 !important;text-align:left} 
+        #gaThongsoGiatriCT button {background:#28a745;}  
+/* form sửa */
+        #gaEditThongsoGiatriCT{padding:10px 0; display:none;z-index:2;float:right}
+        #gaEditThongsoGiatriCT input[type="text"]{border:1px solid #28a745 !important;text-align:left
+                                        border-top-left-radius: 3px;
+                                        border-bottom-left-radius: 3px}
+        #gaEditThongsoGiatriCT input[type="text"]:focus{border:1px solid #28a745 !important;text-align:left}
+        #gaEditThongsoGiatriCT button {background:#28a745;} 
+/* form nhap thong so */
+.div_form_hide .btn-group{width:auto;text-align:right}
+.div_form_hide .btn-group .input-add{width:350px;}
+.div_form_hide .btn-group .input-vitri{width:40px}
+        
+#formProduct .listthongsoCT .panel-heading{padding:0px 15px;position:relative;z-index:1}
+#formProduct .listthongsoCT h4{margin:0}
+#formProduct .listthongsoCT .panel-body{padding:15px 5px}
+#formProduct .listthongsoCT a.title{font-size:13px;display:inline-block;height:25;width:calc(100% - 50px);line-height:25px} 
+#formProduct .listthongsoCT a.title.enaFalse{text-shadow: 1px 1px #000;color:#fff;text-decoration:line-through}
+#formProduct .listthongsoCT a.AddGiaTri{color:#28a745;line-height:30px} 
+#formProduct .listthongsoCT a.DelThongsoCT{color:red;display:none;height:25px;width:15px;position:absolute;top:5px;left:0px}
+#formProduct .listthongsoCT a.EditThongsoCT{color:red;height:25px;width:15px;position:absolute;top:5px;right:0px}
+#formProduct .listthongsoCT .panel-heading:hover a.DelThongsoCT{display:inline-block}
+#formProduct .listthongsoCT .panel-body .item{position:relative;padding:0px 10px;border-radius:3px;}
+#formProduct .listthongsoCT .panel-body .item:hover{background:#c3d8f7;}
+#formProduct .listthongsoCT .panel-body .item label.lbl_thongso{margin:0; line-height: 21px;text-indent:10px;width:calc(100% - 50px);}
+#formProduct .listthongsoCT .panel-body .item .filter_checkbox{margin-top:10;position:absolute;left:0;top:0px}
+#formProduct .listthongsoCT a.aEdit{color:#f7720c;display:inline-block;width:21px;height:21px;font-size:18px;position:absolute;top:0px;right:0}
+#formProduct .listthongsoCT a.aDel{color:#898888;display:inline-block;width:21px;height:21px;font-size:18px;position:absolute;top:0px;right:30px}
+#formProduct .listthongsoCT a.adaction:hover{color:#000}
+
+
+
+
+#formProduct .listTaiLieu .panel-heading{padding:0px 15px;position:relative;z-index:1}
+#formProduct .listTaiLieu h4{margin:0}
+#formProduct .listTaiLieu .panel-body{padding:15px 5px}
+#formProduct .listTaiLieu a.title{font-size:13px;display:inline-block;height:25;width:80%;line-height:25px} 
+#formProduct .listTaiLieu a.title.enaFalse{}
+#formProduct .listTaiLieu a.iconTaiLieu{color:#28a745;line-height:30px} 
+#formProduct .listTaiLieu a.FilterTaiLieu {color:red;display:none;height:25px;width:15px;position:absolute;top:5px;left:0px}
+#formProduct .listTaiLieu a.edit{color:red;height:25px;width:15px;position:absolute;top:5px;right:0px}
+#formProduct .listTaiLieu .panel-heading:hover a.FilterTaiLieu{display:inline-block}
+#formProduct .listTaiLieu .panel-body .item{position:relative;padding:0px 10px;border-radius:3px;}
+#formProduct .listTaiLieu .panel-body .item:hover{background:#c3d8f7;}
+#formProduct .listTaiLieu .panel-body .item label.lbl_thongso{margin:0; line-height: 21px;text-indent:10px;width:calc(100% - 50px);}
+#formProduct .listTaiLieu .panel-body .item .filter_checkbox{margin-top:10;position:absolute;left:0;top:0px}
+#formProduct .listTaiLieu a.aEdit{color:#f7720c;display:inline-block;width:21px;height:21px;font-size:18px;position:absolute;top:0px;right:0}
+#formProduct .listTaiLieu a.aDel{color:#898888;display:inline-block;width:21px;height:21px;font-size:18px;position:absolute;top:0px;right:30px}
+#formProduct .listTaiLieu a.adaction:hover{color:#000}
+
+#formProduct .btn{font-size:13px}
+#formProduct .btn-save{font-size:13px !important}
+#formProduct #msg_button{float:right}
+#formProduct .btn-group>input{font-size:13px;padding:5px}
+ 
+.datewrap .easyui-datebox{padding:4px;width:120px;border: 1px solid #95B8E7 !important;}
+    .datewrap .datebox{border: 1px solid #95B8E7 !important;border-radius:3px}
+    .datewrap .datebox .textbox-text{font-size:16px;}
+.datewrap .panel-body{padding:0}
+.content-tag .tagbox {
+    background-color: #FFFFFF;
+    border: 1px solid #95B8E7 !important;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    margin: 0px;
+    padding: 4px;
+    font-size: 14px;
+    height: 100px;
+    overflow: auto;
+}
+.fCongViecPS .content-tag .tagbox, .cc-email .content-tag .tagbox
+{
+    width:calc(100% - 40px) !important;
+    height:60px;
+}
+.cc-email .content-tag .tagbox
+{
+    height:80px;
+    overflow: hidden;
+}
+.content-tag .tagbox .textbox-text{font-size:16px;}
+.content-send .tagbox {
+    background-color: #FFFFFF;
+    border: 1px solid #95B8E7 !important;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    margin: 0px;
+    padding: 4px;
+    font-size: 14px;
+    height: 38px;
+    overflow: auto;
+    width: 100% !important;
+}
+/* width */
+body div::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+body div::-webkit-scrollbar-track {
+    background: #F8F8F8; 
+}
+ 
+/* Handle */
+body div::-webkit-scrollbar-thumb {
+    background: #e8e8e8; 
+}
+
+/* Handle on hover */
+body div::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* webkit solution */
+#formProduct input::-webkit-input-placeholder { text-align:right; }
+
+/* mozilla solution - this is for firefox 18+ */
+#formProduct input::-moz-placeholder { text-align:right; }
+
+/* mozilla solution - this is for firefox 18- */
+#formProduct input:-moz-placeholder { text-align:right; }
+
+
+.headerTab{padding-bottom:15px}
+
+#tblLoaiHang_ncc{height:345px;overflow-x:hidden;padding:5px;background:#fffefa;}
+
+/* Quan ly thong so */
+.ts_div_add{position:absolute;width:100%;left:0;top:0;background:#ddd;padding:3px;}
+    .ts_div_add .input-group .form-control{width:calc(100% - 135px)}
+    .ts_div_add .input-group {}
+.ts_col{position:relative;overflow-x:hidden;height:calc(100vh - 170px) !important;padding-top:5px}
+.ts_col_2{position:relative;overflow-x:hidden;height:calc(100vh - 200px) !important;}
+.ts_col_2 table{position:relative;overflow-x:hidden;max-height:calc(50vh - 100px) !important;}
+
+.ts_table {
+  border:1;
+  background: white;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.ts_table * {
+  position: relative;
+}
+.ts_table thead tr {
+  height: 30px;
+  background: #a5d4f7;
+}
+.ts_table tbody tr {
+  max-height: 30px;
+}
+.ts_table tbody tr.ts_type_select,.ts_table tbody tr.ts_group_select,.ts_table tbody tr.ts_detail_select {
+  background:Orange !important;
+}
+.ts_table th,.ts_table td{padding:3px}
+
+.ts_table tbody tr:nth-child(even) {
+  background-color: #c8deff;
+}
+.ts_table tbody tr:hover{background:#ddd}
+
+.ts_table a[data-tt="False"] .fa-check,.ts_table a[data-tt="0"] .fa-check{color:#eee}
+
+.ts_txt{border:0;padding:2px 5px;}
+textarea.ts_txt{width:100%}
+.total_block{float:right;display:none}
+.total_thongso{float:right;display:}
+.ts_0{color:red}
+
+.adminform .div_button
+{
+    padding:10px;position:absolute;left:0;bottom:0px;
+    width:100%;max-width:1200px;
+    background: #ddd;
+    border-top:1px solid #cecece;
+     } 
+.adminform .div_button .btn {margin-right:10px}
+.adminform .div_button .btn-save{margin-top:0}
+.frmAddSeo{}
+#frmSelectBlock_Seo{position:fixed !important}

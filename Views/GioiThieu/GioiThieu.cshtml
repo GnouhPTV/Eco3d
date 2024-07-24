@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Giới thiệu Công ty TNHH ECO3D";
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    // seo fb
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = "Giới Thiệu";
+    // ViewData["Description"] = "";
+    ViewData["Image"] = ViewData["Image"];
+}
+<div id="web_content">
+    <div class="container">
+        <div class="breadcrumbs w-100">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="/">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a>Giới thiệu ECO3D</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="w-100">
+            <p style="float:right">
+                <a target="_blank" title="Tải về" href="/Images/gioi-thieu.pptx" download=""><img src="/Images/download.png" alt="Giới thiệu ECO3D"> Tải về</a>
+
+            </p>
+            <iframe frameborder="0" src="https://docs.google.com/presentation/d/1CO0RNC5tbcwJYu4xxI299NOzuDzfOZJb5ewH733kp9E/edit?usp=sharing" style="width:100%;min-height:1000px"></iframe>
+        </div>
+    </div>
+</div>

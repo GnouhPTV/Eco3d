@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Giấy chứng nhận";
+    ViewData["Description"] = "Eco3d | Tin tức giải pháp về đảm bảo an toàn, sức khỏe, ứng dụng kiến thức về an toàn lao động";
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+}
+<div id="web_content">
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul>
+                            <li>
+                                <a href="/" title="Trang chủ">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    Giấy chứng nhận
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="title-group w-100">
+                <h1 class="title">Giấy chứng nhận</h1>
+            </div>
+            @foreach (var obj in Model.Counts)
+            {
+            <p class="products-result-count">
+                <i class="fa fa-angle-double-right"></i>&nbsp;
+                Hiển thị&nbsp;<b>1</b>–<b>@obj.Count</b>&nbsp;trong <b>@obj.Count</b>&nbsp;
+                Kết quả
+            </p>
+            }
+
+            <ul class="products row list_certificate">
+            @foreach (var obj in Model.GiaiThuong)
+            {
+                <li class="product col-md-3 col-sm-6 col-xs-12">
+                    <p>
+                        <a title="@obj.Name" href="@obj.ImageUrl" target="_blank" download="">
+                            <img alt="@obj.Name" src="@obj.ImageUrl">
+                        </a>
+                    </p>
+                    <h3 class="item-title">
+                        <a title="@obj.Name" href="@obj.ImageUrl" target="_blank" download="">@obj.Name</a>
+                    </h3>
+                </li>
+            }
+
+            </ul>
+
+        </div>
+    </div>

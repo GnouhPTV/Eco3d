@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+@using Data.Models
+@model List<LoaiHangModel>
+@foreach (var lv in Model)
+{
+    <li>
+        <div class="content-box">
+            @* <a href="~/linh-vuc/@lv.UrlLink" title="@lv.Ten"> *@
+            <a asp-action="linhvuc" asp-controller="LinhVuc" asp-route-linkUrl="@lv.UrlLink" id="@lv.ID">
+                <img alt="@lv.Ten" src="@lv.ImageUrl" />
+            </a>
+            <h3 class="cat-title">
+                <a asp-action="linhvuc" asp-controller="LinhVuc" asp-route-linkUrl="@lv.UrlLink" id="@lv.ID">
+                    @lv.Ten
+                </a>
+            </h3>
+        </div>
+    </li>
+}

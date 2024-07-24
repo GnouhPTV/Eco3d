@@ -1,0 +1,117 @@
+﻿@using Lib
+@{
+}
+<div class="frmDangKyTT_wrapp">
+    <p class="note">Được thành lập từ năm 2005, cung trang thiết bị bảo hộ lao động chất lượng cao, các máy móc trong ngành công nghiệp.</p>
+    <div id="frmDangKyTT" class="row">
+        <div class="col-md-4">
+            <div class="group-control group-control-input">
+                <label style="display: block;"><span>Họ tên </span></label>
+                <input id="txtNameLH" class="easyui-validatebox form-control" type="text" required="true" data-options="tipPosition:'top'" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="group-control group-control-input">
+                <label><span>Email </span></label>
+                <input type="hidden" id="txtSupportTV" value="@Lib.XML.SystemXML("Email.LienHe.DangKy")" /> 
+                <input id="txtEmailLH" class="easyui-validatebox form-control" type="text" validtype="email" required="true" data-options="tipPosition:'top'" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="group-control group-control-input">
+                <label><span>Số điện thoại</span></label>
+                <input id="txtTelLH" class="easyui-validatebox form-control" type="text" validtype="phone" required="true" data-options="tipPosition:'top'" />
+            </div>
+        </div>
+        <div class="btn-wrapp col-12">
+            <div class="col-md-4">
+                <input type="button" id="btnSendEmailLH" class="btn btn-dangger btn-dangkytt" value="Gửi yêu cầu" onclick="SendMailTV()" style="margin-left: 0" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var url = window.location;
+        $('#frmDangKyTT .group-control').hover(function () {
+            $(this).find('label').hide();
+        },
+            function () {
+                var val_in = "";
+                // console.log(typeof $(this).find('input').val());
+                if (typeof $(this).find('input').val() != 'undefined') {
+                    val_in = $(this).find('input').val();
+                }
+                if (typeof $(this).find('textarea').val() != 'undefined') {
+                    val_in = $(this).find('textarea').val();
+                }
+                if (val_in == "") {
+                    $(this).find('label').show();
+                }
+            });
+    });
+
+    function SendMailTV() {
+        //Gui mail
+        var name = $("#txtNameLH").val();
+        var phone = $("#txtTelLH").val();
+        var email = $("#txtEmailLH").val();
+        var url = window.location;
+        var supportmail = $("#txtSupportTV").val();
+        var requestData = {
+            name: name,
+            phone: phone,
+            email: email,
+            supportmail: supportmail
+        };
+        $.ajax({
+            type: "POST",
+            url: "/Email/SendEmailTuVan",
+            data: JSON.stringify(requestData),
+            //data: "{'name':'" + name + "','phone':'" + phone + "','email':'" + email + "','supportmail':'" + supportmail + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            beforeSend: function () {
+                $('#formTVLoading').html('<img src="/Images/loading2.gif" />');
+            },
+            headers: {
+                RequestVerificationToken: csrfToken
+            },
+            success: function (response) {
+                var check = response.d;
+                if (check == "1") {
+                    onRefesh();
+                    ShowMessage("Bạn đã gửi mail thành công.");
+                }
+                else {
+                    ShowMessageW(check);
+                }
+                $('#formTVLoading').html('');
+                $("#btnSendEmail").removeClass("disabled");
+            }
+        });
+    }
+    // function DeleteTempFile() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/ManageCart/DeleteTempFile",
+    //         data: null,
+    //         contentType: "application/json; charset=utf-8",
+    //         dataType: "json",
+    //         success: function (response) {
+    //             console.log("Xoa FIle " + response.d);
+    //         }
+    //     });
+
+    // }
+    function onRefesh() {
+        var nameInput = document.getElementById('txtNameLH');
+        var emailInput = document.getElementById('txtEmailLH');
+        var tel = document.getElementById('txtTelLH');
+        // Xóa giá trị của từng trường input
+        nameInput.value = '';
+        emailInput.value = '';
+        tel.value = '';
+    }
+</script>

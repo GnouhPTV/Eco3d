@@ -1,0 +1,40 @@
+﻿@using Data.Models
+@using Lib
+@{
+    Layout = null;
+    var ModelNewsHome = ViewData["NewsHomeModel"] as List<NewsModel>;
+}
+
+<div id="home_news">
+    <div id="news-part" class="w-100">
+        <div class="title-group">
+            <h2 class="title">
+                TIN TỨC</h2>
+            <a href="/tin-tuc" class="btn-view-more">Xem thêm &nbsp;<i class="fal fa-angle-double-right"></i>
+            </a>
+        </div>
+        <!-- row -->
+        <div class="newslist">
+            @foreach (var news in ModelNewsHome)
+            {
+                <div class="single-news">
+                    <div class="news-thum">
+                        <img alt="@news.Name" src="@news.ImageLink" />
+                    </div>
+                    <div class="news-cont">
+                        <a asp-controller="TinTuc" asp-action="TinTucDetail" asp-route-LinkHref="@news.LinkHref" class="news-thum" title="@news.Name" target="_self">@news.Name</a>
+                        <div class="ext">
+                            <span class="date"><i class="fa fa-calendar"></i>&nbsp;@news.CreateDate</span>
+                        </div>
+                        <p>
+                            @news.DataJson.GetDJ("HeadShort")
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+    
+

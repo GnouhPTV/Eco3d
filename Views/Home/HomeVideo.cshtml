@@ -1,0 +1,62 @@
+﻿@{
+}
+<div id="video-part">
+    <div class="title-group">
+        <h2 class="title">
+            <a href="/video">VIDEO</a>
+        </h2>
+        <a href="/video" class="btn-view-more">
+            Xem thêm &nbsp;<i class="fal fa-angle-double-right"></i>
+        </a>
+    </div>
+    <div id="listAlbum" class="scroll alum-list-home owl-carousel clickable" rel="">
+        <div id="video_main_data" class="video-list"></div>
+        <input type="hidden" id="loadVideoHome" value="0" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    var idVideoHome = $("#video-part");
+    $(function () {
+        //LoadHomeVideoMain(1);
+        fancybox_init();
+    });
+    $(window).scroll(function () {
+        ScrollHomeVideoMain();
+    });
+    function ScrollHomeVideoMain() {
+        var $idContainer = $('#video_main_data');
+        var hT = idVideoHome.offset().top,
+            hH = idVideoHome.outerHeight(),
+            wH = $(window).height(),
+            wS = $(this).scrollTop();
+        if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+            if ($("#loadVideoHome").val() == "0") {
+                LoadHomeVideoMain();
+            }
+            $("#loadVideoHome").val("1");
+        }
+    }
+
+    function LoadHomeVideoMain() {
+        var $videoContainer = $('#video_main_data');
+        var type = 'nha-thau';
+        var numNhaThau = $('#video_main_data > div').length;
+        if (numNhaThau == 0) {
+            $.ajax({
+                type: 'Get',
+                data: { Top: 5, Type: type },
+                url: '/Home/LoadHomeVideo',
+                success: function (msg) {
+                    $videoContainer.html(msg);
+                },
+                complete: function () {
+                    $("#listAlbum").show();
+                }
+            });
+        }
+    }
+    function fancybox_init() {
+        $("a[href*='.jpg'], a[href*='.png']").attr('rel', 'fancybox').fancybox();
+    }
+</script>

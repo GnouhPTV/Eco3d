@@ -1,0 +1,244 @@
+﻿@model IPagedList<NewsModel>
+@using Data.Models;
+@using X.PagedList
+@using Lib
+@{
+    var NganhTuyenDung = ViewData["NganhTuyenDung"] as List<TuyenDung_NganhModel>;
+    var TinTucList = ViewData["TinTucList"] as List<NewsModel>;
+    // var Title = ViewData["Title"] as List<tblDanhMucModel>;
+    ViewData["Title"] = "Tuyển dụng";
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    var modelSlideCTV = ViewData["BannerCTVModel"] as IEnumerable<SlideModel>;
+    var modelBranch = ViewData["BranchListModel"] as List<HangsxModel>;
+}
+<title>Tuyển dụng</title>
+<div class="w-100">
+    <!-- Start: About -->
+    <section class="rec-detail">
+    </section>
+</div>
+<div class="container recruitment">
+    <div class="breadcrumbs w-100">
+        <ul>
+            <li>
+                <a href="/" title="Trang chủ">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a>
+                    Tuyển dụng
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="categories">
+                <div class="page-title">
+                    <h3 class="text h3">
+                        Cơ hội nghề nghiệp
+                    </h3>
+                </div>
+                <div class="widget widget-categories">
+                    <div>
+                        <h3 class="sb-title">Các ngành nghề</h3>
+                        <ul class="list-item">
+                            @foreach (var nganhnghe in NganhTuyenDung)
+                            {
+                                <li>
+                                    <a href="javascript:void(0)" onclick="OnSelectNghanh('@nganhnghe.Ten')"><i class="fa fa-th-large"></i><span>@nganhnghe.Ten</span></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clear-fix" style="margin:10px 0">
+                <a target="_blank" title="Đăng ký cộng tác viên">
+                    <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                </a>
+            </div>
+            <!-- Start: About -->
+            <section class="rec-detail">
+            </section>
+        </div>
+        <div class="col-md-9">
+            <div class="recruitment-filters clearfix">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="ctl00$MainContent$dropViTriTuyenDung" id="dropViTriTuyenDung" class="form-control">
+                            <option value="">Chọn vị trí tuyển dụng ...</option>
+                            @foreach (var nganhnghe in NganhTuyenDung)
+                            {
+                                <option name="@nganhnghe.Ten">@nganhnghe.Ten</option>
+                            }
+                        </select>
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="ctl00$MainContent$dropWorkPlace" id="dropWorkPlace" class="form-control" onchange="GetListTD()">
+                            <option selected="selected" value="">Chọn nơi làm việc ...</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="TP.Hồ Chí Minh">TP.Hồ Chí Minh</option>
+                            <option value="Thanh Hóa">Thanh Hóa</option>
+
+                        </select>
+
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" id="dropTrangThai" onchange="GetListTD()">
+                            <option value="0">Trạng Thái</option>
+                            <option value="1">Mới</option>
+                            <option value="2">Gấp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="positions">
+                        <div class="title-group">
+                            <div class="title">Vị trí đang tuyển</div>
+                        </div>
+                        <ul class="list-unstyled" id="view_ds_td">
+                            @foreach (var obj in Model)
+                            {
+                                <li>
+                                    <div class="wrapper">
+                                        <div class="content">
+                                            <div class="position">
+                                                <a asp-action="TuyenDungDetail" asp-route-LinkHref="@obj.LinkHref">
+                                                    <strong>@obj.Name</strong>
+                                                </a>
+                                                <span class="badge badge-warning hide">Mới</span>
+                                                <span class="badge badge-danger hide">Gấp</span>
+                                                <div class="date">@obj.CreateDate</div>
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <div class="hi-icon-effect-3 hi-icon-effect-3a">
+                                                <a href="javascript:void(0);" onclick="NopHoSo(@obj.ID,'@obj.Name')" class="btn btn-danger">Ứng tuyển ngay</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                            <!--phân trang repeater-->
+                            @if (Model.PageCount > 1)
+                            {
+                            <div class="pagination-block">
+                                @{
+                                    int startPage = Model.PageNumber - 5;
+                                    int endPage = Model.PageNumber + 4;
+                                    if (startPage <= 0)
+                                    {
+                                        endPage -= (startPage - 1);
+                                        startPage = 1;
+                                    }
+                                    if (endPage > Model.PageCount)
+                                    {
+                                        endPage = Model.PageCount;
+                                        if (endPage > 10)
+                                        {
+                                            startPage = endPage - 9;
+                                        }
+                                    }
+                                }
+
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <a class="page-numbers page_enabled" href="@Url.Action("TuyenDung", new { page = 1 })">&lt;&lt;</a>
+                                    <a class="page-numbers page_enabled" href="@Url.Action("TuyenDung", new { page = Model.PageNumber - 1 })">&lt;</a>
+                                }
+                                @if (startPage > 1)
+                                {
+                                    if (startPage > 2)
+                                    {
+                                        <span class="page-numbers">...</span>
+                                    }
+                                }
+                                @for (var i = startPage; i <= endPage; i++)
+                                {
+                                    <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("TuyenDung", new { page = i })">@i</a>
+                                }
+                                @if (endPage < Model.PageCount)
+                                {
+                                    if (endPage < Model.PageCount - 1)
+                                    {
+                                        <span class="page-numbers">...</span>
+                                    }
+                                }
+                                @if (Model.HasNextPage)
+                                {
+                                    <a class="page-numbers page_enabled" href="@Url.Action("TuyenDung", new { page = Model.PageNumber + 1 })">&gt;</a>
+                                }
+                                @if (Model.PageNumber < Model.PageCount)
+                                {
+                                    <a class="page-numbers page_enabled" href="@Url.Action("TuyenDung", new { page = Model.PageCount })">&gt;&gt;</a>
+                                }
+                            </div>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <section class="rec-detail">
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg_container_g pt-30 pb-30">
+    <div class="container ">
+        @await Html.PartialAsync("~/Views/Home/HomeBranch.cshtml", modelBranch)
+    </div>
+</div>
+<div class="bg_container_w">
+    <div class="container ">
+        @await Html.PartialAsync("~/Views/Home/SlideCTV.cshtml", modelSlideCTV)
+    </div>
+</div>
+
+<script>
+    $('#dropViTriTuyenDung').change(function () {
+        var searchTerm = $(this).val();
+        searchJobs(searchTerm);
+    });
+    function searchJobs(searchTerm) {
+        $.ajax({
+            url: '/TuyenDung/Search',
+            type: 'GET',
+            dataType: 'json',
+            data: { Name: searchTerm },
+            success: function (data) {
+                $('#view_ds_td').empty();
+                $.each(data, function (index, obj) {
+                    var html = '<li>' +
+                        '<div class="wrapper">' +
+                        '<div class="content">' +
+                        '<div class="position">' +
+                        '<a href="' + obj.linkHref + '"><strong>' + obj.name + '</strong></a>' +
+                        '<div class="date">' + obj.createDate + '</div>' +
+                        '</div></div>' +
+                        '<div class="actions">' +
+                        '<div class="hi-icon-effect-3 hi-icon-effect-3a">' +
+                        '<a href="javascript:void(0);" onclick="NopHoSo(' + obj.id + ', \'' + obj.name + '\')" class="btn btn-danger">Ứng tuyển ngay</a>' +
+                        '</div></div></div></li>';
+                    $('#view_ds_td').append(html);
+                });
+            },
+
+            error: function (request, status, error) {
+                console.log(error);
+            }
+        });
+    }
+    function OnSelectNghanh(tenNghanh) {
+        $("#dropViTriTuyenDung").val(tenNghanh).change();
+    }
+</script>
+<partial name="~/Views/TuyenDung/NopHoSo.cshtml"></partial>

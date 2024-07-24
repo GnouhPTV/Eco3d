@@ -1,0 +1,701 @@
+﻿@* @Model Html.AntiForgeryToken() *@
+@* @using Data.ViewModel
+@{
+    var modelSupport = ViewData["Supportmodel"] as List<SupportViewModel>;
+} *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="k88FDagduu12CMgIIs9C_dWw0BvlRYH6Gab8E4UfdUU" />
+    <title>@ViewData["Title"]</title>
+	<link rel="alternate" media="only screen and (max-width: 640px)" href="https://eco3d.vn/">
+    <link rel="canonical" href="@ViewData["canonicalUrl"]" />
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta property="og:url" content="@ViewData["canonicalUrl"]" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@ViewData["Titlefb"]" />
+    <meta property="og:description" content="@ViewData["Description"]" />
+    <meta property="og:image" content="@Lib.XML.SystemXML("RegWebsite")@ViewData["Image"]" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" > *@
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="@Url.Content("~/sitemap.xml")" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+    <script src="~/Scripts/Site/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/Styles/bootstrap.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/animate.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Administrator/Content/mdb.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Administrator/Content/Form.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Administrator/Content/update-bootstrap.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Administrator/Content/jquery-ui.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Scripts/fancybox/jquery.fancybox.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/loaders.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/library.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Scripts/update/easyui/bootstrap/easyui.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Scripts/update/easyui/icon.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/jquery.mCustomScrollbar.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/owl.carousel.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/owl.theme.default.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/lib/fontawesome_5_pro.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/ftoc.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/reset.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/slideshow.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/template.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/mobi-768.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Styles/lib/iziToast.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <script src="~/scripts/site/jquery.easing.js" asp-append-version="true"></script>
+    @Html.Raw(Lib.XML.SystemXML("MetaHeader"));
+    @RenderSection("Scripts", required: false)
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=663472045908179" nonce="q0nhW64F"></script>
+</head>
+@Html.AntiForgeryToken()
+<body oncontextmenu="return false;" style="overflow-x: hidden; width: 100vw">
+    @Html.Raw(Lib.XML.SystemXML("MetaBody"));
+    <header>
+        <div class="header-top" id="mb_menu_container">
+            <div class="container">
+                <div id="top_support" style="float: left">
+                    <ul>
+                        @* <li class="login_top hidden">
+                        <a href="javascript:void(0)" class="social-login" onclick="OpenPopupLogin();">
+                        <i class="fa fa-user"></i><span>&nbsp;Đăng nhập</span>
+                        </a>
+                        </li>
+                        <li class="hidden">
+                        <a href="http://eco3dvietnam.com" target="_blank" title="English">
+                        <i class="fa fa-language"></i><span>&nbsp;English</span>
+                        </a>
+                        </li> *@
+                        <li class="email_top">
+                            <a href="mailto:admin@eco3d.vn">
+                                <i class="fa fa-envelope"></i>&nbsp;<span>@Lib.XML.SystemXML("RegEmail")</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/he-thong-chi-nhanh">
+                                <i class="fa fa-map-marker"></i>&nbsp;
+                                <span class="hidden-mobile">
+                                    Hệ thống <b>@Lib.XML.SystemXML("Count_ChiNhanh")</b> chi nhánh
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="toplinks-apps">
+                    <a class="appAndroid" href="@Lib.XML.SystemXML("AppAndroid")" rel="noopener noreferrer" target="_blank">
+                        <img src="/Styles/img/google-play.png" alt="App Android">
+                    </a>
+                    <a href="@Lib.XML.SystemXML("AppIOS")" rel="noopener noreferrer" target="_blank">
+                        <img src="/Styles/img/apple.png" alt="App IOS">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle">
+            <div class="container">
+                <a id="aLogo" href="/" title="Trang chủ">
+                    <img class="img-responsive" src="/Images/logo.png" alt="Công ty ECO3D - Phân phối thiết bị Bảo hộ lao động &amp; công nghiệp" />
+                </a>
+                <div class="header-middle-right">
+                    <div class="form-search">
+                        <input class="input-text" id="txtSearchItem" type="text" name="tu-khoa" autocomplete="off" placeholder="Từ khóa tìm kiếm..." maxlength="50">
+                        <button class="button form-button desktop" id="btnsearch" title="Tìm kiếm">
+                            <i class="fa fa-search"></i><i class="search_btn hide">
+                                Tìm kiếm
+                            </i>
+                        </button>
+                        <button class="button form-button mobie" id="btnsearchMB" onclick="ShowSearch();" title="Tìm kiếm">
+                            <i class="fa fa-search"></i><i class="search_btn hide">
+                                Tìm kiếm
+                            </i>
+                        </button>
+                    </div>
+                    <div class="header_hotline">
+                        <label>
+                            Hotline 24/7
+                        </label>
+                        <span id="hotlineSpan">@await Component.InvokeAsync("Hotline")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav id="web_menu">
+        <div class="web_wapper_menu container">
+            <!-- Start: Menu Desktop -->
+            <div class="deskmenu hidden-sm">
+                <div class="w-100">
+                    <div id="web_leftsidebar" class="col-md-3">
+                        <div class="web-categories-nav">
+                            <h3 class="title">
+                                <span>Danh mục sản phẩm</span>
+                            </h3>
+                            <div id="listCategory" class="content showmenu">
+                                <ul class="nav-list oe_menu">
+                                    @await Component.InvokeAsync("Menu")
+                                    <li style="border-top:1px dotted #dfdfdf;padding-left:0">
+                                        <a style="text-transform:inherit;color:#428bca" href="/danh-muc-san-pham">
+                                            <i class="fa fa-list-ol" style="margin:0 10px 0 0"></i>Xem toàn bộ Danh mục
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <ul class="mainnav">
+                                <li class="active hidden-sm">
+                                    <a href="/" title="Trang chủ">
+                                        Trang chủ
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" title="Giới thiệu">Giới thiệu</a>
+                                    <ul class="dropdown-content">
+                                        <li>
+                                            <a href="/gioi-thieu" title="Giới thiệu">Về ECO3D</a>
+                                        </li>
+                                        <li>
+                                            <a href="/giay-chung-nhan" title="Giấy chứng nhận">Giấy chứng nhận</a>
+                                        </li>
+                                        <li>
+                                            <a href="/tai-lieu" title="Tài liệu">Tài liệu</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" title="Dịch vụ">
+                                        Dịch vụ
+                                    </a>
+                                     @await Component.InvokeAsync("Dichvu") 
+                                </li>
+                                <li class="">
+                                    <a href="/tin-tuc" title="Tin tức">Tin tức</a>
+                                </li>
+                                <li class="">
+                                    <a href="/he-thong-chi-nhanh" title="Liên hệ">Liên hệ</a>
+                                </li>
+                                <li class="">
+                                    <a href="/tuyen-dung" title="Tuyển dụng">Tuyển dụng</a>
+                                </li>
+                            </ul>
+                            <!-- End Menu Desktop -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Start: Menu Mobile -->
+            <div class="mobilemenu hidden-lg" id="mobilemenu">
+                <span class="btn2 btn-navbar show_menu_on">
+                    <i class="fa fa-align-justify"></i>
+                    <span class="overlay"></span>
+                </span>
+                <a id="logo_mb" href="/" class="logo">
+                    <span>logo</span>
+                </a>
+                <span id="cart_mb_wrapp"></span>
+                <div id="menu_link"></div>
+                <div id="menu_product_show">
+                </div>
+                <div id="menu_show">
+                    <ul class="mainnav">
+                        <li class="">
+                            <a href="javascript:void(0);" onclick="showMenuProduct()" ;="">
+                                Danh mục sản phẩm
+                            </a>
+                        </li>
+                       @*  <li class="">
+                            <a href="javascript:void(0);" onclick="ShowSupport()" ;="">
+                                Liên hệ đặt hàng
+                            </a>
+                        </li> *@
+                        <li class="">
+                            <a href="/" title="Trang chủ">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/gioi-thieu" title="Giới thiệu">
+                                Giới thiệu
+                            </a>
+                            <ul class="dropdown-content">
+                                <li>
+                                    Giấy chứng nhận
+                                </li>
+                                <li>
+                                    <a href="/tai-lieu" title="Tài liệu">
+                                        Tài liệu
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="javascript:void(0);" title="Dịch vụ" onclick="showMenuSub(this)" ;="">
+                                Dịch vụ
+                            </a>
+                            @await Component.InvokeAsync("Dichvu")
+                        </li>
+                        <li class="">
+                            <a href="/tin-tuc" title="Tin tức">
+                                Tin tức
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/he-thong-chi-nhanh" title="Liên hệ">
+                                Liên hệ
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/tuyen-dung" title="Tuyển dụng">
+                                Tuyển dụng
+                            </a>
+                        </li>
+                       @*  <li class="">
+                            <a href="/admin" title="Đăng nhập">
+                                Đăng nhập
+                            </a>
+                        </li> *@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        @RenderBody()
+    </div>
+    <section id="footer_contact" class="bg_container_g pt-15 pb-30">
+        <div class="container">
+            <div class="title-group center">
+                <h2 class="title">Liên hệ với chúng tôi</h2>
+            </div>
+            @await Html.PartialAsync("~/Views/Shared/FormContact.cshtml")
+        </div>
+    </section>
+    <section id="footer_app" class="bg_container_r pt-15 pb-30">
+        <div class="container">
+            <div class="title-group center">
+                <h2 class="title">Ứng dụng có sẵn cho tất cả các thiết bị</h2>
+            </div>
+            <div class="note">
+                E-Safety là ứng dụng công nghệ cho phép người dùng đăng ký dễ dàng để trở thành cộng tác
+                viên chuyên về các sản phẩm công nghiệp và các thiết bị bảo hộ lao động.
+                Ứng dụng kết nối trực tiếp với cổng website chính từ nhà cung cấp hàng hóa.
+                Nó cho phép người dùng truy cấp đầy đủ các tính năng như danh mục,
+                thông tin hàng hóa, quản lý số lượng xuất-nhập sản phẩm trong ngày, tháng, năm.
+                Đồng thời kiểm soát chính xác về doanh số thu vào và ra.
+            </div>
+            <div class="bottomlinks-apps">
+                <a class="appAndroid" href="https://play.google.com/store/apps/details?id=com.eco3d.eco3dcollab" rel="noopener noreferrer" target="_blank">
+                    <img src="/Styles/img/google-play.png" alt="App Android">
+                </a>
+                <a href="https://apps.apple.com/vn/app/e-safety/id1539317526?l=vi" rel="noopener noreferrer" target="_blank">
+                    <img src="/Styles/img/apple.png" alt="App IOS">
+                </a>
+            </div>
+            <div class="bottomlinks-apps">
+                <em>Khả dụng trên iPhone, iPad và tất cả các thiết bị Android</em>
+            </div>
+        </div>
+    </section>
+    <div class="footer">
+        <div class="web_ft_wrapper">
+            <div class="footer_tags hidden-mobile">
+                <div class="categories-footer">
+                    <div class="container">
+                        <div class="footer-links-w">
+                            <div class="label-link">Từ khóa tìm kiếm</div>
+                            <ul>
+                                @Html.Raw(Lib.XML.SystemXML("HtmlTag"))
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-info footer-container">
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row row-16">
+                            <div class="col-lg-3 footer-block contact-col">
+                                <div class="logo"></div>
+                                <div class="note">Công ty TNHH ECO3D được thành lập vào năm 2016, là đơn vị nhập khẩu phân phối chính thức các loại thiết bị bảo hộ lao động Honeywell tại thị trường Việt Nam.</div>
+                            </div>
+                            <div class="col-lg-9 row row-16 footer-block contact-col">
+                                <div class="col-xs-12 col-md-3 footer-block">
+                                    <h3>Hỗ trợ</h3>
+                                    <div>
+                                        <ul class="list-bullet">
+                                            <li><a href="/tin-tuc/Huong-dan-xem-bao-gia-online-danh-cho-dai-ly"><i class="fa fa-caret-right"></i>Hướng dẫn xem báo giá</a></li>
+                                            <li><a href="/tin-tuc/huong-dan-mua-hang"><i class="fa fa-caret-right"></i>Hướng dẫn mua hàng</a></li>
+                                            <li><a href="/tin-tuc/phuong-thuc-giao-hang"><i class="fa fa-caret-right"></i>Phương thức giao hàng</a></li>
+                                            <li><a href="/tin-tuc/phuong-thuc-thanh-toan"><i class="fa fa-caret-right"></i>Phương thức thanh toán</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-4 footer-block">
+                                    <h3>Chính sách</h3>
+                                    <div>
+                                        <ul class="list-bullet">
+                                            <li><a href="/tin-tuc/chinh-sach-doi-tra-hang"><i class="fa fa-caret-right"></i>Chính sách đổi trả hàng</a></li>
+                                            <li><a href="/tin-tuc/chinh-sach-bao-hanh"><i class="fa fa-caret-right"></i>Chính sách bảo hành</a></li>
+                                            <li><a href="/tin-tuc/chinh-sach-dai-ly"><i class="fa fa-caret-right"></i>Chính sách đại lý</a></li>
+                                            <li><a href="/tin-tuc/chinh-sach-va-quy-dinh-chung"><i class="fa fa-caret-right"></i>Chính sách &amp; quy định chung</a></li>
+                                            <li><a href="/tin-tuc/chinh-sach-bao-mat-thong-tin"><i class="fa fa-caret-right"></i>Chính sách bảo mật thông tin</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-5 footer-block">
+                                    <h3>Liên hệ</h3>
+                                    <div class="footer-block-content">
+                                        <ul class="links-contact">
+                                            <li class="add-icon" style="display: none">
+                                                <i class="fa fa-map-marker"></i>
+                                                <a href="/lien-he" class="text-white" style="margin-top: 9px;display: inline-block;">Hệ thống chi nhánh toàn quốc</a>
+                                            </li>
+                                            <li class="add-icon">
+                                                <i class="fa fa-map-marker"></i>
+                                                <b>Hà Nội:</b> 335 Trương Định, P.Tương Mai, Q.Hoàng Mai<br>
+                                                Số 1150 Nguyễn khoái, P Lĩnh Nam, Q Hoàng Mai, Hà Nội<br>
+                                                <b>TP.HCM:</b> Số 656/55 Quang Trung, P 11, Q. Gò Vấp, Tp HCM
+                                            </li>
+                                            <li class="email-icon middle-content">
+                                                <i class="fal fa-envelope-open-text"></i>
+                                                <a href="mailto:admin@eco3d.vn">admin@eco3d.vn</a>
+                                            </li>
+                                            <li class="phone-icon">
+                                                <i class="fa fa-fax"></i>
+                                                @await Component.InvokeAsync("Hotline")<br>@Lib.XML.SystemXML("RegPhone")
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="footer-line row">
+                        <div class="col-md-8 gp">Giấy chứng nhận ĐKKD số : 0107605569 do Sở KH&amp;ĐT Hà Nội cấp ngày 21/10/2016</div>
+                        <div class="col-md-4 socials-wrap">
+                            <ul class="ml-auto ">
+                                <li class="li-social facebook-social">
+                                    <a title="Facebook" href="@Lib.XML.SystemXML("Facebook")" target="_blank">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="li-social youtube-social">
+                                    <a title="Youtube" href="@Lib.XML.SystemXML("Youtube")" target="_blank">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li class="li-social twitter-social">
+                                    <a title="Twitter" href="@Lib.XML.SystemXML("Twitter")" target="_blank">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li class="li-social instagram-social">
+                                    <a title="Instagram" href="@Lib.XML.SystemXML("Instagram")" target="_blank">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="supportico clearfix">
+                <div class="blockcontent clearfix">
+                    <div class="item_m">
+                        <a target="_blank" href="tel:0372.064.090"><i class="ico-phone ico"></i></a>
+                        <span class="text"><a target="_blank" href="tel:0372.064.090">Gọi điện</a></span>
+                    </div>
+                    <div class="item_m">
+                        <a target="_blank" href="http://zalo.me/0372.064.090"><i class="ico-zalo ico"></i></a>
+                        <span class="text"><a target="_blank" href="http://zalo.me/0372.064.090">Chat Zalo</a></span>
+                    </div>
+                    <div class="item_m">
+                        <a target="_blank" href="https://www.messenger.com/t/BHLD.ECO3D"><i class="ico-fbmessage ico"></i></a>
+                        <span class="text"><a target="_blank" href="https://www.messenger.com/t/BHLD.ECO3D">Chat Facebook</a></span>
+                    </div>
+                    <div class="item_m">
+                        <a target="_blank" href="sms:0372.064.090"><i class="ico-sms ico"></i></a>
+                        <span class="text"><a target="_blank" href="sms:0372.064.090">Nhắn tin</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="javascript:void(0)" class="bTo-top">Top</a>
+    <div class="menumobile_scroll">
+        <span class="btn2 leftsidebar">
+            <i class="fa fa-align-left"></i>
+            <span class="overlay"></span>
+        </span>
+        <span class="btn2 show_menu_on">
+            <i class="fa fa-align-justify"></i>
+            <span class="overlay"></span>
+        </span>
+    </div>
+    <div class="page-loading">
+        <p>Bạn vui lòng đợi trong giây lát...</p>
+    </div>
+    <partial name="~/Views/Lienhe/BaoGia.cshtml"></partial>
+     @await Component.InvokeAsync("Support")
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.3.min.js"></script>
+    <script src="~/Scripts/json2.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/jshashtable-min.js"></script>
+    <script src="~/Scripts/update/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Site/wow.min.js"></script>
+    <script src="~/Scripts/Site/jquery.waypoints.min.js"></script>
+    <script src="~/Scripts/Site/jquery.counterup.min.js"></script>
+    <script src="~/Scripts/jquery.raty.min.js"></script>
+    <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/jquery.numeric.js"></script>
+    <script src="~/Scripts/jquery.numberformatter.min.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/backbone.js"></script>
+    <script src="~/Scripts/sticky-kit.min.js"></script>
+    <script src="~/Scripts/jquery.bpopup.js"></script>
+    <script src="~/Scripts/jquery.unveil.js"></script>
+    <script src="~/Scripts/day24h.indicator.js"></script>
+    <script src="~/Scripts/fancybox/jquery.fancybox.min.js"></script>
+    <script src="~/Scripts/iziToast.min.js"></script>
+    <script src="~/Scripts/jquery.mark.js"></script>
+    <script src="~/Scripts/lib.js"></script>
+    <script src="~/Scripts/day24h.common.js"></script>
+    <script src="~/Scripts/Pages/managecart.js"></script> 
+    <script src="~/Scripts/ClientModel/Cart.js"></script> 
+    <script src="~/Scripts/Pages/pricelistNV.js"></script>
+    @* <script src="~/Controls/HangHoa/frmShareEmail.js"></script> *@
+    <script src="~/Scripts/Pages/pricelist.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" data-name="jsHeader">
+        var csrfToken = $('input[name="__RequestVerificationToken"]').val();
+        ShowHeadMB();
+        $(document).ready(function () {
+            var isMobile = DetectMobile();
+            if (isMobile != "1") {
+                //getCountFavorite();
+            }
+            $(".header-top  .header.links li").not(".myaccount-link").mouseover(function () {
+                $(".header-top  .header.links").addClass('toplinks_hover');
+            }).mouseout(function () {
+                $(".header-top  .header.links").removeClass('toplinks_hover');
+            });
+            $(".header-top .comparelist").mouseover(function () {
+                $(".header-top .comparelist").addClass('comparelist_hover');
+            }).mouseout(function () {
+                $(".header-top .comparelist").removeClass('comparelist_hover');
+            });
+            $("#aCompareList").click(function () {
+                $(".header-top .comparelist").toggleClass('comparelist_hover');
+            });
+        });
+        function getCountFavorite() {
+            var favorite = getCookie('AddFavorite');
+            if (favorite != null && favorite != '') {
+                var list = favorite.split(',');
+                document.getElementById("favorite_total").innerHTML = list.length;
+            } else {
+                document.getElementById("favorite_total").innerHTML = "0";
+            }
+        }
+        function ShowHeadMB() {
+            var isMobile = DetectMobile();
+            if (isMobile == "1") {
+                $("#mb_menu_container").empty();
+                $("#mobilemenu").detach().appendTo("#mb_menu_container");
+                $("#cart_dk").clone().appendTo("#cart_mb_wrapp");
+                ///thanh-toan
+                $("#cart_mb_wrapp").click(function () {
+                    window.open('/thanh-toan', '_parent')
+                });
+                $(".overlay").click(function (e) {
+                    hideMenu($("#menu_support_show"), -300);
+                    return false;
+                });
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        var overlay = $('.overlay');
+        var menushow = $('#menu_show');
+        var leftshow = $('#menu_product_show');
+        function showMenu(menu_object) {
+            //console.log(menu_object);
+            menu_object.stop().animate({
+                left: 0
+            }, 0);
+            overlay.show();
+        }
+        function showMenuProduct() {
+            hideMenu(menushow, -300);
+            $('#menu_product_show').stop().animate({
+                left: 0
+            }, 0);
+            overlay.show();
+            return false;
+        }
+        function hideMenu(menu_object, left_value) {
+            menu_object.stop().animate({
+                left: left_value
+            }, 0);
+            overlay.hide();
+        }
+        function ShowSupport() {
+            hideMenu(menushow, -300);
+            showMenu($("#menu_support_show"));
+            return false;
+        }
+        function LoadSupport() {
+            var container = "#menu_support_show";
+            // Load Ajax
+            $.ajax({
+                type: 'Get',
+                data: {},
+                url: '/Controls/Home/_LoadSuportMobile.aspx',
+                success: function (msg) {
+                    $(container).html(msg);
+                },
+                beforeSend: function () {
+                    $("#web_leftsidebar_hide").attr("data-load", 1);
+                },
+                complete: function () {
+                    ShowSupport();
+                }
+            });
+        }
+        $(document).ready(function () {
+            $("#web_leftsidebar .web-categories-nav").clone().appendTo("#menu_product_show");
+            $("#web_leftsidebar .web5s-products-filter").clone().appendTo("#menu_filter_show");
+            $("#LeftSupport").clone().appendTo("#menu_support_show");
+            $("#LeftFlashSale").clone().appendTo("#menu_product_show");
+            $("#web_leftsidebar_hide .enterprise-rightContent").clone().appendTo("#menu_support_show");
+            if (screen.width <= 991) {
+                $("#web_leftsidebar .web-categories-nav").remove();
+                $("#web_leftsidebar .web5s-products-filter").remove();
+                //$("#web_leftsidebar .enterprise-rightContent").remove();
+            } else {
+                $("#menu_filter_show").remove();
+                $("#menu_support_show").remove();
+            }
+            $(".show_menu_on").bind("click", function (e) {
+                showMenu(menushow);
+                return false;
+            });
+            $(".leftsidebar").bind("click", function (e) {
+                showMenu(leftshow);
+                return false;
+            });
+            $(".overlay").click(function (e) {
+                hideMenu(menushow, -300);
+                hideMenu(leftshow, -350);
+                return false;
+            });
+            //Menu Filter Product
+            if ($.trim($('#menu_filter_show').html())) {
+                $("#menu_link").append(link_filter);
+                $(".show_filter_on").bind("click", function (e) {
+                    showMenu($("#menu_filter_show"));
+                    return false;
+                });
+                $(".overlay").click(function (e) {
+                    hideMenu($("#menu_filter_show"), -300);
+                    return false;
+                });
+            }
+            //Hiện cart trên menu top
+            var ShowMenuInTop = function () {
+                var offset = 50, offset_opacity = 250;
+                //hide or show the "back to top" link
+                var count_cart = $(".cart-counter").html();
+                var link_cart = '<li class="link_cart"><a href="/thanh-toan" title="Giỏ hàng"><i class="fa fa-shopping-cart" ></i><em>Giỏ hàng</em><span class="box-counter">' + count_cart + '</span></a></li>';
+                $(window).scroll(function () {
+                    if ($('#CartHeader').html() == "") {
+                        $("#CartHeader").append(link_cart);
+                    }
+                    $("#CartHeader .link_cart").show();
+                    if ($(this).scrollTop() < offset_opacity) {
+                        $("#CartHeader .link_cart").hide();
+                    }
+                });
+
+            }
+            ShowMenuInTop();
+        });
+        function showMenuSub(aLink) {
+            var menu = $(aLink).parent().find(".dropdown-content");
+            menu.show();
+        }
+        $(document).ready(function () {
+            $("#btnSearchNews").bind('click', function () {
+                var key = $('#searchTextNews').val();
+                var url = '/tin-tuc';
+                if (key != '') {
+                    sessionStorage.setItem("keyword", key);
+                    url += '?Name=' + key;
+                    window.location = url;
+                }
+                else {
+                    ShowMessageW("Bạn chưa nhập từ khóa tìm kiếm!");
+                }
+            });
+            $("#searchTextNews").bind('keypress', function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    var key = $(this).val();
+                    var url = '/tin-tuc';
+                    if (key != '') {
+                        sessionStorage.setItem("keyword", key);
+                        url += '?Name=' + key;
+                        window.location = url;
+                    }
+                }
+            });
+        });
+    </script>
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script> *@
+    @await RenderSectionAsync("Scripts", required: false)
+    <style type="text/css">
+        ul.oe_menu div.group_parent {
+            background-size: cover !important;
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 100%;
+            background-color: #fff !important;
+            border: 1px solid #eee;
+            padding: 0;
+            float: left;
+            width: 855px;
+            height: calc(100% + 6px);
+        }
+    </style>
+</body>
+</html>
+@* <style>
+    ul.oe_menu div.group_parent {
+        background-size: cover !important;
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 100%;
+        background-color: #fff !important;
+        border: 1px solid #eee;
+        padding: 0;
+        float: left;
+        width: 855px;
+        height: calc(100% + 6px);
+    }
+</style> *@

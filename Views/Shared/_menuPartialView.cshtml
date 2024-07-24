@@ -1,0 +1,106 @@
+﻿@using Data.Models
+@model List<Data.Models.Reg_SystemModel>
+@foreach (var obj in Model)
+{
+    @Html.Raw(obj.SysValue)
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').on({
+            mouseenter: function () {
+                $(".showmenu").show();
+            },
+            mouseleave: function () {
+                $(".showmenu").hide();
+            }
+        }, '.web-categories-nav');
+    });
+    // menu
+    $(function () {
+        var $oe_menu = $('.oe_menu');
+        var $oe_menu_items = $oe_menu.children('li');
+        var $oe_overlay = $('#oe_overlay');
+
+        $oe_menu_items.bind('mouseenter', function () {
+            var $this = $(this);
+            $this.addClass('slided selected');
+            $this.children('div').css('z-index', '9999').stop(true, true).slideDown(0, function () {
+                $oe_menu_items.not('.slided').children('div').hide();
+                $this.removeClass('slided');
+            });
+        }).bind('mouseleave', function () {
+            var $this = $(this);
+            $this.removeClass('selected').children('div').css('z-index', '1');
+        });
+        $oe_menu.bind('mouseenter', function () {
+            var $this = $(this);
+            $oe_overlay.stop(true, true).fadeTo(10, 0.6);
+            $this.addClass('hovered');
+        }).bind('mouseleave', function () {
+            var $this = $(this);
+            $this.removeClass('hovered');
+            $oe_overlay.stop(true, true).fadeTo(10, 0);
+            $oe_menu_items.children('div').hide();
+        })
+    });
+
+    $(document).ready(function () {
+        // append plus symbol to every list item that has children
+        $("#mobilemenu .showmenu .parent").append(
+            '<span class="open-menu fa fa-plus"></span>'
+        );
+
+        // fix non-scrolling overflow issue on mobile devices
+        $("#mobilemenu > ul").wrap('<div class="overflow"></div>');
+        $(window).on("load resize", function () {
+            var vph = $(window).height() - 57; // 57px - height of #mobile-nav
+            $(".overflow").css("max-height", vph);
+        });
+
+        // global variables
+        var menu = $(".overflow > ul");
+        var bg = $("html, body");
+
+        // toggle background scrolling
+        function bgScrolling() {
+            // if menu has toggled class... *
+            if (menu.hasClass("open")) {
+                // * disable background scrolling
+                bg.css({
+                    "overflow-y": "hidden",
+                    height: "auto"
+                });
+                // if menu does not have toggled class... *
+            } else {
+                // * enable background scrolling
+                bg.css({
+                    "overflow-y": "visible",
+                    height: "100%"
+                });
+            }
+        }
+
+        $(".open-menu").on("click", function (e) {
+            e.preventDefault();
+            $(this).prev("ul").slideToggle(250);
+            $(this).toggleClass("rotate");
+        });
+    });
+
+</script>
+<style type="text/css">
+    .open-menu {
+        color: #fff;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 1rem;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: transform 250ms ease;
+    }
+
+    .rotate {
+        transform: rotate(135deg);
+    }
+</style>

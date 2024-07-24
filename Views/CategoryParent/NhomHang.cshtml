@@ -1,0 +1,228 @@
+﻿@using Data.Models;
+@using X.PagedList;
+@model IPagedList<ProductStoreModel>
+@{
+    var CateChildInfo = ViewData["CateChild"] as CategoryModel;
+    ViewData["Title"] = CateChildInfo.Name;
+    var CateChild_List = ViewData["listCateChild"] as List<CategoryModel>;
+    var namecate = ViewData["nameCate"] as List<CategoryParentModel>;
+    var TinTuc = ViewData["TinTuc"] as List<NewsModel>;
+    var listBrand = ViewData["listBrand"] as List<HangsxModel>;
+    var listProductChilCate = ViewData["ListProductTopCate"] as List<ProductStoreModel>;
+    var listProduct = ViewData["ListProduct"] as List<ProductStoreModel>;
+    if (listProductChilCate != null && listProductChilCate.Count > 0 && listProductChilCate[0].CategoryId != null)
+    {
+        ViewData["IDNhomCha"] = listProductChilCate[0].CategoryId;
+    }
+    else
+    {
+        ViewData["IDNhomCha"] = "";
+    }
+    var HangSx = ViewData["HangSx"] as List<Productthongso>;
+    var Nhomhang_Thongso = ViewData["Nhomhang_Thongso"] as List<DM_NhomHang_ThongSoModel>;
+    var HangHoa_ThongSo = ViewData["HangHoa_ThongSo"] as List<DM_HangHoa_ThongSoModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = CateChildInfo.Name;
+    ViewData["Description"] = CateChildInfo.Description;
+    ViewData["Image"] = CateChildInfo.ImageUrl;
+}
+<div id="web_content">
+    <div class="breadcrumbs">
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="/" title="Trang chủ">
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="/nganh-hang/@ViewData["LinkGroupParent"]" title="@ViewData["NameGroupParent"]">
+                        @ViewData["NameGroupParent"]
+                    </a>
+                </li>
+                <li>
+                    @CateChildInfo.Name
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 side-bar page_left">
+                <div class="total-body">
+                    @if (ViewData["TinTuc"] != null && (ViewData["TinTuc"] as List<NewsModel>).Count > 0)
+                    {
+                        <div class="enterprise-rightContent">
+                            <h3 class="sb-title">Tư vấn sản phẩm</h3>
+                            <div class="w-100 rc12 widget-popular-posts">
+                                <ul class="list-item">
+                                    @foreach (var tt in TinTuc)
+                                    {
+                                        <partial name="Tuvansanpham" model="tt" />
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    <div class="enterprise-rightContent  ">
+                        <h3 class="sb-title">Top sản phẩm</h3>
+                        <div class="w-100 top-products">
+                            <ul class="clearfix">
+                                @foreach (var pcate in listProductChilCate)
+                                {
+                                    <partial name="TopProductPartialView" model="pcate" />
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Start: Lọc sản phẩm -->
+                    <div class="web5s-products-filter">
+                        <partial name="FillterPartial" />
+                    </div>
+                    <div class="widget widget-social">
+                        <h3 class="sb-title">Page Facebook</h3>
+                        <div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/BHLD.ECO3D" data-width="360px" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=320&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2FBHLD.ECO3D&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360px"><span style="vertical-align: bottom; width: 320px; height: 130px;"><iframe name="f0a1825a9ac92435e" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v14.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df9e49140a111ba9f4%26domain%3Deco3d.vn%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Feco3d.vn%252Ffb6914b6823e0fc8a%26relation%3Dparent.parent&amp;container_width=320&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2FBHLD.ECO3D&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360px" style="border: none; visibility: visible; width: 320px; height: 130px;" class=""></iframe></span></div>
+                    </div>
+                    <div class="clear-fix" style="margin:10px 0">
+                        <a href="/cong-tac-vien" target="_blank" title="Đăng ký cộng tác viên">
+                            <img style="border:1px solid #e7e7e7" src="/Images/tuyen-cong-tac-vien.gif" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="web_mainbody" class="col-md-9 col-main">
+                <div class="title-group w-100">
+                    @foreach (var title in namecate)
+                    {
+                        <h1 class="title">@title.Name</h1>
+                        <span class="product-count">(Tìm thấy @listProduct.Count Kết quả)</span>
+                    }
+                </div>
+                <div class="product-items">
+                    @foreach (var sp in Model)
+                    {
+                        <div class="timer-item col-sm-3 col-xs-6">
+                            <partial name="ProductBoxPartialView" model="sp" />
+                        </div>
+                    }
+                </div>
+                <!--phân trang repeater-->
+                <div class="pagination-block">
+                    @{
+                        int startPage = Model.PageNumber - 5;
+                        int endPage = Model.PageNumber + 4;
+                        if (startPage <= 0)
+                        {
+                            endPage -= (startPage - 1);
+                            startPage = 1;
+                        }
+                        if (endPage > Model.PageCount)
+                        {
+                            endPage = Model.PageCount;
+                            if (endPage > 10)
+                            {
+                                startPage = endPage - 9;
+                            }
+                        }
+                    }
+
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("NhomHang", new { page = 1,CodeBrand = ViewData["CodeBrand"] })">&lt;&lt;</a>
+                        <a class="page-numbers page_enabled" href="@Url.Action("NhomHang", new { page = Model.PageNumber - 1, CodeBrand = ViewData["CodeBrand"]})">&lt;</a>
+                    }
+                    @if (startPage > 1)
+                    {
+                        if (startPage > 2)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @for (var i = startPage; i <= endPage; i++)
+                    {
+                        <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("NhomHang", new { page = i, CodeBrand = ViewData["CodeBrand"] })">@i</a>
+                    }
+                    @if (endPage < Model.PageCount)
+                    {
+                        if (endPage < Model.PageCount - 1)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("NhomHang", new { page = Model.PageNumber + 1, CodeBrand = ViewData["CodeBrand"] })">&gt;</a>
+                    }
+                    @if (Model.PageNumber < Model.PageCount)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("NhomHang", new { page = Model.PageCount,CodeBrand = ViewData["CodeBrand"] })">&gt;&gt;</a>
+                    }
+
+
+                </div>
+                @{
+                    if (!String.IsNullOrEmpty(CateChildInfo.Mota))
+                    {
+                        <div class="mota_nhom">@Html.Raw(CateChildInfo.Mota)<div class="gradient"></div></div>
+                    }
+                }
+                <div class="w-100">
+                    <div class="product-left_blog-content_showmore">
+                        <a href="javascript:void(0);" class="button_readmore" style="display: none;">Xem thêm</a>
+                        <a href="javascript:void(0);" class="button_readless" style="display: none;">Rút gọn</a>
+                    </div>
+                </div>
+                <ul class="top-category">
+                    @foreach (var botcate in CateChild_List)
+                    {
+                        <li>
+                            <a title="" asp-action="NhomHang" asp-route-LinkUrl="@botcate.LinkUrl">
+                                @botcate.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        bMobile = DetectMobile();
+        if (bMobile == 1) {
+            $('.page_left').detach().appendTo('#mobile_side');
+        }
+    });
+</script>
+<div id="mobile_side"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var maxHeight = "300px";
+        var height = $(".mota_nhom").height();
+        if (height > 300) {
+            $(".mota_nhom").height(maxHeight);
+            $(".button_readmore").show();
+            $(".button_readless").hide();
+            $(".gradient").show();
+        } else {
+            $(".button_readmore").hide();
+            $(".button_readless").hide();
+            $(".gradient").hide();
+        }
+        $('.button_readmore').click(function () {
+            $(".mota_nhom").height("100%");
+            $(".button_readmore").hide();
+            $(".button_readless").show();
+            $(".gradient").hide();
+        });
+        $('.button_readless').click(function () {
+            $(".mota_nhom").height(maxHeight);
+            $(".button_readmore").show();
+            $(".button_readless").hide();
+            $(".gradient").show();
+        });
+    });
+</script>

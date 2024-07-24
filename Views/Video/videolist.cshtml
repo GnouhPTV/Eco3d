@@ -1,0 +1,75 @@
+﻿@using Data.Models
+@model IPagedList<ListMediaModel>
+@using X.PagedList
+@{
+    ViewData["Title"] = "Video giới thiệu - hướng dẫn sản phẩm";
+}
+
+
+<section id="library" class="page-library">
+    <div class="container">
+        <div class="breadcrumbs w-100">
+            <ul>
+                <li>
+                    <a href="/" title="Trang chủ">
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        video
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="libraryVideo main">
+            <div class="--children">
+                <div class="--title-1 aos-init aos-animate" data-aos="fade-up">
+                    <h2>Video</h2><span>ECO3D</span>
+                </div>
+                <div class="list_video">
+                    <div class="row">
+                        @foreach (var video in Model)
+                        {
+                            <div class="col-md-4 aos-init aos-animate item_video" data-aos="fade-up" data-aos-delay="100">
+                                <div class="--video img_hover">
+                                    <a class="video-popup fancybox" rel="noreferrer" href="@video.VideoUrl" data-fancybox="VideoHome" data-img="@video.ImageUrl">
+                                        <div class="--img">
+                                            <img src="@video.ImageUrl" alt="@video.Name">
+                                        </div>
+                                        <div class="--play --link">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </a>
+                                    <h3>@video.Name</h3>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-5 flex-wrap">
+                        @if (Model.HasPreviousPage)
+                        {
+                            <li class="page-item ">
+                                <a class="page-link --link" href="@Url.Action("videolist", new { page = Model.PageNumber - 1})">&lt;&lt;</a>
+                            </li>
+                        }
+                        @for (var i = 1; i <= Model.PageCount; i++)
+                        {
+                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                <a class="--link page-link" href="@Url.Action("videolist", new { page = i })">@i</a>
+                            </li>
+                        }
+                        @if (Model.HasNextPage)
+                        {
+                            <li class="page-item ">
+                                <a class="--link page-link" href="@Url.Action("videolist", new { page = Model.PageNumber + 1 })">&gt;&gt;</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>

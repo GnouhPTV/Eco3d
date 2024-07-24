@@ -1,0 +1,84 @@
+﻿@charset "utf-8";
+@import "template.css";
+.clear{clear:both}
+body
+{
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    background: #fff;
+}
+a
+{
+  color: #444444;
+}
+a.active
+{
+    color: #ff5500;
+    text-decoration: none;
+    outline: 0;
+}
+a:hover,
+a:focus {
+    color: #ff5500;
+    text-decoration: none;
+    outline: 0;
+}
+h1, h2, h3, h4, h5, h6
+{
+    margin:10px 0px;
+}
+ul, ol {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+
+/*---------thông số chi tiết---------*/
+.thong-so-chi-tiet
+{
+    margin:15px 0;
+}
+.thong-so-chi-tiet table
+{
+    border: 1px solid #eee;
+}
+.thong-so-chi-tiet table tr:nth-child(2n)
+{
+    background-color: #f8f8f8;
+}
+.thong-so-chi-tiet table tr td
+{
+    padding:5px;
+}
+.thong-so-chi-tiet table tr td.ten-ts
+{
+    font-weight: 600;
+    vertical-align: top;
+    width: 160px;
+    font-size: 16px;
+    padding: 10px;
+}
+.thong-so-chi-tiet table tr td.giatri-ts p
+{
+    padding-left: 12px;
+    margin-bottom: 5px;
+    position:relative;
+}
+.thong-so-chi-tiet table tr td.giatri-ts p a:before
+{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: #34a105;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+

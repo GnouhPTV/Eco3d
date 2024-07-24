@@ -1,0 +1,171 @@
+﻿@using Lib
+@using Data.Models
+@{
+    var modelSlide = ViewData["SlideModel"] as IEnumerable<SlideModel>;
+    var modelBanner = ViewData["BannerModel"] as IEnumerable<SlideModel>;
+    var modelSlideCTV = ViewData["BannerCTVModel"] as IEnumerable<SlideModel>;
+    var modelBranch = ViewData["BranchListModel"] as List<HangsxModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = @Lib.XML.SystemXML("TitleHome");
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = @Lib.XML.SystemXML("TitleHome");
+    ViewData["Description"] = @Lib.XML.SystemXML("DescriptonHome");
+    ViewData["Image"] = @Lib.XML.SystemXML("HomeImageTop8");
+}
+
+<!-- Start: Slideshow -->
+<section class="slider-area">
+    @await Html.PartialAsync("~/Views/Home/SlideMain.cshtml", modelSlide)
+</section>
+<div id="web_content">
+    <div class="container">
+        <div class="services-home">
+            <div class="banner-policy">
+                <div class="policy  wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                    <div class="inner">
+                        <a title="" href="/tin-tuc/eco3d-mien-phi-giao-hang-tren-toan-quoc">
+                            <em class="fa fa-truck"></em><span>
+                                Miễn phí vận chuyển<br>
+                                <i>Áp dụng cho tất cả đơn hàng</i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="policy wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                    <div class="inner">
+                        <a title="" href="javascript:void(0)">
+                            <em class="fa fa-award"></em><span>
+                                Nhập khẩu chính hãng<br>
+                                <i>Chuyên cung cấp các hàng chính hãng</i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="policy wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                    <div class="inner">
+                        <a title="" href="javascript:void(0)">
+                            <em class="fa fa-cogs"></em><span>
+                                Hỗ trợ 24/7<br>
+                                <i>Độ ngũ nhân viên hỗ trợ 24/7</i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="policy wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                    <div class="inner">
+                        <a title="" href="/tin-tuc/chinh-sach-dai-ly">
+                            <em class="fa fa-cart-arrow-down"></em><span>
+                                Chính sách làm đại lý<br>
+                                <i>Đại lý được hưởng khoản chiết khấu cao</i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear-fix"></div>
+        @* <section id="home-category" class="home-category">
+            <div class="title-group">
+                <a href="/danh-muc-san-pham">
+                    <h1 class="title">Danh mục</h1>
+                </a>
+                <a href="~/danh-muc-san-pham" id="btnViewMoreCategory" class="btn-view-more">Xem thêm <i class="fal fa-angle-double-right"></i></a>
+            </div>
+            <div class="content">
+                <div class="bg"></div>
+                <ul id="homecategory_ul" data-load="0">
+                </ul>
+                <input type="hidden" id="loadCategory" value="0" />
+            </div>
+        </section> *@
+        <section id="home-category" class="home-category" itemscope itemtype="http://schema.org/ItemList">
+            <div class="title-group">
+                <a href="/danh-muc-san-pham" itemprop="url">
+                    <h1 class="title" itemprop="name">Danh mục</h1>
+                </a>
+                <a href="~/danh-muc-san-pham" id="btnViewMoreCategory" class="btn-view-more" itemprop="url">Xem thêm <i class="fal fa-angle-double-right"></i></a>
+            </div>
+            <div class="content" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <div class="bg"></div>
+                <ul id="homecategory_ul" data-load="0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <!-- Add individual list items here -->
+                </ul>
+                <input type="hidden" id="loadCategory" value="0" itemprop="numberOfItems" />
+            </div>
+        </section>
+    </div>
+    <partial name="~/Views/Home/HomeIndustry.cshtml"></partial>
+    @* <partial name="~/Views/Home/BannerPanoLink.cshtml"></partial> *@
+    @await Html.PartialAsync("~/Views/Home/BannerPanoLink.cshtml", modelBanner)
+    <div class="bg_container_g pt-25 pb-30">
+        <div class="container ">
+            <partial name="~/Views/Home/HomeService.cshtml"></partial>
+        </div>
+    </div>
+    <div class="bg_container_w pt-25 pb-50">
+        <div class="container home-album-contain ">
+            <partial name="~/Views/Home/HomeVideo.cshtml"></partial>
+        </div>
+    </div>
+    <div class="bg_container_g pt-30 pb-30">
+        <div class="container ">
+            @await Html.PartialAsync("~/Views/Home/HomeBranch.cshtml", modelBranch)
+        </div>
+    </div>
+    <div class="bg_container_w">
+        <div class="container ">
+            @await Html.PartialAsync("~/Views/Home/SlideCTV.cshtml", modelSlideCTV)
+            <partial name="~/Views/Home/HomeNews.cshtml"></partial>
+        </div>
+    </div>
+    @* <div class="bg_container_w">
+    <div class="container ">
+    <div id="viewedProducts" data-load="1"></div>
+    </div>
+    </div> *@
+</div>
+
+<a id="ctl00_MainContent_lbtnClearCache" href="javascript:__doPostBack('ctl00$MainContent$lbtnClearCache','')"
+   style="position: fixed; bottom: 0; left: 0; width: 30px; height: 30px;"> </a>
+
+<script type="text/javascript">
+    var pagesizeCate = 5;
+    var idCateListHome = $('#homecategory_ul');
+    $(window).scroll(function () {
+        // var sTop = $(this).scrollTop();
+        // var sttLoad = Math.floor(sTop / 400) + 1;
+        // var isLoad = $("#homecategory_ul").attr("data-load");
+        // if (sttLoad >= 1 & isLoad == "0") LoadHomeCategory(0);
+        var hT = idCateListHome.offset().top,
+            hH = idCateListHome.outerHeight(),
+            wH = $(window).height(),
+            wS = $(this).scrollTop();
+        if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+            if ($("#loadCategory").val() == "0") {
+                LoadHomeCategory();
+            }
+            $("#loadCategory").val("1");
+        }
+    });
+    function LoadHomeCategory() {
+        $('#txtTopCategory').val(top);
+        var container = "#homecategory_ul";
+        // Load Ajax
+        $.ajax({
+            type: 'Get',
+            data: {},
+            url: '/Home/ListCateHome',
+            success: function (msg) {
+                $(container).append(msg);
+            },
+            beforeSend: function () {
+                $(container).attr("data-load", 1);
+            },
+            complete: function () {
+                $("#home-category").show();
+            }
+        });
+    }
+</script>

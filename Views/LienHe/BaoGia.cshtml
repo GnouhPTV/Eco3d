@@ -1,0 +1,360 @@
+﻿@using Lib
+<div id="formBaoGia" class="popup popup-bg">
+    <a href="javascript:void(0);" class="popup-close" onclick="OnCloseBaoGia();" title="close">
+    </a>
+    <div id="bodyBaoGia">
+        <h4>
+            Gửi yêu cầu báo giá
+        </h4>
+        <div id="btm-comment" class="row-8">
+            <div id="bg_note" class="col-md-6">
+                <div class="note_content Nho" style="display: block;">
+                    <p><em>Cảm ơn Quý khách đã quan tâm tới sản phẩm! Quý khách mua số lượng lớn sẽ có giá chiết khấu tốt nhất:</em></p>
+                    <p>Tel: <a href="tel:@Lib.XML.SystemXML("RegHotline")">@Lib.XML.SystemXML("RegHotline")</a> - Email: <a href="mailto:@Lib.XML.SystemXML("RegEmail")">@Lib.XML.SystemXML("RegEmail")</a></p>
+                    @*     <p>@Lib.XML.SystemXML("Hotline3")</p> *@
+                </div>
+                <div class="note_content Lon">
+                </div>
+                <div class="note_content Daily">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input id="txtEmailTV" type="text" required=""
+                       placeholder="Email" style="width: 200px; margin: 0px" onchange="LoadInfoCustomer();" />&nbsp;
+                <input id="txtNameTV" type="text" required=""
+                       placeholder=" Họ và Tên" style="width: 200px; margin: 0px; " /><br />
+                <input id="txtTelTV" type="text" required=""
+                       placeholder="Điện thoại" style="width: 200px; margin: 0px" />&nbsp;<br />
+                <textarea class="input easyui-validatebox validatebox-text" id="txtContentTV" style="width:100%" rows="3" placeholder="Ghi chú"></textarea>
+                <select id="ddlPrice" class="input" style="margin: 0; display: none">
+                    <option value="BG1">Số lượng 1</option>
+                    <option value="BG2">Số lượng 2</option>
+                    <option value="BG3">Số lượng 3</option>
+                </select>&nbsp;
+                <br />
+                <span id="spNameCompany" style="font: italic 12px Arial; color: #f00;"></span>
+                <input type="hidden" id="txtCompany" />
+            </div>
+            @* <div class="col-md-6">
+            <div class="group-control group-control-input">
+            <label><span>Link file </span></label>
+            <input id="txtLinkFile" placeholder="Link file" class="input" type="text" data-options="tipPosition:'top'" />
+            </div>
+            </div> *@
+            @*   <div id="btm-comment" class="row">
+            <div class="col-md-6">
+            <div class="group-control group-control-input">
+            <label style="display: block;"><span>Họ tên </span></label>
+            <input id="txtNameTV" placeholder="Họ tên" class="input" type="text" required="true" data-options="tipPosition:'top'" />
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="group-control group-control-input">
+            <label><span>Email </span></label>
+            <input id="txtEmailTV" placeholder="Email" class="input" type="text" validtype="email" required="true" data-options="tipPosition:'top'" />
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="group-control group-control-input">
+            <label><span>Số điện thoại</span></label>
+            <input id="txtTelTV" placeholder="Số điện thoại" class="input" type="text" validtype="phone" required="true" data-options="tipPosition:'top'" />
+            <input type="text" name="FixCokkie" value="" style="position: absolute; height: 1px; width: 1px; opacity: 0" />
+            </div>
+
+            </div>
+            <div class="col-md-6">
+            <div class="group-control group-control-input">
+
+            <label><span>Link file </span></label>
+            <input id="txtLinkFile" placeholder="Link file" class="input" type="text" data-options="tipPosition:'top'" />
+            </div>
+            </div>
+            <div class="col-md-12">
+            <div class="group-control group-control-textarea">
+
+            <textarea id="txtContentTV" placeholder="Lời nhắn" class="input input-contet" required="true" cols="1" rows="1" clientidmode="Static" data-options="tipPosition:'top'"
+            runat="server"></textarea>
+            </div>
+            </div>
+            <div class="tbl-scroll">
+            <table width="100%" id="tblpricelist" class="table table-hover table-bordered">
+            <thead>
+            <tr style="font-weight: bold;background:#428bca;">
+            <td colspan="2">
+            Sản phẩm
+            </td>
+            <td align="left">
+            Số lượng
+            </td>
+            <td align="center" style="padding:10px 0">
+            Xóa
+            </td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            <tr id="tr-footer" style="font-weight: bold">
+            <td>
+            </td>
+            <td align="right">
+            Tổng :
+            </td>
+            <td id="total-quantity" align="center">
+            </td>
+            <td>
+            </td>
+            </tr>
+            </tfoot>
+            </table>
+            <center class="loadding">
+            </center>
+            </div>
+            <div class="col-md-12">
+            <div id="formTVLoading"></div>
+            <input type="hidden" id="txtSupportTV" value="sale@gsi.com.vn" />
+            <input type="button" id="btnSendEmailTV" class="btn btn-default btn-comment" value="Gửi yêu cầu" onclick="SendMailTV()" style="margin-left: 0" />
+            </div>
+            </div> *@
+            <table width="100%" id="tblpricelist" class="table table-hover table-bordered">
+                <thead>
+                    <tr style="font-weight: bold;background:#428bca;">
+                        <td colspan="2">
+                            Sản phẩm
+                        </td>
+                        <td align="left">
+                            Số lượng
+                        </td>
+                        <td align="center" style="padding:10px 0">
+                            Xóa
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr id="tr-footer" style="font-weight: bold">
+                        <td>
+                        </td>
+                        <td align="right">
+                            Tổng :
+                        </td>
+                        <td id="total-quantity" align="center">
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <div class="clear"></div>
+
+        <a class="cart-nav" href="javascript:void(0)" onclick="OnCloseBaoGia();">
+            <i class="icon">
+            </i>Tiếp tục chọn sản phẩm
+        </a>
+        <div id="formTVLoading"></div>
+ @*        <input type="hidden" id="txtSupportTV" value="sale@gsi.com.vn" /> *@
+        <input type="button" id="btnSendEmailTV" class="bt-dathang pull-right" value="Gửi yêu cầu" onclick="SendMailBaoGia()" style="margin-left: 0" />
+    </div>
+</div>
+<script>
+    $("#ddlPrice").on("click", function () {
+        var opt = $("#ddlPrice").val();
+        $("#bg_note .note_content").hide();
+        if (opt == "Nho") {
+            $("#bg_note .Nho").show();
+            $("#ddlPrice").val("Nho");
+        }
+        if (opt == "Lon") {
+            $("#bg_note .Lon").show();
+            $("#ddlPrice").val("Lon");
+        }
+        if (opt == "Daily") {
+            $("#bg_note .Daily").show();
+            $("#ddlPrice").val("Daily");
+        }
+    });
+    function OpenPopupBaoGiaCustomer(opt) {
+        $("#bg_note .note_content").hide();
+        var isMobile = DetectMobile();
+        if (isMobile == "1") {
+            $("#bg_note .note_content p").hide();
+            $("#bg_note .note_content p:contains('Email:')").show();
+        }
+        console.log(opt);
+        if (opt == "BG1") {
+            $("#bg_note .Nho").show();
+            $("#ddlPrice").val("BG1");
+        }
+        if (opt == "BG2") {
+            $("#bg_note .Daily").show();
+            $("#ddlPrice").val("BG2");
+        }
+        if (opt == "BG3") {
+            $("#bg_note .Lon").show();
+            $("#ddlPrice").val("BG3");
+        }
+
+        $('#formBaoGia').bPopup({
+            modalClose: false,
+            opacity: 0.6,
+            easing: 'easeOutBack',
+            transition: 'slideDown'
+        });
+        $("#tblpricelist").find('tbody').remove();
+        $('.loadding').html('<img src="/Images/loading2.gif" />');
+        document.getElementById('tr-footer').style.display = 'none';
+        setTimeout(
+            function () {
+                buildGridBaoGia();
+                $('.loadding').html('');
+                document.getElementById('tr-footer').style.display = 'table-row';
+            }, 1000);
+    }
+    function OnCloseBaoGia() {
+        var bPopup = $('#formBaoGia').bPopup();
+        bPopup.close();
+    }
+    function LoadInfoCustomer() {
+        var email = $("#txtEmailBG").val();
+        if (IsEmail(email)) {
+            $.ajax({
+                type: "POST",
+                url: "/ManageCart/LoadInfoCustomer",
+                data: "{keyword: '" + email + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var item = response.d;
+                    $("#txtNameBG").val(item.Delegate);
+                    $("#txtPhoneBG").val(item.Telephone);
+                    if (item.CustomerName != '' && item.CustomerName != null) {
+                        $("#txtCompany").val(item.CustomerName);
+                        $("#spNameCompany").html(item.CustomerName);
+                    } else {
+                        $("#spNameCompany").html('');
+                        $("#txtCompany").val('');
+                    }
+                }
+            });
+        }
+    }
+</script>
+<script type="text/javascript">
+    function validateFormFields() {
+        var name = $("#txtNameTV").val().trim();
+        if (name.length < 6) {
+            ShowMessageW("Vui lòng nhập đầy đủ họ tên");
+            return false;
+        }
+        var email = $("#txtEmailTV").val().trim();
+        if (email.length < 6) {
+            ShowMessageW("Địa chỉ email không hợp lệ.");
+            return false;
+        }
+        var phone = $("#txtTelTV").val().trim();
+        var phoneRegex = /^(0|\+84)(2|3|5|7|8|9)\d{7,12}$/;
+        if (!phoneRegex.test(phone)) {
+            ShowMessageW("Số điện thoại không hợp lệ.");
+            return false;
+        }
+        return true;
+    }
+    function collectProductInfo() {
+        var products = [];
+        $('#tblpricelist tbody tr').each(function () {
+            var product = {
+                image: $(this).find('td.code img').attr('src'),
+                name: $(this).find('td.name').text().trim(),
+                quantity: $(this).find('td.quantity input').val().trim(),
+            };
+            products.push(product);
+        });
+        return products;
+    }
+
+    function SendMailBaoGia() {
+        if (!validateFormFields()) {
+            return;
+        }
+        var valid = $("#btm-comment").form('validate');
+        if (valid === false) {
+            return false;
+        }
+        var catcha = $("#txtCaptchaCheckOut").val();
+        var catchacheck = $("#imgcaptchaCheckOut").val();
+        if (catcha != catchacheck) {
+            ShowMessageW("Nhập sai mã Catpcha"); return;
+        }
+
+        $("#btnSendEmail").addClass("disabled");
+
+        sendmail_baogia();
+    }
+
+    function sendmail_baogia() {
+        var products = collectProductInfo();
+        var productDetails = JSON.stringify(products);
+        var name = $("#txtNameTV").val();
+        var phone = $("#txtTelTV").val();
+        var email = $("#txtEmailTV").val();
+        var content = $("#txtContentTV").val();
+        var url = window.location;
+        content += "<br>Link: " + url;
+        var supportmail = $("#txtSupportTV").val();
+        var requestData = {
+            content: content,
+            name: name,
+            phone: phone,
+            email: email,
+            supportmail: supportmail,
+            productDetails: productDetails,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Email/SendEmailBaogia",
+            data: JSON.stringify(requestData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                $('#formTVLoading').html('<img src="/Images/loading2.gif" />');
+            },
+            headers: {
+                RequestVerificationToken: csrfToken
+            },
+            success: function (response) {
+                var check = response
+                if (check == 1) {
+                    ShowMessage("Bạn đã gửi mail thành công.");
+                    $('#formTVLoading').html('');
+                    $('#txtEmailTV').val('');
+                    $('#txtNameTV').val('');
+                    $('#txtTelTV').val('');
+                    $('#txtContentTV').val('');
+
+                    $('#ddlPrice').val('');
+
+                    $('#tblpricelist tbody').empty();
+
+                    $('#total-quantity').text('0');
+
+                    OnCloseBaoGia();
+
+                }
+                else {
+                    ShowMessageW(check);
+                }
+                $('#formTVLoading').html('');
+                $("#btnSendEmail").removeClass("disabled");
+            },
+            error: function (error) {
+                alert("thất bại");
+                $('#formTVLoading').html('');
+                $("#btnSendEmail").removeClass("disabled");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,227 @@
+﻿@using Data.Models
+@model Data.Models.DetailList
+@{
+    ViewData["RegWebsite"] = Lib.XML.SystemXML("RegWebsite") + "/tin-tuc";
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = ViewData["NameNews"];
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = ViewData["NameNews"];
+    ViewData["Description"] = ViewData["SeoDescription"];
+    ViewData["Image"] = ViewData["Image"];
+}
+<script src="~/Scripts/TableContent/Sizzle.js" asp-append-version="true"></script>
+<link href="~/Scripts/TableContent/ftoc.min.css" rel="stylesheet" />
+<div class="breadcrumbs w-100">
+    <div class="container">
+        <ul>
+            <li>
+                <a href="/" title="Trang chủ">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a href="/tin-tuc" title="Tin tức">
+                    Tin tức
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="bg_container_w">
+    <div class="container ">
+        <div id="web_mainbody" class="row main-content news-detail">
+            <div class="box-inner col-md-9 col-main">
+                @foreach (var tintuc in Model.NewsDetail)
+                {
+                    <h1 class="article-title">@tintuc.Name</h1>
+                }
+                <div class="post-content">
+                    <div class="post-summary-header">
+                        <div class="news-detail-top">
+                            @foreach (var tintuc in Model.NewsDetail)
+                            {
+                                <div class="date"><i class="far fa-calendar-alt"></i>&nbsp;Ngày đăng: <span>@tintuc.CreateDate</span></div>
+                            }
+                            <div class="col-right">
+                                <ul class="share_buttons">
+                                    <li class="plusone">
+                                        <div class="g-plusone" data-size="medium"></div>
+                                    </li>
+                                    @foreach (var tintuc in Model.NewsDetail)
+                                    {
+                                        <li class="fa_send">
+                                            <div class="fb-send" data-href="https://eco3d.vn/tin-tuc/ @tintuc.LinkHref"></div>
+                                        </li>
+                                        <li class="facebook">
+                                            <div class="fb-like fb_iframe_widget" data-href="https://eco3d.vn/tin-tuc/ @tintuc.LinkHref" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        @foreach (var tintuc in Model.NewsDetail)
+                        {
+                            <blockquote class="pre">
+                                @tintuc.HeadShort
+                            </blockquote>
+                        }
+                        <div class="table-content">
+                            <ul id="cont" class="tc-list"></ul>
+                        </div>
+                        <div class="post-body not-copy content_bold">
+                            @foreach (var tintuc in Model.NewsDetail)
+                            {
+                                @* @Html.Raw(tintuc.Description) *@
+                                @Html.Raw(ViewData["ContentHTML"])
+                            }
+                        </div>
+                        <div class="clear"></div>
+                        <div class="box-share clearfix hide">
+                            <div class="text">
+                                <img class="" src="/images/text-social.png" alt="">
+                            </div>
+                            <div class="social">
+                            </div>
+                        </div>
+                        <div class="news-ext news-ext-detail">
+                            <div class="share_link">
+                                <label>Chia sẻ: </label>
+                                <a target="_blank" class="share_fb" href="https://www.facebook.com/sharer/sharer.php?u=@canonicalUrl"><i class="fa fa-facebook-f"></i></a>
+                                <a target="_blank" class="share_twit" href="https://twitter.com/intent/tweet?url=@canonicalUrl"><i class="fa fa-twitter"></i></a>
+                                <a target="_blank" class="share_pinterest" href="https://pinterest.com/pin/create/button/?url=@canonicalUrl"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                        </div>
+                        <div id="news-relate">
+                            <div class="title-group">
+                                <h2 class="title">Tin tức</h2>
+                            </div>
+                            <div class="news-relate-wrapp">
+                                <div class="list-news-relate owl-carousel owl-loaded owl-drag" id="relate_news_data">
+                                    @foreach (var tintuc in Model.NewsList)
+                                    {
+                                        <div class="news_item_wrap">
+                                            <div class="news_item shadow-2">
+                                                <a class="news-thum" href="@Url.Action("TinTucDetail", new { LinkHref = tintuc.LinkHref })">
+                                                    <img alt="@tintuc.Name" src="@tintuc.ImageLink" onerror="this.src=&quot;/Images/no-img.jpg&quot;" />
+                                                </a>
+                                                <div class="news-source">
+                                                    <span class="sDate">
+                                                        <i class="fa fa-calendar-o"></i>
+                                                        &nbsp;@tintuc.CreateDate
+                                                    </span>
+                                                </div>
+                                                <div class="news-cont">
+                                                    <a href="@Url.Action("TinTucDetail", new { LinkHref = tintuc.LinkHref })">
+                                                        @tintuc.Name
+                                                    </a>
+                                                    <p class="max3">
+                                                        @tintuc.HeadShort
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @foreach (var tintuc in Model.NewsDetail)
+                {
+                    <div class="fb-comments" data-width="100%" data-href="https://eco3d.vn/tin-tuc/ @tintuc.LinkHref" data-colorscheme="light"></div>
+                }
+            </div>
+            <div class=" col-md-3 sidebar">
+                <div class="box-inner sticky">
+                    <div class="widget widget-news-search">
+                        <form id="news-searchbox" method="get" action="#">
+                            <input class="search_query form-control ui-autocomplete-input" type="text" id="searchTextNews" maxlength="90" placeholder="Tìm kiếm bài viết...." value="" autocomplete="off">
+                            <a id="btnSearchNews" onclick="return false;" class="btn2-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                        </form>
+                    </div>
+                    <!-- Start categories-->
+                    <div class="widget widget-categories">
+                        <h3 class="sb-title">Thể loại tin</h3>
+                        <div class="widget-container">
+                            <ul class="list-item pb-15">
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-tuc-thi-truong" title="Tin tức thị trường">Tin tức thị trường</a></li>
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tu-van-giai-phap" title="Tư vấn giải pháp">Tư vấn giải pháp</a></li>
+                                <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-cong-ty" title="Tin tức công ty">Tin tức công ty</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Start Popular Post-->
+                    <div class="widget widget-popular-posts">
+                        <h3 class="sb-title">Bài viết mới</h3>
+                        <ul class="list-item">
+                            @foreach (var tintuc in Model.NewsList)
+                            {
+                                <li>
+                                    <div class="widget-thumb">
+                                        <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" title="@tintuc.Name">
+                                            <img title="@tintuc.Name" alt="" src="@tintuc.ImageLink">
+                                        </a>
+                                    </div>
+                                    <div class="widget-content">
+                                        <h4 class="wg-title"><a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref">@tintuc.Name</a></h4>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Start Social box-->
+                    <div class="widget widget-social">
+                        <h3 class="sb-title">Page Facebook</h3>
+                        <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+                        <div class="clear-fix" style="margin:10px 0">
+                            <a target="_blank" title="Đăng ký cộng tác viên">
+                                <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ftwp-container" class="ftwp-wrap ftwp-middle-left ftwp-maximize ftwp-animate-zoom-in ftwp-fixed-to-post">
+        <a id="ftwp-trigger" class="ftwp-shape-round ftwp-border-medium ftwp-transform-right-center" onclick="ShowMenuTableFix();"
+           title="click To Maximize The Table Of Contents" style="right: calc(50% - 586px); left: auto;">
+            <i class="far fa-list"></i>
+        </a>
+        <nav id="ftwp-contents" class="nav_content table-content ftwp-shape-square ftwp-border-medium ftwp-transform-right-center "
+             style="right: calc(50% - 586px); left: auto; top: 120px; min-height: 300px;">
+            <header id="ftwp-header">
+                <i class="far fa-list"></i>
+                <h2 id="ftwp-header-title">Nội dung bài viết</h2>
+                <a id="ftwp-header-minimize" class="" onclick="HideMenuTableFix()"><i class="far fa-times"></i></a>
+            </header>
+            <ul id="ftwp-list" class="tc-list ftwp-liststyle-none ftwp-effect-bounce-to-left ftwp-list-nest ftwp-strong-first ftwp-colexp ftwp-colexp-icon"
+                style="min-height: 300px;">
+            </ul>
+        </nav>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            LoadRelateNews();
+        });
+        function LoadRelateNews() {
+            $("#relate_news_data").owlCarousel({
+                items: 3,
+                loop: false,
+                nav: true,
+                navText: ["<i class='fa fa-long-arrow-left'></i>", "<i class='fa fa-long-arrow-right'></i>"],
+                dots: false,
+                responsive: {
+                    0: { items: 1 },
+                    568: { items: 1 },
+                    768: { items: 3 }
+                },
+                autoplay: true,
+                autoplayHoverPause: true
+            });
+        }
+
+    </script>

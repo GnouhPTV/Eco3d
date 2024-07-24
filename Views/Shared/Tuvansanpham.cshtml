@@ -1,0 +1,14 @@
+﻿@using Data.Models
+@{
+}
+@model NewsModel
+<li>
+    <div class="widget-thumb">
+        <a href="/tin-tuc/@Model.LinkHref" title="@Model.Name">
+            <img title="@Model.Name" alt="" src="@Model.ImageLink">
+        </a>
+    </div>
+    <div class="widget-content">
+        <h4 class="wg-title"><a href="/tin-tuc/@Model.LinkHref">@Model.Name</a></h4>
+    </div>
+</li>

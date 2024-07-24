@@ -1,0 +1,160 @@
+﻿@using Lib
+@using Data.Models
+@{
+    ViewData["Title"] = ViewData["Nametuyendung"];
+    var modelSlideCTV = ViewData["BannerCTVModel"] as IEnumerable<SlideModel>;
+    var modelBranch = ViewData["BranchListModel"] as List<HangsxModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = ViewData["NameNews"];
+    ViewData["Description"] = ViewData["Description"];
+    ViewData["Image"] = ViewData["Image"];
+}
+@model Data.Models.DetailList
+
+<div class="container clearfix">
+    <div class="breadcrumbs w-100">
+        <ul>
+            <li>
+                <a href="/" title="Trang chủ">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a href="/tuyen-dung" title="Tuyển dụng">
+                    Tuyển dụng
+                </a>
+            </li>
+            <li>
+                @foreach (var tuyendung in Model.NewsDetail)
+                {
+                    <a>@tuyendung.Name</a>
+                }
+            </li>
+        </ul>
+    </div>
+    <div class="w-100">
+        <div class="row">
+            @foreach (var tuyendung in Model.NewsDetail)
+            {
+                <div id="web_mainbody" class="col-md-9">
+                    <h1 class="article-title">@tuyendung.Name</h1>
+                    <div class="post-content">
+                        <div class="post-summary-header">
+                            <div class="head-share"  style="padding-bottom: 20px;">
+                                <div class="col-md-12"><i class="fa fa-calendar"></i> @tuyendung.CreateDate</div>
+                            </div>
+                            <div class="post-body not-copy content_bold">
+                                @Html.Raw(ViewData["ContentHTML"])
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <ul class="share_buttons">
+                                <li class="facebook">
+                                    <div class="fb-like" data-href="@Lib.XML.SystemXML("RegWebsite")/tuyen-dung/@tuyendung.LinkHref" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-md-3">
+                <div class="hide">
+                    <a id="btn_showdathang_left" href="javascript:void(0);" class="btn_tuyendung_left" onclick="NopHoSo(40,'TUYỂN NHÂN VIÊN SÁNG TẠO NỘI DUNG')">
+                        <span>Nộp hồ sơ </span>tuyển dụng online
+                    </a>
+
+                </div>
+                <!-- Start Popular Post-->
+                <div class="widget widget-popular-posts tuyendung-left ">
+                    <h3 class="sb-title">Tuyển dụng khác</h3>
+                    <ul class="list-item">
+                        @foreach (var tuyendung in Model.NewsList)
+                        {
+                            <li>
+                                <div class="widget-content tuyendung no_image">
+                                    <h4 class="wg-title"><a asp-action="TuyenDungDetail" asp-route-LinkHref="@tuyendung.LinkHref">@tuyendung.Name</a></h4>
+                                    <span class="songuoi">Ngày tạo: @tuyendung.CreateDate</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="widget widget-social">
+                    <div>
+                        <h3 class="sb-title">Page Facebook</h3>
+                        <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tuyendung-bottom mt-30">
+            <div class="fix-padding">
+                <div class="title-group">
+                    <div class="title">Tại sao chọn Eco3d</div>
+                </div>
+                <div class="row list-lydo">
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240645-lydo1.png" width="60" height="60">
+                            <p>Môi trường làm việc cởi mở</p>
+                        </div>
+                        <p>Khuyến kích mọi người đóng góp ý kiến xây dựng môi trường làm việc thân thiện, sáng tạo đóng góp vào sự phát triển công ty.</p>
+                    </div>
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240650-lydo2.png" alt="2" width="60" height="60">
+                            <p>Cân bằng giữa công việc và cuộc sống</p>
+                        </div>
+                        <p>CTy.TNHH ECO3D luôn có trách nhiệm giúp đỡ nhân viên cân bằng giữa công việc và cuộc sống.</p>
+                    </div>
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240654-lydo3.png" alt="4" width="60" height="60">
+                            <p>Cơ hội phát triển sự nghiệp</p>
+                        </div>
+                        <p>CBCNV thường xuyên được tham gia các khóa đào tạo phát triển kỹ năng nghề nghiệp (Kỹ năng cứng và kỹ năng mềm).</p>
+                    </div>
+                </div>
+                <div class="row list-lydo">
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240657-lydo4.png" alt="4" width="60" height="60">
+                            <p>Ghi nhận sự đóng góp</p>
+                        </div>
+                        <p>Luôn khuyến khích những đóng góp của anh em và kịp thời khen thưởng những nỗ lực này bằng vật chất và tinh thần.</p>
+                    </div>
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240604-lydo5.png" alt="5" width="60" height="60">
+                            <p>Tinh thần tập thể</p>
+                        </div>
+                        <p>“Khi đơn độc chúng ta làm rất ít, cùng nhau chúng ta có thể tạo ra nhiều thứ.”</p>
+                    </div>
+                    <div class="col-md-4 item">
+                        <div class="item-title">
+                            <img src="/Images/icons/2107240607-lydo6.png" alt="6" width="60" height="60">
+                            <p>Doanh thu cao, thưởng cao</p>
+                        </div>
+                        <p>Cam kết xây dựng môi trường làm việc chuyên nghiệp, sáng tạo, áp dụng công nghệ mang lại giá trị cho khách hàng chính là mang lại giá trị cho nhân viên</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @foreach (var tintuc in Model.NewsDetail)
+        {
+            <div class="fb-comments" data-width="100%" data-href="@Lib.XML.SystemXML("RegWebsite")/tin-tuc/ @tintuc.LinkHref" data-colorscheme="light"></div>
+        }
+    </div>
+</div>
+<div class="bg_container_g pt-30 pb-30">
+    <div class="container ">
+        @await Html.PartialAsync("~/Views/Home/HomeBranch.cshtml", modelBranch)
+    </div>
+</div>
+<div class="bg_container_w">
+    <div class="container ">
+        @await Html.PartialAsync("~/Views/Home/SlideCTV.cshtml", modelSlideCTV)
+    </div>
+</div>

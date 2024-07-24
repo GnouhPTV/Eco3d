@@ -1,0 +1,168 @@
+﻿@using Data.ViewModel
+@using Data.Models
+@{
+    var ModelCategoryP = ViewData["CateP"] as CategoryModel;
+    ViewData["IDNghanhHang"] = ModelCategoryP.ID;
+    ViewData["Title"] = "Sản phẩm " + ModelCategoryP.Name;
+    var listProduct = ViewData["ListProductTop"] as List<ProductStoreModel>;
+    var TinTuc = ViewData["TinTuc"] as List<NewsModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+}
+@model List<GroupProductViewModel>
+<form method="post">
+    <h1 class="hide">
+        @ModelCategoryP.Name
+    </h1>
+    <div id="web_content">
+        <div class="breadcrumbs right">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul>
+                            <li>
+                                <a href="/" title="Trang chủ">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a>@ModelCategoryP.Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 side-bar page_left">
+                    <div class="total-body">
+                        @if (ViewData["TinTuc"] != null && (ViewData["TinTuc"] as List<NewsModel>).Count > 0)
+                        {
+                            <div class="enterprise-rightContent">
+                                <h3 class="sb-title">Tư vấn sản phẩm</h3>
+                                <div class="w-100 rc12 widget-popular-posts">
+                                    <ul class="list-item">
+                                        @foreach (var tt in TinTuc)
+                                        {
+                                            <partial name="Tuvansanpham" model="tt" />
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        <div class="enterprise-rightContent  ">
+                            <h3 class="sb-title">Top sản phẩm</h3>
+                            <div class="w-100 top-products">
+                                <ul class="clearfix">
+                                    @foreach (var lp in listProduct)
+                                    {
+                                        <partial name="TopProductPartialView" model="lp" />
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget widget-social">
+                            <h3 class="sb-title">Page Facebook</h3>
+                            <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")" data-tabs="" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                <blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+                        </div>
+                        <div class="clear-fix" style="margin:10px 0">
+                            <a href="/cong-tac-vien" target="_blank" title="Đăng ký cộng tác viên">
+                                <img style="border:1px solid #e7e7e7" src="/Images/tuyen-cong-tac-vien.gif" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="web_mainbody" class="col-md-9 col-main">
+                    <div class="w-100">
+                        @if (Model.Count == 0)
+                        {
+                            <h3>Không tìm thấy kết quả!</h3>
+                        }
+                        else
+                        {
+                            foreach (var viewmodel in Model)
+                            {
+                                <div class="title-group">
+                                    <h2 class="title">@viewmodel.GroupName</h2>
+                                    <a class="view-more" asp-action="NhomHang" asp-route-LinkUrl="@viewmodel.GroupLinkUrl">
+                                        <i class="fa fa-angle-double-right"></i>  Xem thêm
+                                    </a>
+                                </div>
+                                <div class="category-products products-grid">
+                                    <ul class="clearfix">
+                                        @foreach (var product in viewmodel.Products)
+                                        {
+                                            <li class="timer-item col-sm-3 col-xs-6">
+                                                <partial name="ProductBoxLinQPartialView" model="product" />
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    </div>
+                    @{
+                        if (!String.IsNullOrEmpty(ModelCategoryP.Mota))
+                        {
+                            <div class="mota_nhom">@Html.Raw(ModelCategoryP.Mota)<div class="gradient"></div></div>
+                        }
+                    }
+                    <div class="w-100">
+                        <div class="product-left_blog-content_showmore">
+                            <a href="javascript:void(0);" class="button_readmore">Xem thêm</a>
+                            <a href="javascript:void(0);" class="button_readless" style="display: none;">Rút gọn</a>
+                        </div>
+                    </div>
+                    <ul class="top-category">
+                        @foreach (var botcate in Model)
+                        {
+                            <li>
+                                <a title="@botcate.GroupName" asp-action="NhomHang" asp-route-LinkUrl="@botcate.GroupLinkUrl">
+                                    @botcate.GroupName
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            bMobile = DetectMobile();
+            if (bMobile == 1) {
+                $('.page_left').detach().appendTo('#mobile_side');
+            }
+        });
+    </script>
+    <div id="mobile_side"></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var maxHeight = "300px";
+            var height = $(".mota_nhom").height();
+            if (height > 300) {
+                $(".mota_nhom").height(maxHeight);
+                $(".button_readmore").show();
+                $(".button_readless").hide();
+                $(".gradient").show();
+            } else {
+                $(".button_readmore").hide();
+                $(".button_readless").hide();
+                $(".gradient").hide();
+            }
+            $('.button_readmore').click(function () {
+                $(".mota_nhom").height("100%");
+                $(".button_readmore").hide();
+                $(".button_readless").show();
+                $(".gradient").hide();
+            });
+            $('.button_readless').click(function () {
+                $(".mota_nhom").height(maxHeight);
+                $(".button_readmore").show();
+                $(".button_readless").hide();
+                $(".gradient").show();
+            });
+        });
+    </script>
+</form>

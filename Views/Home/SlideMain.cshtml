@@ -1,0 +1,32 @@
+﻿@using Data.Models
+@using Lib
+@model IEnumerable<SlideModel>
+@{
+    Layout = null;
+}
+<div class="banner-wrapp">
+    <div id="silder-banner" data-load="0" class="bn-items owl-carousel owl-theme">
+        @foreach (var slide in Model)
+        {
+            <div class="bn-item" onclick="window.open('@slide.UrlLink');"
+                 data-url="@slide.UrlLink">
+                <img src="@slide.ImageUrl" alt="@slide.DataJson.GetDJ("Title")">
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var owl = $("#silder-banner");
+        owl.owlCarousel({
+            items: 1,
+            loop: true,
+            nav: true,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            smartSpeed: 3000,
+            animateOut: "zoomOut",
+            animateIn: "zoomIn",
+        });
+    });
+</script>

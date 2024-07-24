@@ -1,0 +1,228 @@
+﻿@using Data.Models;
+@using X.PagedList;
+@{
+    var TinTucList = ViewData["TinTucList"] as List<NewsModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    var DichVu = ViewData["DichVu"] as List<DM_DichVuModel>;
+    var DichVuKhac = ViewData["DichVuKhac"] as List<DM_DichVuModel>;
+    var BangGia = ViewData["BangGia"] as List<DM_BangGiaModel>;
+    var BangGia_Loai = ViewData["BangGia_Loai"] as List<DM_BangGia_LoaiModel>;
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Titlefb"] = ViewData["Title"];
+    ViewData["Description"] = @Html.Raw(ViewData["MoTa"]);
+    ViewData["Image"] = ViewData["Image"];
+}
+<title>@ViewData["Title"]</title>
+<div class="breadcrumbs w-100">
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="/" title="Trang chủ">
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                @foreach (var dichvu in DichVu)
+                {
+                    <a>@dichvu.Ten</a>
+                 }
+                </li>
+            </ul>
+        </div>
+</div>
+<div class="container clearfix">
+        <div class="row">
+            <div id="web_mainbody" class="col-md-9 main-content col-main ">
+                <div class="box-inner">
+                @foreach (var dichvu in DichVu)
+                {
+                    <h1 class="article-title">Bảng giá - @dichvu.Ten</h1>
+                }
+                    <div>
+
+                        <table class="table table-bordered table_bg">
+                            <tbody>
+                            @foreach (var dichvu1 in BangGia_Loai)
+                            {
+                                <tr>
+                                    <td colspan="3" class="loai_bg">
+                                        <h2>@dichvu1.Ten</h2>
+                                        
+                                    </td>
+                                </tr>
+                            
+                                <tr class="baogia_item_header">
+                                    <td class="name_bg">Dịch vụ</td>
+                                    <td class="dg_bg">Đơn giá</td>
+                                    <td class="dvt_bg">ĐVT</td>
+                                </tr>
+
+                                @foreach (var banggia in BangGia.Where(x => x.ID_Loai == dichvu1.ID))
+                                {
+                                <tr class="baogia_item">
+                                    <td class="name_bg">
+                                            <p class="name_item">@banggia.Ten</p>
+                                        <p class="note_item"> </p>
+                                    </td>
+                                        <td class="dongia_bg">@string.Format("{0:#,##0}", banggia.DonGia)₫</td>
+                                        <td class="dvt_bg">@banggia.DVT</td>
+
+                                </tr>
+                            }
+                                <tr>
+                                    <td colspan="3" class="rowGhiChu">
+                                    
+                                        <p>
+                                            @Html.Raw(dichvu1.GhiChu)
+                                        </p>
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="w-100">
+                    </div>
+                </div>
+            </div>
+
+            <div class=" col-md-3 sidebar">
+                <div class="box-inner sticky">
+                <div class="widget widget-news-search">
+                    <form id="news-searchbox" method="get" action="#">
+                        <input class="search_query form-control ui-autocomplete-input" type="text" id="searchTextNews" maxlength="90" placeholder="Tìm kiếm bài viết...." value="" autocomplete="off">
+                        <a id="btnSearchNews" onclick="return false;" class="btn2-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    </form>
+                </div>
+                    <div class="widget widget-categories">
+                        <div>
+                            <h3 class="sb-title">Dịch vụ khác</h3>
+                            <ul class="list-item">
+
+                            @foreach (var dichvukhac in DichVuKhac)
+                            {
+                                <li class="item-0">
+                                    <a href="/bang-gia/@dichvukhac.LinkUrl" title="">
+                                        <i class="fa fa-angle-double-right"></i>&nbsp;
+                                      @dichvukhac.Ten
+                                    </a>
+                                </li>
+                            }
+                            </ul>
+                        </div>
+                    </div>
+                <!-- Start categories-->
+                <div class="widget widget-categories">
+                    <div>
+                        <h3 class="sb-title">Thể loại tin</h3>
+                        <ul class="list-item">
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-tuc-thi-truong" title="Tin tức thị trường">Tin tức thị trường</a></li>
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tu-van-giai-phap" title="Tư vấn giải pháp">Tư vấn giải pháp</a></li>
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-cong-ty" title="Tin tức công ty">Tin tức công ty</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Start Popular Post-->
+                <div class="widget widget-popular-posts">
+                    <h3 class="sb-title">Bài viết mới</h3>
+                    <ul class="list-item">
+                        @foreach (var tintuc in TinTucList)
+                        {
+                            <li>
+                                <div class="widget-thumb">
+                                    <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" title="@tintuc.Name">
+                                        <img title="@tintuc.Name" alt="" src="@tintuc.ImageLink">
+                                    </a>
+                                </div>
+                                <div class="widget-content">
+                                    <h4 class="wg-title"><a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref">@tintuc.Name</a></h4>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <!-- Start Social box-->
+                <div class="widget widget-social">
+                    <h3 class="sb-title">Page Facebook</h3>
+
+                    <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+
+                    <div class="clear-fix" style="margin:10px 0">
+                        <a target="_blank" title="Đăng ký cộng tác viên">
+                            <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                        </a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+</div>
+<style type="text/css">
+    .loai_bg {
+        background: #eaedf5;
+    }
+
+        .loai_bg h2 {
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+    .baogia_item td {
+        background: #f0f3f5;
+    }
+
+    .baogia_item_header td {
+        background: #7b839a;
+        color: #fff;
+    }
+
+    .rowGhiChu {
+        background: #f5fafa;
+        color: #f86c6b;
+        text-align: left;
+        word-break: break-word;
+    }
+
+    .note_item {
+        color: #3993b7;
+        font-size: 13px;
+        max-width: 60vw;
+        word-wrap: break-word;
+    }
+
+    .table_bg {
+        width: 100%;
+    }
+
+        .table_bg td {
+            border: 1px solid #e2e2e2 !important;
+        }
+
+    .name_bg {
+        word-break: break-word;
+        padding: 10px 10px 0 !important;
+    }
+
+        .name_bg p {
+            max-width: 50vw;
+            height: auto;
+            word-wrap: break-word;
+        }
+
+    .name_item {
+    }
+
+    .dongia_bg {
+        text-align: right;
+        max-width: 80px;
+    }
+
+    .dvt_bg {
+        width: 80px;
+        text-align: center;
+        max-width: 80px;
+        text-transform: capitalize;
+    }
+</style>

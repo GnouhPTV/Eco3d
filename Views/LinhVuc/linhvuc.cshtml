@@ -1,0 +1,78 @@
+﻿@using Data.Models
+@using X.PagedList;
+@model IPagedList<ProductStoreModel>
+@{
+    ViewData["Title"] = "Sản phẩm dùng cho các lĩnh vực trong bảo hộ lao động";
+    var loaihanginfo = ViewData["LinkLH"] as LoaiHangModel;
+    var listProduct = ViewData["ListProduct"] as List<ProductStoreModel>;
+    var countPr = ViewData["CountProduct"] as List<CountModel>;
+}
+<script type="text/javascript">
+    function ContentKM() {
+        var height = $(".sale_text").parent().height();
+        var width = $(".sale_text").parent().width();
+        $(".sale_text_content").css("height", "auto");
+        $(".sale_text_content").css("width", width + "px");
+    }
+    $(document).ready(function () {
+        ContentKM();
+    });
+</script>
+<div class="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li>
+                <a href="/" title="Trang chủ">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a>
+                    @loaihanginfo.Ten
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="web_content" class="container">
+    <div id="web_mainbody" class="col-sp col-main">
+        <div class="w-100">
+            <div class="title-group" style="padding: 0;">
+                <h1 class="title">@loaihanginfo.Ten</h1>
+                <span class="product-count">
+                    (Tìm thấy&nbsp;@foreach(var count in countPr){ @count.Count}&nbsp;kết quả)
+                </span>
+            </div>
+        </div>
+        @* <div class="w-100">
+            bộ lọc
+        </div> *@
+        @* Danh sách sản phẩm *@
+        <div class="product-items ">
+            @foreach (var product in Model)
+            {
+                <div class="timer-item col-sm-3 col-xs-6">
+                    <partial name="ProductBoxPartialView" model="product" />
+                </div>
+            }
+        </div>
+        <!--phân trang repeater-->
+        <div class="pagination-block">
+            @if (Model.HasPreviousPage)
+            {
+                <a class="page-numbers page_enabled" href="@Url.Action("linhvuc", new { page = Model.PageNumber - 1})">Đầu</a>
+            }
+            @for (var i = 1; i <= Model.PageCount; i++)
+            {
+                <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("linhvuc", new { page = i })">@i</a>
+            }
+            @if (Model.HasNextPage)
+            {
+                <a class="page-numbers page_enabled" href="@Url.Action("linhvuc", new { page = Model.PageNumber + 1 })">Cuối</a>
+            }
+        </div>
+        @* Nội dung mô tả loại hàng *@
+        <div class="w-100 banner-page">
+        </div>
+    </div>
+</div>

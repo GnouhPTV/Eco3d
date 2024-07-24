@@ -1,0 +1,159 @@
+﻿@using Data.ViewModel;
+@using Data.Models;
+@{
+    var HangSx = ViewData["HangSx"] as List<Productthongso>;
+    var Nhomhang_Thongso = ViewData["Nhomhang_Thongso"] as List<DM_NhomHang_ThongSoModel>;
+    var HangHoa_ThongSo = ViewData["HangHoa_ThongSo"] as List<DM_HangHoa_ThongSoModel>;
+}
+<!-- Start: Lọc sản phẩm -->
+<div class="filter-content">
+    <dl id="filter-by-list" style="margin:0">
+        <!-- Filter by manufac -->
+        <div class="filter_block">
+            <dt class="filter-brand">Thương hiệu</dt>
+            <dd>
+                <ul>
+                    @*  <li>
+                    <input type="radio" name="filter-branch" id="fbranch" value="" class="f-radio filter_checkbox" checked="checked" />
+                    <label for="fbranch" class="f-label-r"><b>Tất cả</b></label>
+                    </li> *@
+                    @foreach (var ts in HangSx)
+                    {
+                        @* <li>
+                    <input type="radio" name="filter-branch" id="branch_@ts.Id" value="@ts.Id" class="f-radio filter_checkbox" />
+                    <label for="branch_@ts.Id" class="f-label-r">@ts.Name</label>
+                    </li> *@
+                        <li class="item-hang">
+                            <a asp-action="NhomHang" asp-controller="CategoryParent" asp-route-hangsx="@ts.Id" title="@ts.Name">
+                                <img class="img_hangsx" src="@ts.ImageUrl" data-src="@ts.ImageUrl" alt="@ts.Name">
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </dd>
+        </div>
+        <!-- Filter by thông số kỹ thuật -->
+        <div class="filter_block hidden">
+            <div id="listThongSo">
+                <dt class="filter-brand">Thông số sản phẩm</dt>
+            </div>
+            @* @foreach (var ts in Nhomhang_Thongso)
+            {
+            <ul class="list-thongso w-100">
+            <p><b>@ts.Ten</b></p>
+            @foreach (var ts1 in HangHoa_ThongSo)
+            {
+            <div class="item col-sm-3 col-xs-6">
+            <label>@ts1.ID_GiaTri</label>
+            </div>
+            }
+            </ul>
+            } *@
+
+        </div>
+        <div class="filter_block hidden">
+            <dt class="filter-price">Khoảng giá</dt>
+            <dd>
+                <ol>
+                    <li>
+                        <input type="radio" name="filter-price" id="fprice" value="0" class="f-radio filter_checkbox" checked="checked" />
+                        <label for="fprice" class="f-label-r"><b>Tất cả</b></label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filter-price" id="fprice1" value="1" class="f-radio filter_checkbox" />
+                        <label for="fprice1" class="f-label-r">Dưới 500,000</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filter-price" id="fprice2" value="2" class="f-radio filter_checkbox" />
+                        <label for="fprice2" class="f-label-r">500,000 - 2 triệu</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filter-price" id="fprice3" value="3" class="f-radio filter_checkbox" />
+                        <label for="fprice3" class="f-label-r">2 triệu - 5 triệu</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filter-price" id="fprice4" value="4" class="f-radio filter_checkbox" />
+                        <label for="fprice4" class="f-label-r">Trên 5 triệu</label>
+                    </li>
+                    <div id="filter-prices">
+                        <p>Hoặc tùy chỉnh giá</p>
+                        <div class="form-group">
+                            <label for="low-price">Từ</label>
+                            <input type="text" id="low-price" class="form-control format_number" onkeyup="onKeyUpMoney(this.value,this.id);" placeholder="0" value="" />
+                            <span>₫</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="hight-price">Đến</label>
+                            <input type="text" id="high-price" class="form-control format_number" onkeyup="onKeyUpMoney(this.value,this.id);" placeholder="0" value="" />
+                            <span>₫</span>
+                        </div>
+
+                    </div>
+                </ol>
+            </dd>
+        </div>
+        @* <button type="button" class="btn" id="search-high-price" onclick="onSearchProducts();">Tìm kiếm</button> *@
+    </dl>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[type=radio][name=filter-price]').change(function () {
+            if (this.value == '0') {
+                $('#low-price').val('');
+                $('#high-price').val('');
+            } else if (this.value == '1') {
+                $('#low-price').val('');
+                $('#high-price').val('500,000');
+            } else if (this.value == '2') {
+                $('#low-price').val('500,000');
+                $('#high-price').val('2,000,000');
+            } else if (this.value == '3') {
+                $('#low-price').val('2,000,000');
+                $('#high-price').val('5,000,000');
+            } else if (this.value == '4') {
+                $('#low-price').val('5,000,000');
+                $('#high-price').val('1,000,000,000');
+            }
+        });
+    });
+    function onSearchProducts() {
+        var url = document.URL;
+        var branch = "";
+        // get branch
+        $.each($("input[name='filter-branch']:checked"), function () {
+            branch = $(this).val();
+            console.log(branch)
+        });
+        if (branch != "") {
+            url = modURLParam(url, "b", branch);
+        }
+        // get price
+        var from = $('#low-price').val();
+        var to = $('#high-price').val();
+        from = from.replace(/,/g, "");
+        to = to.replace(/,/g, "");
+        if (parseFloat(from) >= parseFloat(to)) {
+            MessageBoxWarning("Mức giá không hợp lệ.");
+            return;
+        }
+        if (parseFloat(from) > 0) {
+            url = modURLParam(url, 'f', from);
+        }
+        if (parseFloat(to) > 0) {
+            url = modURLParam(url, 't', to);
+        }
+        // get thông số kt
+        var listThongSo = "";
+        var radioGroup = $("div#listThongSo");
+        radioGroup.find('input[type="radio"]').each(function () {
+            if ($(this).is(':checked')) {
+                if (listThongSo != "") listThongSo += ",";
+                listThongSo += this.value;
+            }
+        });
+        if (listThongSo != "") {
+            url = modURLParam(url, 's', listThongSo);
+        }
+        location.href = url;
+    }
+</script>

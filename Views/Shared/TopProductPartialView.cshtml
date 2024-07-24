@@ -1,0 +1,59 @@
+﻿@using Data.Models
+@model ProductStoreModel
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@{
+}
+<li class="col-sm-12 col-xs-12 p-item">
+    <div class="item-inner">
+        <div class="col-sm-4 col-xs-4 images-container" id="productImageWrapID_@Model.Ma">
+            <a asp-controller="CategoryParent" asp-action="DetailProduct" asp-route-LinkUrl="@Model.LinkUrl" title="@Model.Ten">
+                @{
+                    var imagePath = Model.ImageViewUrl;
+                    var imagePathMLK = "Images/Products/" + Model.MaLienKet + ".jpg";
+                    var imagePathFallback = "Images/Products/" + Model.Ma + ".jpg";
+                    var physicalPathMLK = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathMLK);
+                    var physicalPathFallback = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathFallback);
+                    if (!string.IsNullOrEmpty(imagePath))
+                    {
+                        <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="@Url.Content(imagePath)" />
+                    }
+                    else if (System.IO.File.Exists(physicalPathMLK))
+                    {
+                        <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathMLK)" />
+                    }
+                    else if (System.IO.File.Exists(physicalPathFallback))
+                    {
+                        <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathFallback)" />
+                    }
+                    else
+                    {
+                        <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" onerror="this.onerror=null;this.src='/Images/no-img.jpg'"
+                             src="" />
+                    }
+                }
+            </a>
+            <a class="imgdetailhangsx hangsx_@Model.IdBranch">
+                <img src="@Model.ImageBranch" alt="@Model.NameBranch">
+            </a>
+            <div class="bottom-action hidden">
+                <a href="javascript:void(0)" class="action towishlist btn-action link-wishlist add_favorite" title="" data-id="" data-name=""></a>
+                @* <a onclick="javascript:void(0);return false;" title="Thêm vào giỏ hàng" class="btn-action btn-cart add2cart" data-id="A59R150000"></a> *@
+                @* <a href="javascript:void(0)" class="action tocompare btn-action link-compare add2compare" title="Thêm vào so sánh sản phẩm" data-id="A59R150000"></a> *@
+            </div>
+        </div>
+        <div class="col-sm-8 col-xs-8 des-container ">
+            <div class="item-info">
+                <div class="info-inner">
+                    <div class="item-title">
+                        <a asp-controller="CategoryParent" asp-action="DetailProduct" asp-route-LinkUrl="@Model.LinkUrl" title="@Model.Ten">@Model.Ten</a>
+                    </div>
+                    <div class="price-box" id="form_bg">
+                        <a href="javascript:void(0);" title="Gửi yêu cầu báo giá" data-id="@Model.Ma" data-opt="BG1" onclick="ShowYeuCauBaoGia(this)">
+                            <i class="fa fa-envelope-o"></i>&nbsp;Báo giá
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

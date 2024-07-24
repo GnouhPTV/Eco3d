@@ -1,0 +1,20 @@
+﻿@using Data.Models
+@{
+    Layout = null;
+}
+@model List<DM_DichVuModel>
+@foreach (var service in Model)
+{
+    <div class="col-sm-12">
+        <div class="content-box">
+            <a href="~/bang-gia/@service.LinkUrl" title="@service.Ten">
+                <img alt="@service.Ten" src="@service.ImageUrl" />
+            </a>
+            <h3 class="cat-title">
+                <a href="~/bang-gia/@service.LinkUrl" title="@service.Ten">
+                    @service.Ten
+                </a>
+            </h3>
+        </div>
+    </div>
+}

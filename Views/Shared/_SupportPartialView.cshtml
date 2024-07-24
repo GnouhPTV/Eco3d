@@ -1,0 +1,43 @@
+﻿@using Data.ViewModel
+@{
+    //var modelSupport = ViewData["Support"] as List<SupportViewModel>;
+}
+@model List<SupportViewModel>
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     $("#slideSupport").carousel({ interval: 8000, auto: false });
+    // });
+</script>
+<div class="SupportFooter">
+    <div class="container">
+        <div class="rc12 carousel">
+            <div class="carousel-inner" id="slideSupportFooter" data-interval="2000">
+                @foreach (var sp in Model)
+                {
+                        <div class="sp-item">
+                            <div class="avatar">
+                                <a>
+                                    <img class="img-hangsx" src="@sp.ImageUrl" alt="@sp.Ten" />
+                                </a>
+                            </div>
+                            <div class="info">
+                                <p>
+                                    <span class="name">
+                                        @sp.Ten
+                                    </span>
+                                </p>
+                                <p class="tel">
+                                    <a href="http://zalo.me/@sp.DienThoai">
+                                        <i class="lh lh_zalo"></i>
+                                        <span>@sp.DienThoai</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                }
+            </div>
+            <a class="carousel-ctr left" href="#slideSupport" data-slide="prev">‹</a>
+            <a class="carousel-ctr right" href="#slideSupport" data-slide="next">›</a>
+        </div>
+    </div>
+</div>

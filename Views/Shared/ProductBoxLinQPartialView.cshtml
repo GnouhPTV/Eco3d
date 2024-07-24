@@ -1,0 +1,89 @@
+﻿@using Data.Models
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@{
+}
+@model ProductModel
+<div class="item-inner">
+    <div class="images-container" id='productImageWrapID_@Model.Ma'>
+        <a asp-action="DetailProduct" asp-route-LinkUrl="@Model.LinkUrl" title="@Model.Ten">
+            @* <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" load-src="../Images/loading3.gif" onerror="this.onerror=null;this.src='/Images/no-img.jpg'"
+                 src="@Model.ImageViewUrl"
+                 data-src="@Model.ImageViewUrl"> *@
+            @{
+                var imagePath = Model.ImageViewUrl;
+                var imagePathMLK = "Images/Products/" + Model.MaLienKet + ".jpg";
+                var imagePathFallback = "Images/Products/" + Model.Ma + ".jpg";
+                var physicalPathMLK = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathMLK);
+                var physicalPathFallback = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathFallback);
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="@Url.Content(imagePath)" />
+                }
+                else if (System.IO.File.Exists(physicalPathMLK))
+                {
+                    <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathMLK)" />
+                }
+                else if (System.IO.File.Exists(physicalPathFallback))
+                {
+                    <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathFallback)" />
+                }
+                else
+                {
+                    <img id="img_@Model.Ma" alt="@Model.Ten" class="sp" onerror="this.onerror=null;this.src='/Images/no-img.jpg'" src="" />
+                }
+            }
+        </a>
+        @* <a class="imgdetailhangsx hangsx028" title="@Model.NameBranch">
+            <img src="@Model.ImageBranch" alt="@Model.NameBranch">
+        </a> *@
+        @* <div class="actions">
+        <div class="cart-content">
+        <a href="javascript:void(0);" onclick="" class="button btn-cart"
+        data="@Model.Ma" data-id="@Model.Ma" title="">
+        <input type="hidden" id="quantity_@Model.Ma" value="0" />
+        <i class="fa fa-shopping-cart"></i><span>
+        Báo giá
+        </span>
+        </a>
+        </div>
+        </div> *@
+    </div>
+    <div class="des-container">
+        <div class="item-info">
+            <div class="info-inner">
+                <h3 class="item-title">
+                    <a asp-action="DetailProduct" asp-route-LinkUrl="@Model.LinkUrl" title="@Model.Ten">
+                        @Model.Ten
+                    </a>
+                </h3>
+                <div class="item-content">
+                    <div class="rating-summary">
+                        <span class="label"><span>Rating:</span></span>
+                        <div class="rating-result" title="100%">
+                            <span style="width: 100%"><span>100%</span></span>
+                        </div>
+                    </div>
+                    <div class="price-box" id="form_bg">
+                        <a href="javascript:void(0);" title="Gửi yêu cầu báo giá" data-id="@Model.Ma" data-opt="BG1" onclick="ShowYeuCauBaoGia(this)">
+                            <i class="far fa-envelope-open-dollar"></i>&nbsp;Báo giá
+                        </a>
+                       @*  @if (Model.GiaLe > 0)
+                        {
+                            <span class="price">
+                                <%= string.Format("{0:#,0}", Product.Price)%><span class="unit"> ₫</span>
+                            </span>
+                        } *@
+                    </div>
+                    <div class="bottom-action hide">
+                        <button onclick="javascript:_AddToCart(this);return false;" title="Thêm vào giỏ hàng"
+                                class="btn-action btn-cart add2cart" data-id="@Model.Ma">
+                            <span>
+                                Mua hàng
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

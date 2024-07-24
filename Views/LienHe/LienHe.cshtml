@@ -1,0 +1,87 @@
+﻿@model List<Data.Models.ChiNhanhModel>
+@{
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = "Liên hệ";
+}
+<section class="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li>
+                <a href="/">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a>Hệ thống cửa hàng</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="container clearfix">
+    <div class="row">
+        <div class="col-md-4 col-lg-4 list_shop">
+            <div class="row">
+                <h2><i class="fa fa-map-marker"></i>&nbsp;Tìm cửa hàng gần bạn</h2>
+                <select name="ctl00$MainContent$ddlCity" id="ctl00_MainContent_ddlCity" onchange="GetDropCity();">
+                    <option selected="selected" value="0">Chọn tỉnh / thành phố</option>
+                    <option value="1">Hà Nội</option>
+                    <option value="7">Bắc Ninh</option>
+                    <option value="30">Đà Nẵng</option>
+                    <option value="46">Bình Dương</option>
+                    <option value="50">TP Hồ Chí Minh</option>
+                </select>
+                <select name="ctl00$MainContent$ddlCounty" id="ctl00_MainContent_ddlCounty" onchange="LoadDataShop();" style="border-top: 0">
+                    <option value="0">Chọn quận / huyện</option>
+                </select>
+                <div class="detail">
+                    <ul class="ul_list_shop" id="hi">
+                        @foreach (var dc1 in Model)
+                        {
+                            <li>
+                                <h3>@dc1.Name</h3>
+                                <p><i class="fa fa-map-marker"></i>&nbsp;@dc1.Address</p>
+                                <p><i class="fa fa-phone"></i>&nbsp;<a href="tel:@dc1.Phone">@dc1.Phone</a></p>
+                                <p style="font-style:italic;font-size:12px;">@Html.Raw(dc1.ThoiGian)</p>
+                                <p><a target="_blank" href="http://maps.google.com/?q= @dc1.Address"><i class="fa fa-road"></i>&nbsp;Chỉ đường</a></p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8 list_maps pb-20">
+            <iframe src="https://www.google.com/maps/d/embed?mid=1LxBHMbDR-c6OUh31Wrg_euq16p2P3j0Q&amp;zoom=50" width="100%" height="528" frameborder="0" style="border: 0" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    var citis = document.getElementById("ctl00_MainContent_ddlCity");
+    var districts = document.getElementById("ctl00_MainContent_ddlCounty");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            citis.options[citis.options.length] = new Option(x.Name, x.Id);
+        }
+        citis.onchange = function () {
+            ctl00_MainContent_ddlCounty.length = 1;
+            if (this.value != "") {
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    ctl00_MainContent_ddlCounty.options[ctl00_MainContent_ddlCounty.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+    }
+</script>

@@ -1,0 +1,10 @@
+﻿@using Data.Models;
+@model List<DM_DichVuModel>
+<ul class="dropdown-content">
+    @foreach (var obj in Model)
+    {
+    <li>
+            <a asp-controller="DichVu" asp-action="DichVuDetail" asp-route-LinkUrl="@obj.LinkUrl" title="">@obj.Ten</a>
+    </li>
+    }
+</ul>

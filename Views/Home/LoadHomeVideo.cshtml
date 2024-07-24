@@ -1,0 +1,19 @@
+﻿@using Data.Models
+@{
+    Layout = null;
+}
+@model List<VideoListModel>
+@foreach (var video in Model)
+{
+    <div class="item_wrapp video_@video.ID">
+        <div class="item">
+            <a class="video-thum fancybox" rel="noreferrer" href="@video.VideoUrl" target="_blank" data-fancybox="VideoHome">
+                <img src="@video.ImageUrl" alt="@video.Name"  onerror="this.onerror=null;this.src='/Images/no-img.png'"  />
+                <span class="btn-video">
+                    <span class="fa fa-play-circle"></span>
+                </span>
+            </a>
+            <h3>@video.Name</h3>
+        </div>
+    </div>
+}

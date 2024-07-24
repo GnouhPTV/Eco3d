@@ -1,0 +1,30 @@
+﻿@using Data.Models
+@model List<ParentChildViewModel>
+@{
+    Layout = null;
+}
+
+@foreach (var CateP in Model)
+{
+    <li class="wow fadeInUp">
+        <div class="content-box">
+            <a href="~/nganh-hang/@CateP.Parent.LinkUrl" title="@CateP.Parent.Name">
+                <img alt="@CateP.Parent.Name" src="@CateP.Parent.ImageUrl" />
+            </a>
+            <h3 class="cat-title">
+                <a href="~/nganh-hang/@CateP.Parent.LinkUrl" title="@CateP.Parent.Name">@CateP.Parent.Name</a>
+            </h3>
+            <div class="child-cat">
+                @foreach (var child in CateP.Children1)
+                {
+                    <div class="item">
+                        <a href="~/nhom-hang/@child.LinkUrl" title="">@child.Name</a>
+                    </div>
+                }
+                <h3 class="cat-title">
+                    <a href="~/nganh-hang/@CateP.Parent.LinkUrl" title="">@CateP.Parent.Name</a>
+                </h3>
+            </div>
+        </div>
+    </li>
+}

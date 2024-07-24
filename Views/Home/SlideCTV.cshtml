@@ -1,0 +1,16 @@
+﻿@using Data.Models
+@using Lib
+@{
+    Layout = null;
+}
+@model IEnumerable<SlideModel>
+<div class="pano-ctv">
+    @foreach (var slide in Model)
+    {
+        <div class="slide-item slide-img pano-cong-tac-vien" onclick="location.href='@slide.UrlLink';">
+            <a href="@slide.UrlLink" target="_blank">
+                <img class="lazyload" src="@slide.ImageUrl" alt="@slide.DataJson.GetDJ("Title")" />
+            </a>
+        </div>
+    }
+</div>

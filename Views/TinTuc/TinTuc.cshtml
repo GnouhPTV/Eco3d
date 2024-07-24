@@ -1,0 +1,183 @@
+﻿@using Data.Models;
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Http
+@model IPagedList<NewsModel>
+@{
+    ViewData["Title"] = "Tin tức | Sự kiện ngành bảo hộ lao động";
+    ViewData["Description"] = "Eco3d | Tin tức giải pháp về đảm bảo an toàn, sức khỏe, ứng dụng kiến thức về an toàn lao động";
+    ViewData["RegWebsite"] = Lib.XML.SystemXML("RegWebsite") + "/tin-tuc";
+    var TinTucList = ViewData["TinTucList"] as List<NewsModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    ViewData["canonicalUrl"] = canonicalUrl;
+    var currentUrl = Url.Action(null, null, null, ViewContext.HttpContext.Request.Scheme);
+}
+<div class="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li>
+                <a href="/" title="Trang chủ">
+                    Trang chủ
+                </a>
+            </li>
+            <li>
+                <a>Tin tức</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="row">
+        <div id="web_mainbody" class="col-md-9  col-main article-listing">
+            <div class="box-inner">
+                <h1 class="article-title" style="display: none">Tin tức</h1>
+                <div class="n-items">
+                    @foreach (var tintuc in Model)
+                    {
+                        <article class="n-item wow zoomIn" data-wow-duration="1s" data-wow-delay="0.5" style="visibility: visible; animation-duration: 1s; animation-name: zoomIn;">
+                            <div class="item-box">
+                                <figure>
+                                    <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" class="news-thum" title="@tintuc.Name" target="_self">
+                                        <img alt="@tintuc.Name" src="@tintuc.ImageLink" class="img-responsive">
+                                    </a>
+                                </figure>
+                                <div class="n-title">
+                                    <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" title="@tintuc.Name" class="title" target="_self">
+                                        <h3>@tintuc.Name</h3>
+                                    </a>
+                                </div>
+                                <div class="news-source">
+                                    <span class="sDate">
+                                        <i class="far fa-calendar" style="color: #ff0000;"></i>
+                                        &nbsp;@tintuc.CreateDate
+                                    </span>
+                                    &nbsp;&nbsp;
+                                    <span class="sView hide">&nbsp;@tintuc.ViewCount lượt xem</span>
+                                </div>
+                                <div class="n-desc">
+                                    @tintuc.HeadShort
+                                    <div class="news-ext">
+                                        <div class="btn_more"><a class="more-link" asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref">Đọc thêm</a></div>
+                                        <div class="share_link">
+                                            <label>Chia sẻ: </label>
+                                            <a target="_blank" class="share_fb" href="https://www.facebook.com/sharer/sharer.php?u=@currentUrl/@tintuc.LinkHref"><i class="fab fa-facebook-f"></i></a>
+                                            <a target="_blank" class="share_twit" href="https://twitter.com/intent/tweet?url=@currentUrl/@tintuc.LinkHref"><i class="fab fa-twitter"></i></a>
+                                            <a target="_blank" class="share_pinterest" href="https://pinterest.com/pin/create/button/?url=@currentUrl/@tintuc.LinkHref"><i class="fab fa-pinterest"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                </div>
+                <!--phân trang repeater-->
+                <div class="pagination-block">
+                    @{
+                        var Name = Context.Request.Query["Name"].ToString();
+                        int startPage = Model.PageNumber - 5;
+                        int endPage = Model.PageNumber + 4;
+                        if (startPage <= 0)
+                        {
+                            endPage -= (startPage - 1);
+                            startPage = 1;
+                        }
+                        if (endPage > Model.PageCount)
+                        {
+                            endPage = Model.PageCount;
+                            if (endPage > 10)
+                            {
+                                startPage = endPage - 9;
+                            }
+                        }
+                    }
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("TinTuc", new { page = 1, Name = Name })">&lt;&lt;</a>
+                        <a class="page-numbers page_enabled" href="@Url.Action("TinTuc", new { page = Model.PageNumber - 1,Name = Name })">&lt;</a>
+                    }
+                    @if (startPage > 1)
+                    {
+                        if (startPage > 2)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @for (var i = startPage; i <= endPage; i++)
+                    {
+                        <a class="page-numbers @(i == Model.PageNumber ? "current" : "")" href="@Url.Action("TinTuc", new { page = i,Name = Name })">@i</a>
+                    }
+                    @if (endPage < Model.PageCount)
+                    {
+                        if (endPage < Model.PageCount - 1)
+                        {
+                            <span class="page-numbers">...</span>
+                        }
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("TinTuc", new { page = Model.PageNumber + 1,Name = Name })">&gt;</a>
+                    }
+                    @if (Model.PageNumber > 0)
+                    {
+                        <a class="page-numbers page_enabled" href="@Url.Action("TinTuc", new { page = Model.PageCount,Name = Name })">&gt;&gt;</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 sidebar">
+            <div class="box-inner sticky">
+                <div class="widget widget-news-search">
+                    <form id="news-searchbox" method="get" action="#">
+                        <input class="search_query form-control ui-autocomplete-input" type="text" id="searchTextNews" maxlength="90" placeholder="Tìm kiếm bài viết...." value="" autocomplete="off">
+                        <a id="btnSearchNews" onclick="return false;" class="btn2-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    </form>
+                </div>
+                <!-- Start categories-->
+                <div class="widget widget-categories">
+                    <h3 class="sb-title">Thể loại tin</h3>
+                    <div class="widget-container">
+                        <ul class="list-item pb-15">
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-tuc-thi-truong" title="Tin tức thị trường">Tin tức thị trường</a></li>
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tu-van-giai-phap" title="Tư vấn giải pháp">Tư vấn giải pháp</a></li>
+                            <li class="item-0"><a asp-action="TinTucList" asp-route-newsType="tin-cong-ty" title="Tin tức công ty">Tin tức công ty</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Start Popular Post-->
+                <div class="widget widget-popular-posts">
+                    <h3 class="sb-title">Bài viết mới</h3>
+                    <ul class="list-item">
+
+                        @foreach (var tintuc in TinTucList)
+                        {
+                            <li>
+                                <div class="widget-thumb">
+                                    <a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref" title="@tintuc.Name">
+                                        <img title="@tintuc.Name" alt="" src="@tintuc.ImageLink">
+                                    </a>
+                                </div>
+                                <div class="widget-content">
+                                    <h4 class="wg-title"><a asp-action="TinTucDetail" asp-route-LinkHref="@tintuc.LinkHref">@tintuc.Name</a></h4>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <!-- Start Social box-->
+                <div class="widget widget-social">
+                    <h3 class="sb-title">Page Facebook</h3>
+
+                    <div class="fb-page" data-href="@Lib.XML.SystemXML("Facebook")" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+
+                    <div class="clear-fix" style="margin:10px 0">
+                        <a target="_blank" title="Đăng ký cộng tác viên">
+                            <img style="border:1px solid #e7e7e7" src="@Lib.XML.SystemXML("HomeImageTop2")" alt="Đăng ký cộng tác viên" title="Đăng ký cộng tác viên">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>

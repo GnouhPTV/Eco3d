@@ -1,0 +1,1232 @@
+﻿@using Data.Models;
+@using Data.ViewModel;
+@using Lib;
+@using Web_Eco3d_2024.Service;
+@model ProductStoreModel
+@inject ICurrentUrlService CurrentUrlService
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@{
+    var ListProduct = ViewData["ListProduct"] as List
+    <ProductStoreModel>;
+    var ProductInfo = ViewData["ProductInfo"] as GroupProductViewModel;
+    var ListImagePhu = ViewData["ListImagePhu"] as List
+    <ProductImageModel>;
+    var AppProduct = ViewData["AppProduct"] as List
+    <CategoryModel>;
+    var lblThSo = ViewData["lblThSo"] as List
+    <LabelThongSoViewModel>;
+    var tagsSearch = ViewData["tagsSearch"] as List
+    <Tags_SearchModel>;
+    var NhanVien = ViewData["NhanVien"] as List<HT_CuaHangModel>;
+    var TaiLieu = ViewData["TaiLieu"] as List<DM_HangHoa_TaiLieuModel>;
+    var HinhAnh = ViewData["HinhAnh"] as List<DM_Anh_ThucTeModel>;
+    var Giaychungnhan = ViewData["Giaychungnhan"] as List<CertificateModel>;
+    string canonicalUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}{ViewContext.HttpContext.Request.Path}";
+    var modelSlideCTV = ViewData["BannerCTVModel"] as IEnumerable<SlideModel>;
+    var currentUrl = Url.Action(null, null, null, ViewContext.HttpContext.Request.Scheme);
+    // Seo Facebook
+    ViewData["canonicalUrl"] = canonicalUrl;
+    ViewData["Title"] = ViewData["ProductName"];
+    ViewData["Description"] = ViewData["Description"];
+    ViewData["Image"] = Model.ImageViewUrl;
+}
+<script type="text/javascript">
+    function ContentKM() {
+        var height = $(".sale_text").parent().height();
+        var width = $(".sale_text").parent().width();
+        $(".sale_text_content").css("height", "auto");
+        $(".sale_text_content").css("width", width + "px");
+    }
+    $(document).ready(function () {
+        ContentKM();
+        var maxHeight = "300px";
+        var height = $(".mota_nhom").height();
+        if (height > 300) {
+            $(".mota_nhom").height(maxHeight);
+            $(".button_readmore").show();
+            $(".button_readless").hide();
+            $(".gradient").show();
+        } else {
+            $(".button_readmore").hide();
+            $(".button_readless").hide();
+            $(".gradient").hide();
+        }
+        $('.button_readmore').click(function () {
+            $(".mota_nhom").height("auto");
+            $(".button_readmore").hide();
+            $(".button_readless").show();
+            $(".gradient").hide();
+        });
+        $('.button_readless').click(function () {
+            $(".mota_nhom").height(maxHeight);
+            $(".button_readmore").show();
+            $(".button_readless").hide();
+            $(".gradient").show();
+        });
+    });
+</script>
+@* <input type="text" id="txtKeyProduct" value="mũ bảo hộ A59R020000, mũ bảo hộ North, mũ bảo hộ lao động" class="bug" style="display: none">
+<input type="text" id="txtTagNhomHang" value="" class="bug" style="display: none"> *@
+<div id="web_content">
+    <div class="breadcrumbs" style="padding: 10px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li>
+                            <a href="/" title="Trang chủ">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/nganh-hang/@ViewData["ParentCateLink"]" title="@ViewData["ParentCateName"]">
+                                @ViewData["ParentCateName"]
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/nhom-hang/@Model.CategoryUrl" title="@Model.CategoryUrl">
+                                @Model.CategoryName
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                @Model.Ten
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="w-100 product-details body-product clearfix">
+            <div class="row">
+                <div class="product-img-box col-md-6">
+                    <div class="pro-img-full">
+                        <div id="productImageWrapID_@Model.Ma" class="product-img-zoom">
+                            <a href="@Model.ImageViewUrl" class="fancybox" data-fancybox="group1">
+                                @* <img id="img_@Model.Ma" class="img-view" alt="@Model.Ten" title="@Model.Ten"
+                                src="@Model.ImageViewUrl" onerror="this.onerror=null;this.src='/Images/no-img.jpg'"> *@
+                                @{
+                                    var imagePath = Model.ImageViewUrl;
+                                    var imagePathMLK = "Images/Products/" + Model.MaLienKet + ".jpg";
+                                    var imagePathFallback = "Images/Products/" + Model.Ma + ".jpg";
+                                    var physicalPathMLK = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathMLK);
+                                    var physicalPathFallback = System.IO.Path.Combine(HostingEnvironment.WebRootPath, imagePathFallback);
+                                    if (!string.IsNullOrEmpty(imagePath))
+                                    {
+                                        <img id="html-anh" alt="@Model.Ten" class="sp" src="@Url.Content(imagePath)" />
+                                    }
+                                    else if (System.IO.File.Exists(physicalPathMLK))
+                                    {
+                                        <img id="html-anh" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathMLK)" />
+                                    }
+                                    else if (System.IO.File.Exists(physicalPathFallback))
+                                    {
+                                        <img id="html-anh" alt="@Model.Ten" class="sp" src="/@Url.Content(imagePathFallback)" />
+                                    }
+                                    else
+                                    {
+                                        <img id="html-anh" alt="@Model.Ten" class="sp" onerror="this.onerror=null;this.src='/Images/no-img.jpg'" src="" />
+                                    }
+                                }
+                            </a>
+                            <a class="imgdetailhangsx hangsx @Model.IdBranch" title="Hãng sản xuất" target="_blank" href="/thuong-hieu/@Model.LinkUrlHSX">
+                                <img src="@Model.ImageBranch" alt="@Model.IdBranch">
+                            </a>
+                        </div>
+                        <!--Hình ảnh khác-->
+                        <input type="hidden" id="imgMainTemp">
+                        <p class="note-img">
+                            <i class="fa fa-search"></i>&nbsp;Kích chuột vào hình ảnh để phóng to
+                        </p>
+                    </div>
+                    <div class="product-feature-images">
+                        <ul>
+                            @foreach (var imgphu in ListImagePhu.Take(5))
+                            {
+                                <li>
+                                    <a class="fancybox" data-fancybox="group1" href="@imgphu.URLImage">
+                                        <img id="reimg_@Model.Ma" data-index="0" data-id="@Model.Ma" alt="" src="@imgphu.URLImage" data-src="@imgphu.URLImage">
+                                    </a>
+                                </li>
+                            }
+                            <li class="view-more-img">
+                                <a class="fancybox" data-fancybox="group1" href="@Model.ImageViewUrl">
+                                    Xem<br>thêm
+                                </a>
+                                <img alt="@Model.Ten" src="@Model.ImageViewUrl">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="product-info-box col-md-4">
+                    <div class="product-body-box" id="product-body-box-info">
+                        <div class="title" style="margin: 0" id="html-tensp">
+                            <h1>
+                                <a>
+                                    @Model.Ten
+                                </a>
+                            </h1>
+                        </div>
+                        <!-- Info -->
+                        <table border="0" id="tblDetailProduct">
+                            <tbody>
+                                <tr>
+                                    <td class="p-name" style="width: 100px">
+                                        Mã sản phẩm
+                                    </td>
+                                    <td class="p-value">
+                                        @Model.Ma
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-name">
+                                        Thương hiệu
+                                    </td>
+                                    <td class="p-value">
+                                        <a class="hangsx" target="_blank" title="Hãng sản xuất" href="/thuong-hieu/@Model.LinkUrlHSX">
+                                            @Model.NameBranch
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-name">
+                                        Xuất xứ
+                                    </td>
+                                    <td class="p-value">
+                                        @Model.NuocSX
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-name">
+                                        Tình trạng
+                                    </td>
+                                    <td class="p-value">
+                                        @if (Model.Inventory > 0)
+                                        {
+                                            <span class="available" style="color: #31954c;">Còn hàng</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="available" style="color: red;" id="p-dathang">Đặt hàng</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Info -->
+                        <!-- Giá -->
+                        <div class="price hide">
+                            <div class="price-prev">
+                                <div class="price-current">
+                                    <label class="label">
+                                        Giá lẻ
+                                    </label>
+                                    <label class="price-value">
+                                        @string.Format("{0:#,##0}", Model.GiaLe)₫
+                                    </label>
+                                </div>
+                                <div class="price-current" style="margin-left: 30px">
+                                    <label class="label">
+                                        Giá sỉ
+                                    </label>
+                                    <label class="price-value-si">
+                                        <a class="aGiaSi" href="tel:" alt="">
+                                            Liên hệ
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Giá -->
+                        @*  <input type="hidden" id="txtRelate_Ma" value="A59R020000">
+                        <input type="hidden" id="txtRelate_Ma1" value="A59R020000">
+                        <input type="hidden" id="txtRelate_MaLienKet" value="A59R020000">
+                        <input type="hidden" id="txtRelate_Category" value="0232">
+                        <input type="hidden" id="txtRelate_CategoryParent" value="183"> *@
+                        <!-- End  Size Ma phu -->
+                        <div class="qnt-holder">
+                            <div class="form_baogia mp_off" id="form_bg">
+                                <div class="bg_product_wrapp mb-15">
+                                    <p>
+                                        <label class="note-img">
+                                            Quý khách mua số lượng sỉ liên hệ
+                                        </label>
+                                    </p>
+                                    <input id="button-price2" type="button" data-id="@Model.Ma" data-opt="BG1" data-num="50" value="Báo giá" class="bg-button bg-price" style="background: #59b210">
+                    
+                                </div>
+                                <a class="btn-theme-call" href="tel:">
+                                    <i class="fad fa-phone-volume"></i> @await Component.InvokeAsync("Hotline")
+                                </a>
+                                <div class="group_buy">
+                                    <div class="le-quantity hide">
+                                        <a class="minus" href="javascript:void(0)"></a>
+                                        <input name="qty" id="quantityNb" type="text" value="">
+                                        <a class="plus" href="javascript:void(0)"></a>
+                                    </div>
+                                    &nbsp;
+                                    @* <input id="button-cart" type="button" value="Đặt mua" data-id="@Model.Ma" class="le-button huge"> *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons-holder">
+                            <div class="share_left">
+                                <div class="share_link">
+                                    <label>Chia sẻ: </label>
+                                    <a target="_blank" class="share_fb" href="https://www.facebook.com/sharer/sharer.php?u=@currentUrl"><i class="fa fa-facebook-f"></i></a>
+                                    <a target="_blank" class="share_twit" href="https://twitter.com/intent/tweet?url=@currentUrl"><i class="fa fa-twitter"></i></a>
+                                    <a target="_blank" class="share_pinterest" href="https://pinterest.com/pin/create/button/?url=@currentUrl"><i class="fa fa-pinterest-p"></i></a>
+                                </div>
+                                <ul class="share_buttons hide">
+                                    <li class="plusone">
+                                        <div class="g-plusone" data-size="medium">
+                                        </div>
+                                    </li>
+                                    <li class="fa_send">
+                                        <div class="fb-send" data-href="https://eco3d.vn/san-pham/ @Model.LinkUrl">
+                                        </div>
+                                    </li>
+                                    <li class="facebook">
+                                        <div class="fb-like" data-href="https://eco3d.vn/san-pham/ @Model.LinkUrl" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="share_right">
+                                <a href="javascript:void(0)" class="btn-add-to-wishlist" data="@Model.Ma" data-name="@Model.Ten" id="add_favorite" title="Yêu thích sản phẩm">
+                                    <i class="fa fa-heart"></i>
+                                    <span>&nbsp;Yêu thích</span>
+                                </a>
+                                <a href="javascript:void(0);" onclick="ShareMail(this)" class="share-email mr-20" id="A1" title="Chia sẻ qua email" data-url="@Model.LinkUrl" data="@Model.Ma" data-name="@Model.Ten" data-mlk="@Model.Ma">
+                                    <i class="fa fa-envelope"></i>
+                                    <span>Email</span>
+                                </a>
+                                <a href="#btm-comment">
+                                    <i class="fa fa-random"></i>
+                                    <span>&nbsp;Bạn cần tư vấn về sản phẩm</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div style="clear: both">
+                            <div class="app-img">
+                                <img src="/images/app_logo.png" alt="E-Safety">
+                                <h3>E-Safety</h3>
+                                <p>
+                                    Tải app hỗ trợ đặt hàng
+                                </p>
+                            </div>
+                            <div class="product_app-badge">
+                                <div class="badge-item">
+                                    <a href="@Lib.XML.SystemXML("AppAndroid")" rel="noopener noreferrer" target="_blank">
+                                        <img src="/images/google_pd.png" alt="App Android E-Safety">
+                                    </a>
+                                </div>
+                                <div class="badge-item">
+                                    <a href="@Lib.XML.SystemXML("AppIOS")" rel="noopener noreferrer" target="_blank">
+                                        <img src="/images/apple_pd.png" alt="App IOS E-Safety">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 support_wrapp">
+
+                    <div id="LeftSupport">
+                        @foreach (var nv in NhanVien)
+                        {
+                            <div class="w-100 product-box-support mb10">
+                                <ul class="w-100">
+                                    <li class="vip-row">
+                                        <div class="avatar">
+                                            <a>
+                                                <img class="img-hangsx" src="@nv.ImageUrl" alt="@nv.NguoiLienHe">
+                                            </a>
+                                        </div>
+                                        <p class="name">
+                                            <span>@nv.NguoiLienHe</span>
+                                        </p>
+                                        <p class="chucvu">
+                                            @nv.ChucDanh
+                                        </p>
+                                        <p class="phone">
+                                            <a href="tel:@nv.DienThoai">
+                                                <i class="fa fa-phone"></i>&nbsp;@nv.DienThoai
+                                            </a>
+                                        </p>
+                                        <p class="zalo-sp">
+                                            <a href="mailto:@nv.Email" title="@nv.Email">
+                                                <i class="lh lh_email"></i>
+                                            </a>&nbsp;&nbsp;
+                                            <a href="http://zalo.me/@nv.DienThoai" class="zalo" target="_blank">
+                                                <i class="lh lh_zalo"></i>
+                                            </a>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        <div class="w-100 product-box-support public">
+                            <ul class="w-100">
+                                <li class="item-row item-end">
+                                    <p>
+                                        Hotline : <b class="phone-num" id="hotlineDisplay">
+
+                                        </b>
+                                    </p>
+                                    <p>
+                                        Đặt hàng
+                                        :
+                                        @Lib.XML.SystemXML("RegPhone")
+                                    </p>
+                                    <p>
+                                        Email : <a href="mailto:@Lib.XML.SystemXML("RegEmail")">
+                                            @Lib.XML.SystemXML("RegEmail")
+                                        </a>
+                                    </p>
+                                    <p>
+                                        Kho hàng
+                                        :
+                                        @Lib.XML.SystemXML("RegFax")
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-30 policy_product">
+                <div class="row ">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="btn btn-outline-danger w-100 item_policy"><a href="/tin-tuc/chinh-sach-doi-tra-hang"><i class="cs_doitra"></i><span>&nbsp;Chính sách đổi trả</span></a></div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="btn btn-outline-danger w-100 item_policy"><a href="/tin-tuc/chinh-sach-bao-hanh"><i class="cs_baohanh"></i><span>&nbsp;Chính sách bảo hành</span></a></div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="btn btn-outline-danger w-100 item_policy"><a href="/tin-tuc/chinh-sach-van-chuyen"><i class="cs_vanchuyen"></i><span>&nbsp;Chính sách vận chuyển</span></a></div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="btn btn-outline-danger w-100 item_policy"><a href="/tin-tuc/chinh-sach-dai-ly"><i class="cs_daily"></i><span>&nbsp;Chính sách đại lý</span></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-9 col-main">
+                    <div class="body-product" id="content-left-product">
+                        <div class="title-group" style="float: left; width: 100%;">
+                            <h2 style="margin-bottom: 0" class="title">
+                                Thông tin chi tiết
+                            </h2>
+                        </div>
+                        <!-- HTML sản phẩm -->
+                        <div class="not-copy content_bold">
+                            <div class="w-100 product-tinhnang">
+                                @Html.Raw(Model.TinhNang)
+                            </div>
+                            <div id="ProductYoutube_div">
+                            </div>
+                        </div>
+                        <div class="w-100 mt20 note-product" id="note-product" style="display:none">
+                            <div id="div_banhang" style="display: none;"></div>
+                            <input type="hidden" id="txtFeatureTop" value="1">
+                            <!--–– Tính năng top ---->
+                            @* <div class="availability thongsotop">
+                            <label>Lưu ý sử dụng:</label>
+                            <p class="giatri-ts"><span class="giatri-item">Ánh sáng trực tiếp từ mặt trời làm tuổi thọ của mũ giảm đi đáng kể.</span><span class="giatri-item">Dung môi, keo dán, các loại hóa chất có trong môi trường làm việc ảnh hưởng đến độ bền theo thời gian của mũ.</span><span class="giatri-item">Mũ chịu nhiều tác động va chạm vật lí hằng ngày, dù lực tác động mạnh hay yếu, về lâu dài vẫn sẽ ảnh hưởng đến độ bền của vỏ nón.</span><span class="giatri-item">Vật liệu cấu thành của chiếc nón bị lão hóa, hư tổn theo thời gian.</span></p>
+                            </div> *@
+                        </div>
+                        <!-- End: Product description -->
+                        <!--googleoff: all-->
+                        <div class="mota_nhom fix_content">
+                            <div id="content_NH" class="w-100 motanhom">
+                                <div class="motanhom-child">
+                                    @Html.Raw(ViewData["ContentHTML"])
+                                </div>
+                            </div>
+                            <div class="gradient"></div>
+                            <div class="content_showmore">
+                                <a href="javascript:void(0);" class="button_readmore">Xem thêm</a>
+                                <a href="javascript:void(0);" class="button_readless">Rút gọn</a>
+                            </div>
+                        </div>
+                        <div class="product_footer fix_content">
+                            <div class="w-100" id="productcontent_footer" style="margin-top: 30px; padding: 15px; border-top: 2px solid #eee; margin-bottom: 15px">
+                            </div>
+                            <div class="gradient"></div>
+                        </div>
+                        <div id="content_HangSX" class="w-100 motahangsx" data-id="008">
+                            @Html.Raw(Model.Motahangsx)
+                        </div>
+                        @* Hình ảnh thực tế *@
+                        @if (HinhAnh != null && HinhAnh.Any())
+                        {
+                            <div class="w-100">
+                                <div id="myModalProduct" class="modal">
+                                    <a class="close" onclick='onCloseImage()'>×</a>
+                                    <img alt="" class="modal-content" id="imgView" src="" style="max-height: 500px" />
+                                    <div id="caption" class="caption"></div>
+                                </div>
+                                <div class="web5s-products web5s-total-ul product-grid mt50">
+                                    <div class="title-group">
+                                        <h2 class="title">Hình ảnh thực tế</h2>
+                                    </div>
+                                    <ul id="product-images-real" class="owl-carousel clickable">
+                                        @foreach (var ha in HinhAnh)
+                                        {
+                                            <li>
+                                                <a title="Click để phóng to hình ảnh">
+                                                    <img style="max-height:204px" src="@ha.ImageUrl" alt="@ha.ID" id="myImg_@ha.ID" class="myImg" onclick='ViewImages("@ha.ID");' />
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="w-100"></div>
+                        }
+
+                        <div class="w-100">
+                            <div class="w-100 contact_block" style="margin-top: 30px" id="contact_block">
+                                <div class="title-group">
+                                    <h2 class="title">
+                                        Tư vấn sản phẩm
+                                    </h2>
+                                </div>
+                                <div class="contact_content">
+                                    @foreach (var nv in NhanVien.Take(1))
+                                    {
+                                        <div class="support_info w-100">
+                                            <img alt="" title="@nv.Ten" class="avatar" src="@nv.ImageUrl">
+                                            <p class="contact_info">
+                                                <span class="support_name">
+                                                    @nv.Ten
+                                                </span><br>
+                                                Sales Executive<br>
+                                                <a href="tel:@nv.DienThoai">
+                                                    <i class="fa fa-phone"></i>&nbsp;@nv.DienThoai
+                                                </a>
+                                                <br>
+                                                <a href="http://zalo.me/@nv.DienThoai" class="zalo" target="_blank">
+                                                    <img alt="Zalo" src="../Images/icon-zalo.png" title="Chat Zalo" style="width: 22px; margin: -3px 0 0 -3px;">
+                                                    &nbsp;@nv.DienThoai
+                                                </a>
+                                                <br>
+                                                <a class="support_email" href="mailto:@nv.Email">
+                                                    <i class="fa fa-envelope-o"></i>&nbsp;@nv.Email
+                                                </a>
+                                            </p>
+                                            <div id="formTVLoading"></div>
+                                        </div>
+                                    }
+                                    <div class="w-100">
+                                        <div class="lien-he-dat-hang">
+                                            <div id="btm-comment" class="row">
+                                                <div class="col-md-6">
+                                                    <div class="group-control group-control-input">
+                                                        <label style="display: block;"><span>Họ tên </span></label>
+                                                        <input id="txtNameTV" class="easyui-validatebox input validatebox-text" type="text" required="true" data-options="tipPosition:'top'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="group-control group-control-input">
+                                                        <label><span>Email </span></label>
+                                                        <input id="txtEmailTV" class="easyui-validatebox input validatebox-text" type="text" validtype="email" required="true" data-options="tipPosition:'top'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="group-control group-control-input">
+                                                        <label><span>Số điện thoại</span></label>
+                                                        <input id="txtTelTV" class="easyui-validatebox input validatebox-text" type="text" validtype="phone" required="true" data-options="tipPosition:'top'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="group-control group-control-input">
+                                                        <input id="txtLinkFile" placeholder="Link file (*)" class="input" type="text" data-options="tipPosition:'top'" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="group-control group-control-textarea">
+                                                        <label>Lời nhắn</label>
+                                                        <textarea name="ctl00$MainContent$_usSupportProduct$_frmLienHeDatHang$txtContentTV" id="txtContentTV" class="easyui-validatebox input-content validatebox-text" required="true" cols="1" rows="1" data-options="tipPosition:'top'"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 mb-15" id="maXNLienHe" style="display:none;">
+                                                    <span class="required">*Nhập mã xác nhận</span>
+                                                    <div>
+                                                        <input id="txtCaptchaCheckOut" type="text" class="input" style="width:30%;">
+                                                        <input id="imgcaptchaCheckOut" class="captcha-imei easyui-tooltip" title="" readonly="readonly" style="height:26px" data-original-title="Mã xác nhận">
+                                                        <a href="javascript:void(0)" onclick="RandomCaptchaCheckOut();"><img src="../Images/refresh.png" alt="" title="" class="easyui-tooltip" data-original-title="Thay đổi mã xác nhận"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="hidden" id="txtSupportTV" value="hoi.nguyen@eco3d.vn">
+                                                    <input type="button" id="btnSendEmailTV" class="btn btn-default btn-comment" value="Gửi yêu cầu" onclick="SendMailTVKH()" style="margin-left:0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="supportico clearfix" style="z-index:9999">
+                                    <div class="blockcontent clearfix">
+                                        <div class="item_m">
+                                            <a target="_blank" href="tel:0372064090"><i class="ico-phone ico"></i></a>
+                                            <span class="text"><a target="_blank" href="tel:0372064090">Gọi điện</a></span>
+                                        </div>
+                                        <div class="item_m">
+                                            <a target="_blank" href="http://zalo.me/0372064090"><i class="ico-zalo ico"></i></a>
+                                            <span class="text"><a target="_blank" href="http://zalo.me/0372064090">Chat Zalo</a></span>
+                                        </div>
+                                        <div class="item_m">
+                                            <a target="_blank" href="https://www.messenger.com/t/BHLD.ECO3D"><i class="ico-fbmessage ico"></i></a>
+                                            <span class="text"><a target="_blank" href="https://www.messenger.com/t/BHLD.ECO3D">Chat Facebook</a></span>
+                                        </div>
+                                        <div class="item_m">
+                                            <a href="javascript:void(0);" id="contact_product"><i class="ico-sms ico"></i></a>
+                                            <span class="text"><a href="javascript:void(0);">Liên hệ</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 mt-30">
+                            <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-width="100%" data-href="https://eco3d.vn/san-pham/mu-bao-ho-lao-dong-north-a59r-vang-A59R020000" data-colorscheme="light" style="width: 100%" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;color_scheme=light&amp;container_width=1020&amp;height=100&amp;href=https%3A%2F%2Feco3d.vn%2Fsan-pham%2Fmu-bao-ho-lao-dong-north-a59r-vang-A59R020000&amp;locale=vi_VN&amp;sdk=joey&amp;version=v14.0&amp;width="><span style="vertical-align: bottom; width: 100%; height: 216px;"><iframe name="fcf8c476cfa220509" width="1000px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v14.0/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df288aad95bbb074e5%26domain%3Deco3d.vn%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Feco3d.vn%252Ff571f1e10e2dccbf8%26relation%3Dparent.parent&amp;color_scheme=light&amp;container_width=1020&amp;height=100&amp;href=https%3A%2F%2Feco3d.vn%2Fsan-pham%2Fmu-bao-ho-lao-dong-north-a59r-vang-A59R020000&amp;locale=vi_VN&amp;sdk=joey&amp;version=v14.0&amp;width=" style="border: none; visibility: visible; width: 100%; height: 216px;" class=""></iframe></span></div>
+                        </div>
+                        <div class="w-100" id="RelateProduct_Container" data-load="1">
+                            <div class="web5s-products web5s-total-ul product-grid mt20">
+                                <div class="title-group">
+                                    <h2 class="title">Sản phẩm cùng nhóm</h2>
+                                </div>
+                                <div id="relate-product" class="owl-carousel clickable">
+                                    @for (int i = 0; i < ListProduct.Count; i += 4)
+                                    {
+                                        <div class="gitem">
+                                            @for (int j = i; j < i + 4 && j < ListProduct.Count; j++)
+                                            {
+                                                <div class="timer-item col-sm-3 col-xs-6">
+                                                    <partial name="ProductBoxPartialView" model="ListProduct[j]" />
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="w-100">
+                            <div id="viewedProducts" data-load="0"></div>
+                        </div>
+                        <div class="w-100">
+                            <div class="w-100 news-tag" style="margin-top: 10px;">
+                                <label>Tags:</label>
+                                <ul class="tagCloud">
+                                    @foreach (var tag1 in tagsSearch)
+                                    {
+                                        <li>
+                                            <a class="tagCloudTag" asp-action="SearchTags" asp-controller="Search" asp-route-LinkUrl="@tag1.LinkUrl">
+                                                @tag1.Name
+                                            </a>
+                                        </li>
+                                    }
+                                    @*                                     <li>
+                                    <a class="tagCloudTag" href="/mu-bao-ho.tag">
+                                    mũ bảo hộ
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a class="tagCloudTag" href="/mu-bao-ho-4-diem.tag">
+                                    mũ bảo hộ 4 điểm
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a class="tagCloudTag" href="/mu-bao-ho-vang.tag">
+                                    mũ bảo hộ vàng
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a class="tagCloudTag" href="/mu-chong-tinh-dien.tag">
+                                    mũ chống tĩnh điện
+                                    </a>
+                                    </li> *@
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 side-bar support-shop">
+                    <div class="sticky">
+                        <div class="widget widget-categories widget-sheet mb-25">
+                            <h3 class="sb-title">
+                                <a rel="#data-sheet" class="" href="javascript:GetDetailPDF('@Model.Ma')">
+                                    <i class="fa fa-cloud-download" style="font-size: 14px"></i><span>DATASHEET</span>
+                                </a>
+                                <a id="linkDownloadDetail" target="_blank" href="#" style="display: none;">link Detail</a>
+                                <span class="loadding-preview"></span>
+                            </h3>
+                        </div>
+                        <div class="widget widget-categories  widget-tailieu ">
+                            <div>
+                                <h3 class="sb-title">Tài liệu sản phẩm</h3>
+                                <div id="content-tailieu" class="list-item">
+                                    <table id="tbl_tailieu">
+                                        <tbody>
+                                            @foreach (var tl in TaiLieu)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <a title="@Model.Ma datashhet" href="@tl.UrlLink" ">
+                                                            <img alt="" src="../Images/pdf-icon.png" style="height:17px;">
+                                                            @Model.Ma datashhet..
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align:center;width:40px;">
+                                                        <a href="@tl.UrlLink" title="Tải về A59R datashhet" download="" target="_blank">
+                                                            <img alt="" src="@tl.UrlLink" style="height:24px;">
+                                                            <input type="hidden" value="@tl.UrlLink">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="enterprise-rightContent hide">
+                            <h3 class="sb-title">Sản phẩm liên quan</h3>
+                            <div class="w-100 top-products">
+                            </div>
+                        </div>
+                        <div class="widget widget-popular-posts hide">
+                            <div>
+                                <h3 class="sb-title">
+                                    Bài viết liên quan
+                                </h3>
+                                <ul class="list-item">
+                                </ul>
+                            </div>
+                        </div>
+                        @foreach (var obj in Giaychungnhan.Where(c => c.HangSX == Model.IdBranch))
+                        {
+                            <div class="mb-30">
+
+                                <h3 class="sb-title">
+                                    Giấy chứng nhận
+                                    <a class="view-more" title="" href="/giay-chung-nhan"><i class="fa fa-angle-double-right"></i>&nbsp;Xem thêm</a>
+                                </h3>
+                                <div class="w-100">
+                                    <ul class="w-100">
+
+                                        <li style="margin-bottom: 10px">
+                                            <a title="@obj.Name" href="@obj.ImageUrl" target="_blank" download="">
+                                                <img alt="@obj.Name" src="@obj.ImageUrl">
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                        }
+                        <div class="widget widget-social">
+                            <h3 class="sb-title">Page Facebook</h3>
+                            <div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/BHLD.ECO3D" data-width="360px" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=320&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2FBHLD.ECO3D&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360px"><span style="vertical-align: bottom; width: 320px; height: 130px;"><iframe name="f9ed39c0240d37766" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v14.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dfbb5ee2ce73fc6564%26domain%3Deco3d.vn%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Feco3d.vn%252Ff571f1e10e2dccbf8%26relation%3Dparent.parent&amp;container_width=320&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2FBHLD.ECO3D&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360px" style="border: none; visibility: visible; width: 320px; height: 130px;" class=""></iframe></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</div>
+</div>
+<div class="bg_container_w">
+    <div class="container ">
+        @await Html.PartialAsync("~/Views/Home/SlideCTV.cshtml", modelSlideCTV)
+    </div>
+</div>
+<div class="w-100 body-product">
+</div>
+</div>
+<input type="hidden" id="CurrentCS">
+<input type="hidden" id="txtPage_Youtube" value="">
+<input type="hidden" id="txtPage_Youtube_ID" value="">
+<input type="hidden" id="txtPage_Ma" value="@Model.Ma">
+<input type="hidden" id="txtPage_MaLienKet" value="@Model.MaLienKet">
+<input type="hidden" id="txtPage_Category" value="@Model.CategoryId">
+<div id="html-detail-template" style="display: none">
+    <style>
+        #html-detail {
+            width: 100%;
+            font-size: 18px;
+            padding: 30px;
+        }
+
+        #html-content * {
+            font-size: 16px;
+            font-family: Arial;
+        }
+
+        #html-detail .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+            position: relative
+        }
+
+        #html-detail .table {
+            border-collapse: collapse;
+            border: none;
+            width: 100%;
+        }
+
+        .html-img-footer {
+            margin-top: 20px;
+        }
+
+        #html-detail .col1 {
+            width: 60%;
+        }
+
+        #html-detail .col3 {
+            width: 70%;
+        }
+
+        #html-detail .col2 {
+            width: 40%;
+            padding: 0 15px;
+            vertical-align: top
+        }
+
+            #html-detail .col2 img {
+                background: #ddd;
+                width: 300px;
+                min-height: 200px;
+            }
+
+        #html-detail .thong-so-chi-tiet table {
+            border: 1px solid #eee;
+            font-size: 16px;
+            border-collapse: collapse;
+        }
+
+            #html-detail .thong-so-chi-tiet table tr td.ten-ts {
+                font-weight: 600;
+                vertical-align: top;
+                width: 250px;
+                padding: 10px;
+            }
+
+        #html-detail .giatri-ts {
+            color: #000;
+            font-weight: normal !important;
+            text-transform: capitalize;
+            padding: 5px
+        }
+
+        #html-detail .thong-so-chi-tiet table tr:nth-child(2n) {
+            background-color: #f8f8f8;
+        }
+
+        #html-footer {
+            position: relative;
+            bottom: 0;
+            margin: 0 auto;
+            display: block;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        #html-body {
+            position: relative;
+            min-height: 1280px
+        }
+
+            #html-body h2 {
+                font-size: 18px
+            }
+
+        #html-mota {
+            line-height: 1.5em;
+            text-align: justify;
+        }
+
+        #html-detail .i-list {
+            content: "";
+            display: inline-block;
+            margin: 0 10px 0 10px;
+            top: 8px;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            background: #34a105;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+        }
+
+        #html-detail .thong-so-chi-tiet table tr td.ten-ts {
+            font-weight: 600;
+            vertical-align: top;
+            width: 160px;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        #html-detail .thong-so-chi-tiet table tr td.giatri-ts p {
+            padding-left: 12px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+            #html-detail .thong-so-chi-tiet table tr td.giatri-ts p:before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                top: 8px;
+                left: 0;
+                width: 6px;
+                height: 6px;
+                background: #34a105;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
+                border-radius: 100%;
+            }
+
+        #html-detail .ten-sp {
+            font-weight: bold;
+            font-size: 25px;
+            font-family: Arial;
+            color: #ff5500;
+        }
+    </style>
+    <div id="html-detail">
+        <div id="html-body">
+            <span class="ten-sp">{{html-tensp}}</span>
+            <div id="html-content">
+                <table class="table" style="margin-bottom: 15px;">
+                    <tbody>
+                        <tr>
+                            @* <td class="col1" id="html-mota">
+                                <h2>Mô tả</h2>
+                                {{html-motasp}}
+                                <br>
+                                <h2>Ứng dụng</h2>
+                                {{html-ungdung}}
+                            </td> *@
+                            <td class="col2">
+                                <img id="img2_@Model.Ma" class="img-view" alt="@Model.Ten" title="@Model.Ten" src="@Model.ImageViewUrl">
+                                <div style="display: none">
+                                    {{html-anh}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="col3 thong-so-chi-tiet">
+                                <h2>Thông tin chi tiết</h2>
+                                <table border="1" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td class="ten-ts">Mã sản phẩm</td>
+                                            <td class="giatri-ts">
+                                                {{html-masp}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {{html-thongso}}
+                            </td>
+                            <td class="col"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .myImg:hover {
+            opacity: 0.7;
+        }
+
+    .caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    #myModalProduct .modal-content, .caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    #myModalProduct {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        z-index: 9999;
+        text-align: center;
+        overflow: hidden;
+    }
+
+        #myModalProduct .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            opacity: 1;
+        }
+
+            #myModalProduct .close:hover,
+            #myModalProduct .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+    }
+</style>
+<!-- timer-item -->
+<script src="~/Scripts/Product.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#relate-product").owlCarousel({
+            items: 1,
+            loop: false,
+            nav: true,
+            navText: ["<i class='fa fa-caret-left'></i>", "<i class='fa fa-caret-right'></i>"],
+            dots: false,
+            responsive: {
+                0: { items: 1 },
+                414: { items: 1 },
+                768: { items: 1 },
+                992: { items: 1 }
+                //                1200: { items: 5 }
+            },
+            autoplay: false,
+            autoplayHoverPause: true
+        });
+    });
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#product-images-real").owlCarousel({
+            items: 5,
+            loop: false,
+            nav: true,
+            navText: ["<i class='fa fa-caret-left'></i>", "<i class='fa fa-caret-right'></i>"],
+            dots: false,
+            responsive: {
+                0: { items: 2 },
+                414: { items: 2 },
+                768: { items: 3 },
+                992: { items: 4 },
+                1200: { items: 5 }
+            },
+            autoplay: true,
+            autoplayHoverPause: true
+        });
+    });
+</script>
+<script type="text/javascript">
+    var csrfToken = $('input[name="__RequestVerificationToken"]').val();
+    $(function () {
+        RandomCaptchaCheckOut();
+        var url = window.location;
+        $('#btm-comment .group-control').hover(function () {
+            $(this).find('label').hide();
+        },
+            function () {
+                var val_in = "";
+                // console.log(typeof $(this).find('input').val());
+                if (typeof $(this).find('input').val() != 'undefined') {
+                    val_in = $(this).find('input').val();
+                }
+                if (typeof $(this).find('textarea').val() != 'undefined') {
+                    val_in = $(this).find('textarea').val();
+                }
+                if (val_in == "") {
+                    $(this).find('label').show();
+                }
+            });
+        $('#btm-comment .group-control input,#btm-comment .group-control textarea').focus(function () {
+            $('#maXNLienHe').show();
+        });
+
+    });
+    function RandomCaptchaCheckOut() {
+        var chars = "01234567890123456789012345678901234567890123456789";
+        var string_length = 3;
+        var randomstring = '';
+        for (var i = 0; i < string_length; i++) {
+            var rnum = Math.floor(Math.random() * chars.length);
+            randomstring += chars.substring(rnum, rnum + 1);
+        }
+        $("#imgcaptchaCheckOut").val(randomstring);
+    }
+    function SendMailTVKH() {
+        if (!validateFormFields()) {
+            return;
+        }
+        var valid = $("#btm-comment").form('validate');
+        if (valid === false) {
+            return false;
+        }
+        var catcha = $("#txtCaptchaCheckOut").val();
+        var catchacheck = $("#imgcaptchaCheckOut").val();
+        if (catcha != catchacheck) {
+            ShowMessageW("Nhập sai mã Catpcha"); return;
+        }
+
+        $("#btnSendEmail").addClass("disabled");
+        // Upload File
+        // var files = $("#fileAttachTV").get(0).files;
+        // if (files.length > 0) {
+        //     DeleteTempFile();
+        //     data.append("tempPath", "~/Images/Temp");
+        //     data.append("UpLoadFileAttach", files[0]);
+        //     var ajaxRequest = $.ajax({
+        //         type: "POST",
+        //         url: "/WebService/FileUploadAttack.ashx",
+        //         contentType: false,
+        //         processData: false,
+        //         data: data
+        //     });
+        //     ajaxRequest.done(function (data) {
+        //         console.log(data);
+        //         if (data != "") {
+        //             sendmail_attatck(data);
+        //         } else {
+        //             MessageBoxWarning("Có lỗi sảy ra");
+        //         }
+        //     });
+        // } else {
+
+        // }
+        sendmail_attatck1();
+        //lam moi catpcha
+        RandomCaptchaCheckOut();
+
+    }
+    function xmlToString(xmlData) {
+        var xmlString;
+        //IE
+        if (window.ActiveXObject) {
+            xmlString = xmlData.xml;
+        }
+        else {
+            xmlString = (new XMLSerializer()).serializeToString(xmlData);
+        }
+        return xmlString;
+    }
+    function sendmail_attatck1() {
+        var name = $("#txtNameTV").val();
+        var phone = $("#txtTelTV").val();
+        var filepath = $("#txtLinkFile").val();
+        var email = $("#txtEmailTV").val();
+        var content = $("#txtContentTV").val();
+        var url = window.location;
+        content += "<br>Link: " + url;
+        var supportmail = $("#txtSupportTV").val();
+        var requestData = {
+            content: content,
+            name: name,
+            phone: phone,
+            filepath: filepath,
+            email: email,
+            supportmail: supportmail
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Email/SendEmailKH",
+            data: JSON.stringify(requestData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                $('#formTVLoading').html('<img src="/Images/loading2.gif" />');
+            },
+            headers: {
+                RequestVerificationToken: csrfToken
+            },
+            success: function (response) {
+                var check = response
+                if (check == 1) {
+                    ShowMessage("Bạn đã gửi mail thành công.");
+                    onRefesh();
+                }
+                else {
+                    ShowMessageW(check);
+                }
+                $('#formTVLoading').html('');
+                $("#btnSendEmail").removeClass("disabled");
+            },
+            error: function (error) {
+                // alert("thất bại");
+                $('#formTVLoading').html('');
+                $("#btnSendEmail").removeClass("disabled");
+            }
+        });
+    }
+    function DeleteTempFile() {
+        $.ajax({
+            type: "POST",
+            url: "/ManageCart/DeleteTempFile",
+            data: null,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("Xoa FIle " + response.d);
+            }
+        });
+
+    }
+    function onRefesh() {
+        $("#txtNameTV").val('');
+        $("#txtTelTV").val('');
+        $("#txtEmailTV").val('');
+        $("#txtContentTV").val('');
+        $("#txtCaptchaCheckOut").val('');
+    }
+</script>
+<script>
+    var hotlineSpan = document.getElementById("hotlineSpan");
+    var phoneNumber = hotlineSpan.textContent.trim();
+    document.getElementById('hotlineDisplay').innerText = phoneNumber;
+</script>
